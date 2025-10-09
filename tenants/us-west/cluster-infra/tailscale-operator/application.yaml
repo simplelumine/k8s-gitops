@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     repoURL: 'https://pkgs.tailscale.com/helmcharts'
-    chart: operator
+    chart: tailscale-operator
     targetRevision: 1.88.3 # 你可以选择一个你想要的、最新的稳定版本
     helm:
       # --- 这是修改的核心 ---
