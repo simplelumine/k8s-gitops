@@ -1,1 +1,3 @@
 # tenants/us-west/cluster-infra/tailscale-operator/application.yaml
+# tailscale-credentials.secret.yaml
+/secret
