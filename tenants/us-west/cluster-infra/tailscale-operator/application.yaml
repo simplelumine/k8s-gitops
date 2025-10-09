@@ -1,0 +1,43 @@
+# tenants/us-west/cluster-infra/tailscale-operator/application.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: tailscale-operator
+  namespace: argocd
+  # 添加 finalizer 确保 ArgoCD 在删除应用时能清理所有资源
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://pkgs.tailscale.com/helmcharts'
+    chart: operator
+    targetRevision: 1.88.3 # 你可以选择一个你想要的、最新的稳定版本
+    helm:
+      # --- 这是修改的核心 ---
+      # 我们不再使用 values: |，而是使用更结构化的 valuesObject
+      valuesObject:
+        oauth:
+          clientId:
+            # 从 Secret 中引用 clientId 的值
+            valueFrom:
+              secretKeyRef:
+                name: tailscale-oauth-credentials # 我们创建的 Secret 的名字
+                key: clientId                     # Secret 里面的 Key
+          clientSecret:
+            # 从 Secret 中引用 clientSecret 的值
+            valueFrom:
+              secretKeyRef:
+                name: tailscale-oauth-credentials # 我们创建的 Secret 的名字
+                key: clientSecret                 # Secret 里面的 Key
+        apiServerProxyConfig:
+          mode: "true"
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: tailscale # Tailscale Operator 推荐部署在自己的命名空间
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
