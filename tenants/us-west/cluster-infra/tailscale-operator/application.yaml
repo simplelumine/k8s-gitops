@@ -1,10 +1,8 @@
-# tenants/us-west/cluster-infra/tailscale-operator/application.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: tailscale-operator
   namespace: argocd
-  # 添加 finalizer 确保 ArgoCD 在删除应用时能清理所有资源
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -12,32 +10,17 @@ spec:
   source:
     repoURL: 'https://pkgs.tailscale.com/helmcharts'
     chart: tailscale-operator
-    targetRevision: 1.88.3 # 你可以选择一个你想要的、最新的稳定版本
+    targetRevision: 1.88.3 
     helm:
-      # --- 这是修改的核心 ---
-      # 我们不再使用 values: |，而是使用更结构化的 valuesObject
       valuesObject:
         oauth:
-          # 通过这个对象告诉Chart去使用一个已经存在的Secret
-          credentials:
-            # Secret的名称
-            secretName: tailscale-oauth-credentials
-            # Secret所在的命名空间
-            # 注意：这里需要指定Secret所在的命名空间。
-            # 由于你的Secret在'argocd'，所以这里填'argocd'。
-            # Tailscale Operator Pod（在'tailscale'命名空间）需要有权限读取'argocd'命名空间的这个Secret。
-            secretNamespace: argocd
-            # Secret中包含clientId的key的名称
-            clientIdKey: clientId
-            # Secret中包含clientSecret的key的名称
-            clientSecretKey: clientSecret
-        
-        # 将字符串 "true" 修改为布尔值 true
+          clientId: "k9T65bye1j11CNTRL"
+          clientSecret: "tskey-client-k9T65bye1j11CNTRL-BitkBvV9MBA19o16tnorAA8QPdcb7y6w"
         apiServerProxyConfig:
-          mode: true 
+          mode: "true"
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: tailscale # Tailscale Operator 推荐部署在自己的命名空间
+    namespace: tailscale
   syncPolicy:
     automated:
       prune: true
