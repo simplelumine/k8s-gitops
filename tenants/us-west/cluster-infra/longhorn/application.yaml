@@ -16,7 +16,7 @@ spec:
           # 持久化存储配置
           persistence:
             defaultClass: true  # 将 Longhorn 设为默认 StorageClass
-            defaultClassReplicaCount: 2  # 默认 StorageClass 的副本数
+            defaultClassReplicaCount: "2"  # 默认 StorageClass 的副本数（必须是字符串）
 
           # Longhorn UI Service 配置
           service:
@@ -30,8 +30,8 @@ spec:
           # Longhorn 全局默认设置
           defaultSettings:
             backupTarget: ""  # 备份目标（S3/NFS），留空表示不配置
-            defaultReplicaCount: 2  # 创建 Volume 时的默认副本数
-            guaranteedInstanceManagerCpu: 10  # CPU 资源预留（降低以适应小集群）
+            defaultReplicaCount: "2"  # 创建 Volume 时的默认副本数（必须是字符串）
+            guaranteedInstanceManagerCpu: "10"  # CPU 资源预留（必须是字符串）
     - repoURL: 'git@github.com:SimpleLumine/k8s-gitops.git'
       targetRevision: HEAD
       path: tenants/us-west/cluster-infra/longhorn/manifests
