@@ -5,6 +5,7 @@ metadata:
   name: longhorn-fast
   annotations:
     storageclass.kubernetes.io/is-default-class: "false"
+    argocd.argoproj.io/sync-wave: "2"  # 在 Longhorn 安装完成后创建
 parameters:
   fsType: ext4
   numberOfReplicas: "1"  # 单副本，性能优先

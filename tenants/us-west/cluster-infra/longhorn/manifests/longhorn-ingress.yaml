@@ -4,8 +4,9 @@ metadata:
   name: longhorn-ingress
   namespace: longhorn-system
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-cloudflare 
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare
     traefik.ingress.kubernetes.io/router.middlewares: security-authelia-forwardauth@kubernetescrd
+    argocd.argoproj.io/sync-wave: "3"  # 在 Longhorn 和 Service 创建完成后
 
 spec:
   rules:
