@@ -25,11 +25,7 @@ spec:
           # Longhorn UI Service 配置
           service:
             ui:
-              type: LoadBalancer  # 使用 LoadBalancer 类型
-              loadBalancerClass: tailscale  # 使用 Tailscale
-              annotations:
-                tailscale.com/expose: "true"
-                tailscale.com/hostname: "longhorn"  # Tailnet 内访问: http://longhorn
+              type: ClusterIP  # 使用 ClusterIP，通过 Ingress 访问
 
           # Longhorn 全局默认设置
           defaultSettings:
