@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-us-west
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'git@github.com:SimpleLumine/k8s-gitops.git'
+    targetRevision: HEAD  # 跟踪默认分支（推荐）
+    path: tenants/us-west/cluster-infra
+    directory:
+      recurse: true
+      # 只包含 application.yaml 文件
+      include: '*/application.yaml'
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

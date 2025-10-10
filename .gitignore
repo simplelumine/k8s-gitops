@@ -1,3 +1,17 @@
 # tenants/us-west/cluster-infra/tailscale-operator/application.yaml
 # tailscale-credentials.secret.yaml
 /secret
+
+# Bootstrap secrets - 永远不要提交这些文件！
+**/repository-secret.yaml
+**/*-secret.yaml
+!**/*-secret.yaml.example
+
+# Backup files
+*.bak
+*.backup
+
+# Local development
+.DS_Store
+.vscode/
+.idea/
