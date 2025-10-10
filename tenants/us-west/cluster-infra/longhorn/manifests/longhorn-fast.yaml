@@ -1,0 +1,14 @@
+# Longhorn Fast StorageClass - 单副本，适合临时数据或缓存
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: longhorn-fast
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+parameters:
+  fsType: ext4
+  numberOfReplicas: "1"  # 单副本，性能优先
+  staleReplicaTimeout: "2880"
+provisioner: driver.longhorn.io
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
