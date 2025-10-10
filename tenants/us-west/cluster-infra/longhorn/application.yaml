@@ -12,6 +12,10 @@ spec:
       chart: longhorn
       targetRevision: 1.10.0
       helm:
+        skipCrds: false
+        parameters:
+          - name: preUpgradeChecker.jobEnabled
+            value: "false"
         valuesObject:
           # 持久化存储配置
           persistence:
