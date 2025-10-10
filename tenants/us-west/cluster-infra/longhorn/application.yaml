@@ -1,0 +1,47 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: 'https://charts.longhorn.io'
+      chart: longhorn
+      targetRevision: 1.10.0
+      helm:
+        valuesObject:
+          # 持久化存储配置
+          persistence:
+            defaultClass: true  # 将 Longhorn 设为默认 StorageClass
+            defaultClassReplicaCount: 2  # 默认 StorageClass 的副本数
+
+          # Longhorn UI Service 配置
+          service:
+            ui:
+              type: LoadBalancer  # 使用 LoadBalancer 类型
+              loadBalancerClass: tailscale  # 使用 Tailscale
+              annotations:
+                tailscale.com/expose: "true"
+                tailscale.com/hostname: "longhorn"  # Tailnet 内访问: http://longhorn
+
+          # Longhorn 全局默认设置
+          defaultSettings:
+            backupTarget: ""  # 备份目标（S3/NFS），留空表示不配置
+            defaultReplicaCount: 2  # 创建 Volume 时的默认副本数
+            guaranteedInstanceManagerCpu: 10  # CPU 资源预留（降低以适应小集群）
+    - repoURL: 'git@github.com:SimpleLumine/k8s-gitops.git'
+      targetRevision: HEAD
+      path: tenants/us-west/cluster-infra/longhorn/manifests
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: longhorn-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
