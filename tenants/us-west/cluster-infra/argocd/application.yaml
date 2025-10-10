@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: 'https://argoproj.github.io/argo-helm'
+    chart: argo-cd
+    targetRevision: 8.5.10
+    helm:
+      valuesObject:
+        # 配置 ArgoCD Server 通过 Tailscale 暴露
+        server:
+          service:
+            annotations:
+              tailscale.com/expose: "true"
+              tailscale.com/hostname: "argocd"
+            type: LoadBalancer
+            loadBalancerClass: tailscale
+
+        # 允许 insecure 模式（Tailscale 自带 TLS）
+        configs:
+          params:
+            server.insecure: "true"
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
