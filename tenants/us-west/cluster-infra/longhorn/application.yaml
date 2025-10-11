@@ -7,7 +7,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  sources:
+  source:
     - repoURL: 'https://charts.longhorn.io'
       chart: longhorn
       targetRevision: 1.10.0
@@ -32,9 +32,9 @@ spec:
             backupTarget: ""  # 备份目标（S3/NFS），留空表示不配置
             defaultReplicaCount: "2"  # 创建 Volume 时的默认副本数（必须是字符串）
             guaranteedInstanceManagerCpu: "10"  # CPU 资源预留（必须是字符串）
-    - repoURL: 'git@github.com:SimpleLumine/k8s-gitops.git'
-      targetRevision: HEAD
-      path: tenants/us-west/cluster-infra/longhorn/manifests
+    # - repoURL: 'git@github.com:SimpleLumine/k8s-gitops.git'
+    #   targetRevision: HEAD
+    #   path: tenants/us-west/cluster-infra/longhorn/manifests
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: longhorn-system
