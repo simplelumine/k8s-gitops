@@ -2,10 +2,15 @@
 # tailscale-credentials.secret.yaml
 /secret
 
-# Bootstrap secrets - 永远不要提交这些文件！
+# Local secrets - 永远不要提交这些文件！
+.local-secrets/
+!.local-secrets/README.md
+
+# Bootstrap secrets
 **/repository-secret.yaml
 **/*-secret.yaml
 !**/*-secret.yaml.example
+!**/*-sealed-secret.yaml
 
 # Backup files
 *.bak
@@ -15,3 +20,4 @@
 .DS_Store
 .vscode/
 .idea/
+.claude/
