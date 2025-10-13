@@ -14,11 +14,11 @@ spec:
       recurse: true
       include: '**/application.yaml'
       exclude: '**/manifests/**'
-    path: tenants/us-west/cluster-infra
+    path: environments/us-west/infrastructure
     repoURL: git@github.com:SimpleLumine/k8s-gitops.git
     targetRevision: HEAD
   syncPolicy:
     automated:
-      enabled: true
-      prune: true
-      selfHeal: true
+      enabled: false
+      prune: false
+      selfHeal: false
