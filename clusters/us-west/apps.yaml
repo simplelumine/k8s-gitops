@@ -1,0 +1,19 @@
+# FluxCD Kustomization for all applications
+# This will recursively scan tenants/us-west/apps/ for Kustomization resources
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: apps
+  namespace: flux-system
+spec:
+  interval: 10m0s
+  retryInterval: 1m0s
+  timeout: 5m0s
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./environments/us-west/apps
+  prune: true
+  wait: false
+  # This allows Flux to apply subdirectory Kustomizations
+  # It will find and apply litellm-database, litellm-cache, litellm-app
