@@ -23,7 +23,7 @@ spec:
     # Source 2: Additional manifests from Git (SealedSecret)
     - repoURL: 'git@github.com:SimpleLumine/k8s-gitops.git'
       targetRevision: HEAD
-      path: tenants/us-west/cluster-infra/tailscale-operator/manifests
+      path: environments/us-west/cluster-infra/tailscale-operator/manifests
 
   destination:
     server: 'https://kubernetes.default.svc'
