@@ -21,7 +21,7 @@ spec:
     # Source 2: Additional manifests (ClusterIssuer, Secrets)
     - repoURL: 'git@github.com:SimpleLumine/k8s-gitops.git'
       targetRevision: HEAD
-      path: tenants/us-west/cluster-infra/cert-manager/manifests
+      path: environments/us-west/infrastructure/cert-manager/manifests
 
   destination:
     server: 'https://kubernetes.default.svc'
