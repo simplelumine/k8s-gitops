@@ -1,0 +1,11 @@
+creation_rules:
+  # Staging 环境的密钥配置
+  - path_regex: environments/.*/overlays/staging/.*\.yaml
+    age: age1_replace_with_your_staging_public_key
+
+  # Production 环境的密钥配置
+  - path_regex: environments/.*/overlays/prod/.*\.yaml
+    age: age1_replace_with_your_production_public_key
+
+  # 默认规则（如果上述都不匹配）
+  - age: age1_replace_with_your_default_public_key

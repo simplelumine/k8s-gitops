@@ -1,0 +1,18 @@
+# 临时借用 staging 环境的业务应用配置
+# 当有独立的 staging 集群时，删除此文件即可
+
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: borrowed-staging-apps
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./environments/apps/overlays/staging
+  prune: true
+  # 等待 staging 的 core 组件部署完成
+  dependsOn:
+    - name: borrowed-staging-core
