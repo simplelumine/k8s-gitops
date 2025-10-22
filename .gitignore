@@ -1,16 +1,15 @@
-# tenants/us-west/cluster-infra/tailscale-operator/application.yaml
-# tailscale-credentials.secret.yaml
-/secret
-
 # Local secrets - 永远不要提交这些文件！
 .local-secrets/
 !.local-secrets/README.md
 
-# Bootstrap secrets
+# 未加密的 secret 文件 - 这些应该被 SOPS 加密后再提交
 **/repository-secret.yaml
 **/*-secret.yaml
 !**/*-secret.yaml.example
-!**/*-sealed-secret.yaml
+
+# ✅ 允许提交的加密文件
+!**/*.sops.yaml      # SOPS 加密的文件可以提交
+!**/*-sealed-secret.yaml  # Sealed Secrets 可以提交
 
 # Backup files
 *.bak
