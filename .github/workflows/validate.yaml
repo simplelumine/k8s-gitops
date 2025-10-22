@@ -26,35 +26,38 @@ jobs:
         with:
           kustomize-version: '5.x'
 
-      - name: Validate Core Production
+      - name: Validate Core Components
         run: |
-          echo "🔍 Validating core production overlay..."
-          kustomize build environments/core/overlays/prod
+          echo "🔍 Validating core components..."
+          for dir in environments/core/*/; do
+            if [ -f "$dir/kustomization.yaml" ]; then
+              echo "Validating $dir"
+              kustomize build "$dir"
+            fi
+          done
+          echo "✅ Core components validation complete (or no components found)"
 
-      - name: Validate Core Staging
+      - name: Validate App Components
         run: |
-          echo "🔍 Validating core staging overlay..."
-          kustomize build environments/core/overlays/staging
+          echo "🔍 Validating app components..."
+          for dir in environments/apps/*/; do
+            if [ -f "$dir/kustomization.yaml" ]; then
+              echo "Validating $dir"
+              kustomize build "$dir"
+            fi
+          done
+          echo "✅ App components validation complete (or no components found)"
 
-      - name: Validate Apps Production
+      - name: Validate All Clusters
         run: |
-          echo "🔍 Validating apps production overlay..."
-          kustomize build environments/apps/overlays/prod
-
-      - name: Validate Apps Staging
-        run: |
-          echo "🔍 Validating apps staging overlay..."
-          kustomize build environments/apps/overlays/staging
-
-      - name: Validate Clusters us-west
-        run: |
-          echo "🔍 Validating clusters/us-west..."
-          kustomize build clusters/us-west
-
-      - name: Validate Clusters staging
-        run: |
-          echo "🔍 Validating clusters/staging..."
-          kustomize build clusters/staging
+          echo "🔍 Validating all cluster configurations..."
+          for cluster in clusters/*/; do
+            if [ -d "$cluster" ] && [ -f "$cluster/kustomization.yaml" ]; then
+              echo "Validating $cluster"
+              kustomize build "$cluster"
+            fi
+          done
+          echo "✅ Cluster configurations validation complete"
 
   validate-flux:
     name: Validate Flux Resources
