@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Staging 集群的 FluxCD Kustomization 资源清单
+# 当有独立的 staging 集群时，该集群的 FluxCD 会监控此目录
+
+resources:
+  # 核心基础设施
+  - core.yaml
+
+  # 业务应用
+  - apps.yaml
