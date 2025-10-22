@@ -16,3 +16,8 @@ spec:
   # 等待 staging 的 core 组件部署完成
   dependsOn:
     - name: borrowed-staging-core
+  # SOPS 解密配置
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
