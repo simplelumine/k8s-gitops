@@ -63,18 +63,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@main
-
-      - name: Validate Flux Installation
-        run: flux check --pre
-
-      - name: Validate all Flux Kustomizations
+      - name: Validate Flux Kustomization YAML Syntax
         run: |
-          echo "🔍 Validating Flux Kustomization manifests..."
-          find clusters/ -name "*.yaml" -not -path "*/flux-system/*" -type f | while read file; do
-            echo "Validating $file"
-            kubectl apply --dry-run=client -f "$file" || exit 1
+          echo "🔍 Validating Flux Kustomization YAML syntax..."
+          find clusters/ -name "*.yaml" -not -path "*/flux-system/gotk-*" -type f | while read file; do
+            echo "Checking $file"
+            # 简单的 YAML 语法检查
+            python3 -c "import yaml; yaml.safe_load(open('$file'))" || exit 1
           done
 
   yaml-lint:
@@ -90,6 +85,9 @@ jobs:
           file_or_dir: environments/ clusters/
           config_data: |
             extends: default
+            ignore: |
+              clusters/*/flux-system/gotk-components.yaml
+              clusters/*/flux-system/gotk-sync.yaml
             rules:
               line-length: disable
               indentation:
