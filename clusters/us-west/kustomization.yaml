@@ -5,13 +5,13 @@ kind: Kustomization
 # FluxCD 监控此目录，通过此文件发现所有要部署的 Kustomization CRD
 
 resources:
-  # 核心基础设施
-  - core.yaml
+  # 核心基础设施目录
+  - core
 
-  # 业务应用
-  - apps.yaml
+  # 业务应用目录
+  - apps
 
-  # 未来可以在这里添加更多 Kustomization
-  # - core-cert-manager.yaml
-  # - core-longhorn.yaml
-  # - apps-litellm.yaml
+  # 说明：
+  # - core/ 目录包含核心基础设施组件的 FluxCD Kustomization CRDs
+  # - apps/ 目录包含业务应用的 FluxCD Kustomization CRDs
+  # - 每个组件/应用对应一个独立的 yaml 文件
