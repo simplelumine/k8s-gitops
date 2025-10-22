@@ -4,8 +4,8 @@ kind: Kustomization
 # 核心基础设施组件的 FluxCD Kustomization CRDs
 # 每个组件一个独立的 yaml 文件
 
-resources: []
-  # 示例：未来添加组件时取消注释
-  # - portainer-agent.yaml
+resources:
+  - portainer-agent.yaml
+  - tailscale-operator.yaml
   # - cert-manager.yaml
   # - longhorn.yaml
