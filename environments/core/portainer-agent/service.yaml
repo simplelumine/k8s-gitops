@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: portainer-agent
+  namespace: portainer
+  annotations:
+    # Tailscale 配置：暴露到 Tailscale 网络
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "portainer-agent"
+spec:
+  type: LoadBalancer
+  loadBalancerClass: tailscale
+  selector:
+    app: portainer-agent
+  ports:
+    - name: http
+      protocol: TCP
+      port: 9001
+      targetPort: 9001
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portainer-agent-headless
+  namespace: portainer
+spec:
+  clusterIP: None
+  selector:
+    app: portainer-agent
