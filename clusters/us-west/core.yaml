@@ -12,3 +12,8 @@ spec:
   prune: true
   wait: true
   timeout: 5m
+  # SOPS 解密配置
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
