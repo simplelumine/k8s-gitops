@@ -31,3 +31,5 @@ age.key
 # 临时文件
 test-secret*.yaml
 *.tmp
+
+infrastructure
