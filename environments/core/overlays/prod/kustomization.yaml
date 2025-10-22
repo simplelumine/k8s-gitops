@@ -4,7 +4,7 @@ kind: Kustomization
 # Production 环境 - 核心基础设施配置
 
 # 所有资源部署到 prod namespace
-namespace: prod
+# namespace: prod
 
 # 引用 base 配置
 resources: []

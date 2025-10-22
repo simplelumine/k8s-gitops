@@ -3,11 +3,12 @@ kind: Kustomization
 
 # Staging 环境 - 核心基础设施配置
 
-# 所有资源部署到 staging namespace
-namespace: staging
+# 注意：core 基础设施组件通常部署到各自的 namespace
+# 不设置全局 namespace，让每个组件使用自己定义的 namespace
 
 # 引用 base 配置
 resources: []
+  # - ../../base/portainer-agent
   # - ../../base/cert-manager
   # - ../../base/longhorn
   # - ../../base/cloudnative-pg
