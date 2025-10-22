@@ -1,67 +1,108 @@
 # K8s GitOps
 
-我的 Kubernetes 集群配置，使用 FluxCD 进行 GitOps 管理，采用领域分层架构。
+我的 Kubernetes 集群配置，使用 FluxCD 进行 GitOps 管理，采用**简化的领域分层架构**。
 
 ## 🏗️ 架构设计
 
 ### 核心原则
-- **配置定义与部署意图分离**：`environments/` vs `clusters/`
-- **基础配置与环境差异分离**：`base/` vs `overlays/`
+
+- **配置定义与部署意图分离**：`environments/` 定义组件配置，`clusters/` 决定部署什么
 - **核心基础设施与业务应用分离**：`core/` vs `apps/`
+- **集群是决策层**：集群配置是 source of truth，决定该集群需要哪些组件
+- **简单优先**：不使用复杂的 base/overlays 分层，直接在 environments/ 存放组件配置
 
 ### 目录结构
 
 ```text
 k8s-gitops/
 ├── .sops.yaml                # SOPS 加密配置
-├── environments/             # 配置定义层（定义"是什么"）
-│   ├── core/                 # 核心基础设施
-│   │   ├── base/             # 环境无关的基础配置
-│   │   └── overlays/         # 环境特定的差异配置
-│   │       ├── staging/
-│   │       └── prod/
-│   └── apps/                 # 业务应用
-│       ├── base/
-│       └── overlays/
-│           ├── staging/
-│           └── prod/
+├── environments/             # 配置定义层（存放组件配置，不决定部署）
+│   ├── core/                 # 核心基础设施配置
+│   │   └── portainer-agent/  # 每个组件一个目录
+│   │       ├── namespace.yaml
+│   │       ├── deployment.yaml
+│   │       ├── service.yaml
+│   │       └── kustomization.yaml
+│   └── apps/                 # 业务应用配置
+│       └── open-webui/
 │
-└── clusters/                 # 部署意图层（定义"部署到哪"）
-    ├── staging/              # Staging 集群配置
-    │   ├── core.yaml         # FluxCD Kustomization
-    │   └── apps.yaml
-    └── us-west/              # 生产集群配置
+└── clusters/                 # 部署意图层（决定"部署什么"）
+    ├── staging/              # Staging 集群（未来）
+    └── us-west/              # 生产集群
         ├── flux-system/      # FluxCD 系统文件
-        ├── core.yaml
-        ├── apps.yaml
-        ├── borrowed-staging-core.yaml    # 临时借用 staging
-        └── borrowed-staging-apps.yaml
+        ├── kustomization.yaml
+        ├── core/             # 核心组件的 FluxCD Kustomization CRDs
+        │   ├── kustomization.yaml
+        │   └── portainer-agent.yaml
+        └── apps/             # 业务应用的 FluxCD Kustomization CRDs
+            └── kustomization.yaml
 ```
 
 ## 🚀 工作流程
 
-### 部署新应用（以 portainer-agent 为例）
+### 部署新组件（以 portainer-agent 为例）
 
 ```bash
-# 1. 定义基础配置（环境无关）
-environments/core/base/portainer-agent/
-├── namespace.yaml
-├── serviceaccount.yaml
-└── deployment.yaml
+# 1. 创建分支
+git checkout -b add-portainer
 
-# 2. 定义 Staging 环境配置
-environments/core/overlays/staging/
-└── kustomization.yaml  # 引用 base 并应用补丁
+# 2. 在 environments/ 定义组件配置
+mkdir -p environments/core/portainer-agent
+# 创建 namespace.yaml, deployment.yaml, service.yaml, kustomization.yaml
 
-# 3. 提交 PR 到 main 分支
-git add . && git commit -m "Add portainer-agent"
-git push origin main
+# 3. 在 clusters/us-west/core/ 创建 FluxCD Kustomization CRD
+cat > clusters/us-west/core/portainer-agent.yaml <<EOF
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: portainer-agent
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./environments/core/portainer-agent
+  prune: true
+  wait: true
+  timeout: 5m
+EOF
 
-# 4. FluxCD 自动部署到 staging namespace
+# 4. 在 clusters/us-west/core/kustomization.yaml 引用新组件
+# resources:
+#   - portainer-agent.yaml
+
+# 5. 提交 PR
+git add .
+git commit -m "feat: add portainer-agent to us-west cluster"
+git push origin add-portainer
+# 在 GitHub 创建 PR 并合并
+
+# 6. 合并后，FluxCD 自动部署
 flux get kustomizations
+kubectl get pods -n portainer
+```
 
-# 5. 验证后推广到生产
-# 复制配置到 environments/core/overlays/prod/
+### 集群特定配置
+
+如果需要针对 us-west 集群的特定配置（如副本数、节点选择器），使用 FluxCD Kustomization 的 `patches` 字段：
+
+```yaml
+# clusters/us-west/core/portainer-agent.yaml
+spec:
+  path: ./environments/core/portainer-agent
+  patches:
+    - patch: |
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: portainer-agent
+          namespace: portainer
+        spec:
+          replicas: 2  # us-west 特定：2 个副本
+      target:
+        kind: Deployment
+        name: portainer-agent
 ```
 
 ## 🔐 密钥管理
@@ -82,28 +123,37 @@ git commit -m "Add encrypted secret"
 ## 🎯 当前状态
 
 - ✅ 使用 FluxCD 进行 GitOps 自动化
-- ✅ 领域分层架构已建立
+- ✅ 简化的领域分层架构（不使用复杂的 base/overlays 结构）
 - ✅ SOPS 加密配置完成
-- ⏳ Staging 环境由 us-west 集群临时代理
-- ⏳ 逐步迁移组件中...
+- ✅ 集群决策层设计（clusters/ 决定部署什么）
+- ✅ PR 工作流程建立
+- ⏳ 准备部署第一个组件
+- 📚 在实践中学习 FluxCD...
 
 ## 🛠️ 常用命令
 
 ```bash
-# 查看同步状态
+# 查看所有 Kustomization 同步状态
 flux get kustomizations
 
-# 强制同步
-flux reconcile kustomization core-prod
+# 强制同步特定组件
+flux reconcile kustomization portainer-agent --with-source
 
-# 查看日志
-flux logs --kind=Kustomization --name=core-staging
+# 查看组件日志
+flux logs --kind=Kustomization --name=portainer-agent
+
+# 测试配置是否正确
+kubectl kustomize environments/core/portainer-agent
+kubectl kustomize clusters/us-west
 
 # 加密 Secret
 sops --encrypt secret.yaml > secret.enc.yaml
 
 # 解密查看
 sops --decrypt secret.enc.yaml
+
+# 验证 FluxCD 健康状态
+flux check
 ```
 
 ## 📖 技术栈
