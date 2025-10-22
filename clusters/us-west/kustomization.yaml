@@ -1,0 +1,17 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# us-west 集群的 FluxCD Kustomization 资源清单
+# FluxCD 监控此目录，通过此文件发现所有要部署的 Kustomization CRD
+
+resources:
+  # 核心基础设施
+  - core.yaml
+
+  # 业务应用
+  - apps.yaml
+
+  # 未来可以在这里添加更多 Kustomization
+  # - core-cert-manager.yaml
+  # - core-longhorn.yaml
+  # - apps-litellm.yaml

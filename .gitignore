@@ -22,3 +22,12 @@
 .idea/
 .claude/
 test
+
+# SOPS 私钥 - 绝对不能提交！
+*.agekey
+**/keys.txt
+age.key
+
+# 临时文件
+test-secret*.yaml
+*.tmp
