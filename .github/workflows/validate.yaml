@@ -88,6 +88,7 @@ jobs:
             ignore: |
               clusters/*/flux-system/gotk-components.yaml
               clusters/*/flux-system/gotk-sync.yaml
+              clusters/*/flux-system/kustomization.yaml
             rules:
               line-length: disable
               indentation:
