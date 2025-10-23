@@ -31,13 +31,13 @@ spec:
   values:
     persistence:
       defaultClass: true
-      defaultClassReplicaCount: 2
+      defaultClassReplicaCount: "2"
     service:
       ui:
         type: ClusterIP
     defaultSettings:
       backupTarget: ""
-      defaultReplicaCount: 2
-      guaranteedInstanceManagerCpu: 10
+      defaultReplicaCount: "2"
+      guaranteedInstanceManagerCpu: "10"
     preUpgradeChecker:
       jobEnabled: false
