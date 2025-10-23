@@ -34,11 +34,7 @@ spec:
       defaultClassReplicaCount: "2"
     service:
       ui:
-        type: LoadBalancer
-        loadBalancerClass: tailscale
-        annotations:
-          tailscale.com/expose: "true"
-          tailscale.com/hostname: "longhorn-ui"
+        type: ClusterIP
     defaultSettings:
       backupTarget: ""
       defaultReplicaCount: "2"
