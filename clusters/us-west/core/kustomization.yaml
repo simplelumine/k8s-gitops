@@ -10,4 +10,4 @@ resources:
   - longhorn.yaml
   - cloudnative-pg.yaml
   - redis-operator.yaml
-  # - cert-manager.yaml
+  - cert-manager.yaml
