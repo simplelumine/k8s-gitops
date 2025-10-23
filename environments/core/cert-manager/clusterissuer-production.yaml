@@ -18,9 +18,9 @@ spec:
 
     # DNS-01 challenge configuration (using Cloudflare)
     solvers:
-    - dns01:
-        cloudflare:
-          # Reference to encrypted API Token
-          apiTokenSecretRef:
-            name: cloudflare-api-token-secret
-            key: api-token
+      - dns01:
+          cloudflare:
+            # Reference to encrypted API Token
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token
