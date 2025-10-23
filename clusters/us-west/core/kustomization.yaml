@@ -11,4 +11,3 @@ resources:
   - cloudnative-pg.yaml
   - redis-operator.yaml
   - cert-manager.yaml
-  - cert-manager-issuers.yaml
