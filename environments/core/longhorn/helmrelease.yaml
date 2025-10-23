@@ -31,13 +31,17 @@ spec:
   values:
     persistence:
       defaultClass: true
-      defaultClassReplicaCount: 2
+      defaultClassReplicaCount: "2"
     service:
       ui:
-        type: ClusterIP
+        type: LoadBalancer
+        loadBalancerClass: tailscale
+        annotations:
+          tailscale.com/expose: "true"
+          tailscale.com/hostname: "longhorn-ui"
     defaultSettings:
       backupTarget: ""
-      defaultReplicaCount: 2
-      guaranteedInstanceManagerCpu: 10
+      defaultReplicaCount: "2"
+      guaranteedInstanceManagerCpu: "10"
     preUpgradeChecker:
       jobEnabled: false
