@@ -37,8 +37,11 @@ jobs:
       - name: Upload to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         if: always()
+        continue-on-error: true
         with:
           sarif_file: 'trivy-results.sarif'
+        # Note: SARIF upload requires GitHub Advanced Security for private repos
+        # Failures are non-blocking - security findings still visible in PR comments
 
       - name: Run Trivy Summary
         uses: aquasecurity/trivy-action@master
@@ -63,14 +66,14 @@ jobs:
       - name: Validate SOPS Files
         run: |
           echo "🔍 Validating SOPS encrypted files..."
-          sops_files=$(find . -name "*.sops.yaml" -type f)
+          sops_files=$(find . -name "*.sops.yaml" -type f -not -path "./.sops.yaml")
 
           if [ -z "$sops_files" ]; then
-            echo "ℹ️  No SOPS files found"
+            echo "ℹ️  No SOPS encrypted files found"
             exit 0
           fi
 
-          echo "Found SOPS files:"
+          echo "Found SOPS encrypted files:"
           echo "$sops_files"
           echo ""
 
