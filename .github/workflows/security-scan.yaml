@@ -1,0 +1,104 @@
+name: Security Scan
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'environments/**'
+      - 'clusters/**'
+      - '.github/workflows/security-scan.yaml'
+  schedule:
+    # Run security scan daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  # Note: Removed push trigger to avoid duplicate scans after PR merge
+  # Security scanning happens during PR review + daily scheduled scans
+
+jobs:
+  trivy:
+    name: Trivy Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Trivy Config Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          exit-code: '0'
+
+      - name: Upload to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        continue-on-error: true
+        with:
+          sarif_file: 'trivy-results.sarif'
+        # Note: SARIF upload requires GitHub Advanced Security for private repos
+        # Failures are non-blocking - security findings still visible in PR comments
+
+      - name: Run Trivy Summary
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          format: 'table'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+
+  sops-validation:
+    name: SOPS Encryption Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SOPS
+        uses: mdgreenwald/mozilla-sops-action@v1.6.0
+        with:
+          version: '3.9.0'
+
+      - name: Validate SOPS Files
+        run: |
+          echo "🔍 Validating SOPS encrypted files..."
+          sops_files=$(find . -name "*.sops.yaml" -type f -not -path "./.sops.yaml")
+
+          if [ -z "$sops_files" ]; then
+            echo "ℹ️  No SOPS encrypted files found"
+            exit 0
+          fi
+
+          echo "Found SOPS encrypted files:"
+          echo "$sops_files"
+          echo ""
+
+          for file in $sops_files; do
+            echo "Checking $file..."
+
+            # Check if file has sops metadata
+            if ! grep -q "sops:" "$file"; then
+              echo "❌ Error: $file is missing SOPS metadata"
+              exit 1
+            fi
+
+            # Check if only stringData/data is encrypted (metadata should be readable)
+            if grep -q "kind: ENC\[" "$file"; then
+              echo "❌ Error: $file has encrypted metadata (should only encrypt stringData/data)"
+              exit 1
+            fi
+
+            # Check for common secrets that shouldn't be committed
+            if grep -qE "(password|secret|token|key):" "$file" | grep -v "ENC\["; then
+              echo "⚠️  Warning: $file may contain unencrypted secrets"
+            fi
+
+            echo "✅ $file structure is valid"
+          done
+
+          echo ""
+          echo "✅ All SOPS files validated successfully"
