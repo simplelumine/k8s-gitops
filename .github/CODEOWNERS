@@ -1,0 +1,23 @@
+# CODEOWNERS file
+# These owners will be the default owners for everything in the repo
+# They will be requested for review when someone opens a pull request
+
+# Global owners
+* @SimpleLumine
+
+# Core infrastructure
+/environments/core/ @SimpleLumine
+/clusters/*/core/ @SimpleLumine
+
+# Applications
+/environments/apps/ @SimpleLumine
+/clusters/*/apps/ @SimpleLumine
+
+# FluxCD system
+/clusters/*/flux-system/ @SimpleLumine
+
+# CI/CD workflows
+/.github/workflows/ @SimpleLumine
+
+# Security: SOPS encrypted files require extra review
+**/*.sops.yaml @SimpleLumine

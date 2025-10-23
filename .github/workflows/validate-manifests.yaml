@@ -1,4 +1,4 @@
-name: Validate GitOps Manifests
+name: Validate Manifests
 
 on:
   pull_request:
@@ -6,16 +6,13 @@ on:
     paths:
       - 'environments/**'
       - 'clusters/**'
-      - '.github/workflows/validate.yaml'
-  push:
-    branches: [main]
-    paths:
-      - 'environments/**'
-      - 'clusters/**'
+      - '.github/workflows/validate-manifests.yaml'
+  # Note: Removed push trigger to avoid duplicate validation after PR merge
+  # Validation happens during PR review, no need to re-run after merge
 
 jobs:
-  validate-kustomize:
-    name: Validate Kustomize Builds
+  kustomize:
+    name: Kustomize Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,10 +29,10 @@ jobs:
           for dir in environments/core/*/; do
             if [ -f "$dir/kustomization.yaml" ]; then
               echo "Validating $dir"
-              kustomize build "$dir"
+              kustomize build "$dir" > /dev/null
             fi
           done
-          echo "✅ Core components validation complete (or no components found)"
+          echo "✅ Core components validation complete"
 
       - name: Validate App Components
         run: |
@@ -43,37 +40,40 @@ jobs:
           for dir in environments/apps/*/; do
             if [ -f "$dir/kustomization.yaml" ]; then
               echo "Validating $dir"
-              kustomize build "$dir"
+              kustomize build "$dir" > /dev/null
             fi
           done
-          echo "✅ App components validation complete (or no components found)"
+          echo "✅ App components validation complete"
 
-      - name: Validate All Clusters
+      - name: Validate Cluster Configurations
         run: |
           echo "🔍 Validating all cluster configurations..."
           for cluster in clusters/*/; do
             if [ -d "$cluster" ] && [ -f "$cluster/kustomization.yaml" ]; then
               echo "Validating $cluster"
-              kustomize build "$cluster"
+              kustomize build "$cluster" > /dev/null
             fi
           done
           echo "✅ Cluster configurations validation complete"
 
-  validate-flux:
-    name: Validate Flux Resources
+  flux:
+    name: Flux Validation
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Validate Flux Kustomization YAML Syntax
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@main
+
+      - name: Validate Flux Manifests
         run: |
-          echo "🔍 Validating Flux Kustomization YAML syntax..."
-          find clusters/ -name "*.yaml" -not -path "*/flux-system/gotk-*" -type f | while read file; do
-            echo "Checking $file"
-            # 简单的 YAML 语法检查
-            python3 -c "import yaml; yaml.safe_load(open('$file'))" || exit 1
-          done
+          echo "🔍 Validating Flux manifests with official CLI..."
+          flux validate --path ./clusters/us-west
+          echo "✅ Flux validation complete"
+
+      - name: Check Flux Version
+        run: flux version --client
 
   yaml-lint:
     name: YAML Lint
@@ -82,7 +82,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: YAML Lint
+      - name: Run yamllint
         uses: ibiqlik/action-yamllint@v3
         with:
           file_or_dir: environments/ clusters/
