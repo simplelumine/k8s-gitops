@@ -29,6 +29,10 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
+    # Enable CRD installation (required)
+    crds:
+      enabled: true
+
     # Enable prometheus monitoring
     prometheus:
       enabled: true
