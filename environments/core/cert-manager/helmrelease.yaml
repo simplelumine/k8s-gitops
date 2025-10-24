@@ -1,12 +1,14 @@
 ---
 apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: HelmRepository
+kind: OCIRepository
 metadata:
-  name: jetstack
+  name: cert-manager-oci
   namespace: cert-manager
 spec:
   interval: 24h
-  url: https://charts.jetstack.io
+  url: oci://quay.io/jetstack/charts/cert-manager
+  ref:
+    tag: v1.19.1
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -18,10 +20,9 @@ spec:
   chart:
     spec:
       chart: cert-manager
-      version: v1.19.0
       sourceRef:
-        kind: HelmRepository
-        name: jetstack
+        kind: OCIRepository
+        name: cert-manager-oci
         namespace: cert-manager
       interval: 12h
   install:
@@ -29,7 +30,7 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
-    # Enable CRD installation (required)
+    # Enable CRD installation (required) - 对应官方的 --set crds.enabled=true
     crds:
       enabled: true
 
