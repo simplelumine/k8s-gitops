@@ -13,5 +13,10 @@ spec:
     name: flux-system
   wait: true
   timeout: 5m
+  # This is the crucial part: wait for cert-manager to be ready first
   dependsOn:
     - name: cert-manager
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
