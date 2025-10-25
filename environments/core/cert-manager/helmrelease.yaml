@@ -1,15 +1,4 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: OCIRepository
-metadata:
-  name: cert-manager-oci
-  namespace: cert-manager
-spec:
-  interval: 24h
-  url: oci://quay.io/jetstack/charts/cert-manager
-  ref:
-    tag: v1.19.1
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -20,9 +9,10 @@ spec:
   chart:
     spec:
       chart: cert-manager
+      version: v1.13.3
       sourceRef:
-        kind: OCIRepository
-        name: cert-manager-oci
+        kind: HelmRepository
+        name: cert-manager
         namespace: cert-manager
       interval: 12h
   install:
@@ -30,10 +20,6 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
-    # Enable CRD installation (required) - 对应官方的 --set crds.enabled=true
-    crds:
-      enabled: true
-
     # Enable prometheus monitoring
     prometheus:
       enabled: true
