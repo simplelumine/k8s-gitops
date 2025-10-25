@@ -1,0 +1,18 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: litellm-db
+  namespace: litellm
+spec:
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 1Gi
+  superuserSecret:
+    name: litellm-db-superuser
+  bootstrap:
+    initdb:
+      database: litellm
+      owner: litellm
+      secret:
+        name: litellm-db-app

@@ -7,4 +7,5 @@ kind: Kustomization
 # 示例：未来添加应用时取消注释
 # - open-webui.yaml
 # - litellm.yaml
-resources: []
+resources:
+  - litellm.yaml
