@@ -1,0 +1,13 @@
+apiVersion: redis.redis.opstreelabs.in/v1beta1
+kind: Redis
+metadata:
+  name: litellm-cache
+  namespace: litellm
+spec:
+  kubernetesConfig:
+    image: redis:7.2-alpine
+    imagePullPolicy: IfNotPresent
+  storage:
+    emptyDir: {}
+  redisExporter:
+    enabled: false

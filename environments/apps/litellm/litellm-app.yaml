@@ -1,0 +1,96 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: litellm-svc
+  namespace: litellm
+  labels:
+    app: litellm
+spec:
+  selector:
+    app: litellm
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 4000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: litellm
+  namespace: litellm
+  labels:
+    app: litellm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: litellm
+  template:
+    metadata:
+      labels:
+        app: litellm
+    spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: busybox:1.36
+          command: ['sh', '-c', 'until nc -z -v -w30 litellm-db-rw.litellm.svc.cluster.local 5432; do echo "Waiting for postgres..."; sleep 2; done;']
+        - name: wait-for-redis
+          image: busybox:1.36
+          command: ['sh', '-c', 'until nc -z -v -w30 litellm-cache-svc.litellm.svc.cluster.local 6379; do echo "Waiting for redis..."; sleep 2; done;']
+      containers:
+        - name: litellm
+          image: ghcr.io/berriai/litellm:v1.77.2-stable
+          command: ["litellm"]
+          args: ["--config", "/app/config/parent_config.yaml"]
+          ports:
+            - containerPort: 4000
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "200m"
+            limits:
+              memory: "1Gi"
+              cpu: "2000m"
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: litellm-db-app
+                  key: dsn
+          envFrom:
+            - secretRef:
+                name: litellm-app-secret
+          volumeMounts:
+            - name: config
+              mountPath: /app/config
+      volumes:
+        - name: config
+          configMap:
+            name: litellm-app-config
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: litellm-ing
+  namespace: litellm
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-cloudflare
+    hajimari.io/enable: "true"
+    hajimari.io/icon: "alpha-l-box-outline"
+spec:
+  rules:
+    - host: "api.simplelumine.com"
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: litellm-svc
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - "api.simplelumine.com"
+      secretName: litellm-tls-secret
