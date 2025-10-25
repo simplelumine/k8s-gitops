@@ -9,18 +9,14 @@ spec:
   chart:
     spec:
       chart: cert-manager
+      version: v1.19.1
       sourceRef:
-        kind: OCIRepository
+        kind: HelmRepository
         name: cert-manager
         namespace: cert-manager
       interval: 12h
-  install:
-    crds: Create
-  upgrade:
-    crds: CreateReplace
   values:
-    crds:
-      enabled: true
+    installCRDs: true
 
     # Enable prometheus monitoring
     prometheus:
