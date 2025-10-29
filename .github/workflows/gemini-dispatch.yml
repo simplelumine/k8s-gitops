@@ -93,9 +93,13 @@ jobs:
             const request = process.env.REQUEST;
             core.setOutput('request', request);
 
-            if (eventType === 'pull_request.opened') {
-              core.setOutput('command', 'review');
-            } else if (['issues.opened', 'issues.reopened'].includes(eventType)) {
+            // NOTE: The following block is commented out to disable automatic PR reviews.
+            // This prevents conflicts with the Gemini Code Assistant App, which provides the initial automated review.
+            // To manually trigger a review, comment "@gemini-cli /review" on a pull request.
+            // if (eventType === 'pull_request.opened') {
+            //   core.setOutput('command', 'review');
+            // } else 
+            if (['issues.opened', 'issues.reopened'].includes(eventType)) {
               core.setOutput('command', 'triage');
             } else if (request.startsWith("@gemini-cli /review")) {
               core.setOutput('command', 'review');
