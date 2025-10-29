@@ -32,3 +32,5 @@ test-secret*.yaml
 *.tmp
 
 infrastructure
+.gemini/
+gha-creds-*.json
