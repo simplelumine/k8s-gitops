@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ghostfolio
+  namespace: ghostfolio
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: invest.simplelumine.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ghostfolio
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - invest.simplelumine.com
+      secretName: ghostfolio-tls

@@ -1,0 +1,27 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ghostfolio-db
+  namespace: ghostfolio
+  labels:
+    app.kubernetes.io/name: ghostfolio
+    app.kubernetes.io/component: database
+spec:
+  description: PostgreSQL backing store for Ghostfolio
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.4
+  instances: 1
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 500Mi
+    storageClass: longhorn
+  bootstrap:
+    initdb:
+      database: ghostfolio
+      owner: ghostfolio
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 750m
+      memory: 1Gi

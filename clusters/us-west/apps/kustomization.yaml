@@ -1,10 +1,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
-# 业务应用的 FluxCD Kustomization CRDs
-# 每个应用一个独立的 yaml 文件
-
-# 示例：未来添加应用时取消注释
-# - open-webui.yaml
-# - litellm.yaml
-resources: []
+resources:
+  - ghostfolio.yaml

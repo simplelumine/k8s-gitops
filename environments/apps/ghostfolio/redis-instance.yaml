@@ -1,0 +1,17 @@
+apiVersion: redis.redis.opstreelabs.in/v1beta1
+kind: Redis
+metadata:
+  name: ghostfolio-cache
+  namespace: ghostfolio
+  labels:
+    app.kubernetes.io/name: ghostfolio
+    app.kubernetes.io/component: cache
+spec:
+  mode: standalone
+  replicas: 1
+  kubernetesConfig:
+    image: docker.io/redis:7.2.5-alpine
+    imagePullPolicy: IfNotPresent
+    serviceType: ClusterIP
+  redisExporter:
+    enabled: true
