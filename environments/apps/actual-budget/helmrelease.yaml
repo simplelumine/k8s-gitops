@@ -19,16 +19,16 @@ spec:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-production"
-        kubernetes.io/ingress.class: "nginx"
+        kubernetes.io/ingress.class: "traefik"
       hosts:
-        - host: actual.k8s.j5.pm
+        - host: budget.simplelumine.com
           paths:
             - path: /
               pathType: ImplementationSpecific
       tls:
         - secretName: actual-budget-tls
           hosts:
-            - actual.k8s.j5.pm
+            - budget.simplelumine.com
     persistence:
       enabled: true
       storageClass: "longhorn"
