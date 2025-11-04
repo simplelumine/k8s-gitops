@@ -1,18 +1,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: open-webui-app
+  name: open-webui
   namespace: flux-system
 spec:
   interval: 10m
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./environments/apps/open-webui/app
+  path: ./environments/apps/open-webui
   prune: true
-  # 明确依赖于基础设施层
-  dependsOn:
-    - name: open-webui-infra
   decryption:
     provider: sops
     secretRef:

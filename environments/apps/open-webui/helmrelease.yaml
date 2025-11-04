@@ -1,4 +1,4 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: open-webui
@@ -13,34 +13,37 @@ spec:
         kind: HelmRepository
         name: open-webui
         namespace: flux-system
-      interval: 1m
+      interval: 10m
   values:
+    service:
+      type: LoadBalancer
+      loadBalancerClass: tailscale
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/hostname: "open-webui"
     ingress:
       enabled: true
       className: "traefik"
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-production"
       hosts:
-        - host: "chat.simplelumine.com" # <--- 请替换为您的域名
+        - host: "chat.simplelumine.com"
           paths:
             - path: /
               pathType: ImplementationSpecific
       tls:
         - secretName: open-webui-tls
           hosts:
-            - "chat.simplelumine.com" # <--- 请替换为您的域名
+            - "chat.simplelumine.com"
 
-    # 禁用内置的 Ollama
     ollama:
       enabled: false
 
-    # 启用 Websocket 并禁用内置的 Redis
     websocket:
       enabled: true
       redis:
         enabled: false
 
-    # 从 Secret 动态获取数据库连接信息，避免硬编码密码
     extraEnvVars:
       - name: DATABASE_URL
         valueFrom:
