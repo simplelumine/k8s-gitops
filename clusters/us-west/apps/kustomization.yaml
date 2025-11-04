@@ -10,3 +10,4 @@ kind: Kustomization
 resources:
   - open-webui-infra.yaml
   - open-webui-app.yaml
+  - actual-budget.yaml
