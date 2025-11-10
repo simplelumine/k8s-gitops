@@ -1,172 +1,61 @@
-# K8s GitOps
+# Kubernetes GitOps Repository
 
-我的 Kubernetes 集群配置，使用 FluxCD 进行 GitOps 管理，采用**简化的领域分层架构**。
+This repository contains the full configuration for a Kubernetes infrastructure managed via GitOps principles. It uses a declarative approach, with Git as the single source of truth for all system and application configurations.
 
-## 🏗️ 架构设计
+## Core Principles
 
-### 核心原则
+- **Declarative:** All configurations are defined as code in this repository.
+- **Versioned and Immutable:** Git's version history provides a complete, auditable trail of all changes.
+- **Automated:** CI/CD pipelines automate the validation and deployment of changes.
+- **Continuous Reconciliation:** A GitOps operator (like Flux CD) ensures the cluster state always matches the configuration in Git.
 
-- **配置定义与部署意图分离**：`environments/` 定义组件配置，`clusters/` 决定部署什么
-- **核心基础设施与业务应用分离**：`core/` vs `apps/`
-- **集群是决策层**：集群配置是 source of truth，决定该集群需要哪些组件
-- **简单优先**：不使用复杂的 base/overlays 分层，直接在 environments/ 存放组件配置
+## Architectural Philosophy
 
-### 目录结构
+This repository follows a layered and modular architectural approach, designed for clarity, scalability, and security.
 
-```text
-k8s-gitops/
-├── .sops.yaml                # SOPS 加密配置
-├── environments/             # 配置定义层（存放组件配置，不决定部署）
-│   ├── core/                 # 核心基础设施配置
-│   │   └── portainer-agent/  # 每个组件一个目录
-│   │       ├── namespace.yaml
-│   │       ├── deployment.yaml
-│   │       ├── service.yaml
-│   │       └── kustomization.yaml
-│   └── apps/                 # 业务应用配置
-│       └── open-webui/
-│
-└── clusters/                 # 部署意图层（决定"部署什么"）
-    ├── staging/              # Staging 集群（未来）
-    └── us-west/              # 生产集群
-        ├── flux-system/      # FluxCD 系统文件
-        ├── kustomization.yaml
-        ├── core/             # 核心组件的 FluxCD Kustomization CRDs
-        │   ├── kustomization.yaml
-        │   └── portainer-agent.yaml
-        └── apps/             # 业务应用的 FluxCD Kustomization CRDs
-            └── kustomization.yaml
+- **`core/` (The Foundation):** This layer contains the operators and controllers that extend Kubernetes itself. This is the stable, rarely-touched bedrock of the platform (e.g., `cert-manager`, `longhorn`).
+- **`services/` (The Platform Layer):** This layer contains the instances and deployments created *by* the `core` operators or that provide shared functionality. These are the consumable, often stateful, and swappable components that support your applications (e.g., a PostgreSQL cluster, Prometheus for monitoring).
+- **`apps/` (The Application Layer):** This layer contains the final, user-facing applications.
+
+This separation allows for clear dependency management and isolates the foundational components from the more dynamic application and service layers.
+
+## Repository Structure
+
+```
+.
+├── .github/              # GitHub Actions workflows for CI/CD
+├── clusters/             # Cluster-specific configurations (staging, production)
+│   ├── staging/
+│   └── us-west/
+└── environments/         # Environment-agnostic application and service definitions
+    ├── apps/             # User-facing applications
+    ├── core/             # Core infrastructure services (e.g., cert-manager, longhorn)
+    └── services/         # Data services (e.g., databases, message queues)
 ```
 
-## 🚀 工作流程
+## Namespace and Resource Management Strategy
 
-### 部署新组件（以 portainer-agent 为例）
+This repository adopts a **one-namespace-per-component** strategy. While GitOps tools like Flux simplify cleanup, the primary reasons for this strategy are security, isolation, and control during runtime.
 
-```bash
-# 1. 创建分支
-git checkout -b add-portainer
+- **Security:** Dedicated namespaces are the foundation for `NetworkPolicy` rules, creating a firewall between components and enforcing a zero-trust model.
+- **Access Control (RBAC):** Permissions can be scoped to a specific namespace, enforcing the principle of least privilege.
+- **Clarity:** This approach provides a clean separation of resources, making it easier to manage and troubleshoot individual components.
 
-# 2. 在 environments/ 定义组件配置
-mkdir -p environments/core/portainer-agent
-# 创建 namespace.yaml, deployment.yaml, service.yaml, kustomization.yaml
+Each component in the `core`, `services`, and `apps` directories will have its own namespace defined within its folder, which Flux will manage automatically.
 
-# 3. 在 clusters/us-west/core/ 创建 FluxCD Kustomization CRD
-cat > clusters/us-west/core/portainer-agent.yaml <<EOF
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
-  name: portainer-agent
-  namespace: flux-system
-spec:
-  interval: 10m
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  path: ./environments/core/portainer-agent
-  prune: true
-  wait: true
-  timeout: 5m
-EOF
+### Pod `limits` vs. Namespace `ResourceQuota`
 
-# 4. 在 clusters/us-west/core/kustomization.yaml 引用新组件
-# resources:
-#   - portainer-agent.yaml
+A key concept in this architecture is the complementary relationship between pod-level resource limits and namespace-level resource quotas.
 
-# 5. 提交 PR
-git add .
-git commit -m "feat: add portainer-agent to us-west cluster"
-git push origin add-portainer
-# 在 GitHub 创建 PR 并合并
+- **Pod `requests` and `limits`** are set on individual deployments to define the resource needs and containment for a single instance of an application.
+- **Namespace `ResourceQuota`** acts as a higher-level administrative budget for the entire namespace. It limits the *sum total* of resources that all pods within that namespace can consume.
 
-# 6. 合并后，FluxCD 自动部署
-flux get kustomizations
-kubectl get pods -n portainer
-```
+This is crucial in a declarative, multi-replica environment. While a pod's `limit` might be small, a change in a Git commit that increases the `replicas` count could lead to a massive aggregate resource request. The `ResourceQuota` serves as a vital safety rail, preventing a single namespace from accidentally starving the entire cluster by exceeding its allocated budget. This ensures that scalability does not come at the cost of platform stability.
 
-### 集群特定配置
+## Secrets Management
 
-如果需要针对 us-west 集群的特定配置（如副本数、节点选择器），使用 FluxCD Kustomization 的 `patches` 字段：
+Secrets are encrypted using [SOPS](https://github.com/mozilla/sops) and can be safely committed to the repository. The GitOps operator is configured with the necessary decryption keys to apply the secrets in the cluster.
 
-```yaml
-# clusters/us-west/core/portainer-agent.yaml
-spec:
-  path: ./environments/core/portainer-agent
-  patches:
-    - patch: |
-        apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          name: portainer-agent
-          namespace: portainer
-        spec:
-          replicas: 2  # us-west 特定：2 个副本
-      target:
-        kind: Deployment
-        name: portainer-agent
-```
+## Contributing
 
-## 🔐 密钥管理
-
-使用 **SOPS + age** 加密敏感信息：
-
-```bash
-# 加密 Secret
-sops --encrypt secret.yaml > secret.enc.yaml
-
-# 提交加密文件到 Git
-git add secret.enc.yaml
-git commit -m "Add encrypted secret"
-
-# FluxCD 自动解密并部署
-```
-
-## 🎯 当前状态
-
-- ✅ 使用 FluxCD 进行 GitOps 自动化
-- ✅ 简化的领域分层架构（不使用复杂的 base/overlays 结构）
-- ✅ SOPS 加密配置完成
-- ✅ 集群决策层设计（clusters/ 决定部署什么）
-- ✅ PR 工作流程建立
-- ⏳ 准备部署第一个组件
-- 📚 在实践中学习 FluxCD...
-
-## 🛠️ 常用命令
-
-```bash
-# 查看所有 Kustomization 同步状态
-flux get kustomizations
-
-# 强制同步特定组件
-flux reconcile kustomization portainer-agent --with-source
-
-# 查看组件日志
-flux logs --kind=Kustomization --name=portainer-agent
-
-# 测试配置是否正确
-kubectl kustomize environments/core/portainer-agent
-kubectl kustomize clusters/us-west
-
-# 加密 Secret
-sops --encrypt secret.yaml > secret.enc.yaml
-
-# 解密查看
-sops --decrypt secret.enc.yaml
-
-# 验证 FluxCD 健康状态
-flux check
-```
-
-## 📖 技术栈
-
-- **GitOps 工具**: FluxCD v2.7.2
-- **密钥管理**: SOPS + age
-- **存储**: Longhorn
-- **网络**: Tailscale Operator
-- **证书**: cert-manager
-- **数据库**: CloudNativePG, Redis Operator
-
-## 🤝 维护
-
-这是一个学习项目，记录了我的 Kubernetes GitOps 实践。
-
-如果你也在学习 GitOps，欢迎参考这个仓库的结构和设计！
+All changes to the infrastructure must be made through a pull request. The PR will be automatically validated by the CI/CD pipelines, and a review is required before merging to the `main` branch.
