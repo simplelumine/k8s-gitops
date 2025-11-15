@@ -32,5 +32,4 @@ spec:
     persistence:
       enabled: true
       storageClass: "longhorn"
-      accessMode: ReadWriteOnce
       size: 100Mi
