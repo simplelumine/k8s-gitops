@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./environments/services/data/postgres"
+  path: "./environments/services/postgres"
   prune: true
   sourceRef:
     kind: GitRepository
