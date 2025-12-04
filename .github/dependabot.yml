@@ -3,7 +3,7 @@
 
 version: 2
 updates:
-  # GitHub Actions
+  # GitHub Actions - 保持开启，非常有价值
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -13,20 +13,6 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
-    commit-message:
-      prefix: "chore(deps)"
-      include: "scope"
-
-  # Docker images in Kubernetes manifests
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "tuesday"
-    open-pull-requests-limit: 10
-    labels:
-      - "dependencies"
-      - "docker"
     commit-message:
       prefix: "chore(deps)"
       include: "scope"
