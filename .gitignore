@@ -1,36 +1,30 @@
-# Local secrets - 永远不要提交这些文件！
 .local-secrets/
 !.local-secrets/README.md
 
-# 未加密的 secret 文件 - 这些应该被 SOPS 加密后再提交
 **/repository-secret.yaml
 **/*-secret.yaml
 !**/*-secret.yaml.example
 
-# ✅ 允许提交的加密文件
-!**/*.sops.yaml      # SOPS 加密的文件可以提交
-!**/*-sealed-secret.yaml  # Sealed Secrets 可以提交
+!**/*.sops.yaml
+!**/*-sealed-secret.yaml
 
-# Backup files
 *.bak
 *.backup
 
-# Local development
 .DS_Store
 .vscode/
 .idea/
 .claude/
 test
 
-# SOPS 私钥 - 绝对不能提交！
 *.agekey
 **/keys.txt
 age.key
 
-# 临时文件
 test-secret*.yaml
 *.tmp
 
 infrastructure
 .gemini/
 gha-creds-*.json
+.temp/

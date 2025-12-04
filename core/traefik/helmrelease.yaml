@@ -1,0 +1,71 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: traefik
+      version: 33.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: traefik
+      interval: 12h
+  values:
+    # Deployment configuration
+    deployment:
+      replicas: 1
+
+    # Global arguments
+    globalArguments:
+      - "--global.checknewversion"
+
+    # Service configuration
+    service:
+      type: LoadBalancer
+
+    # Ports configuration
+    ports:
+      web:
+        port: 80
+        expose:
+          default: true
+      websecure:
+        port: 443
+        expose:
+          default: true
+        tls:
+          enabled: true
+      metrics:
+        port: 9100
+        expose:
+          default: false
+
+    # Enable access logs
+    logs:
+      general:
+        level: INFO
+      access:
+        enabled: true
+
+    # Metrics configuration
+    metrics:
+      prometheus:
+        enabled: true
+
+    # Resource requests and limits
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+
+    # Enable dashboard (optional, secure it properly in production)
+    ingressRoute:
+      dashboard:
+        enabled: false

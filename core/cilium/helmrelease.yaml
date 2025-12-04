@@ -1,0 +1,76 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: cilium
+      version: 1.16.5
+      sourceRef:
+        kind: HelmRepository
+        name: cilium
+        namespace: kube-system
+      interval: 12h
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  values:
+    k8sServiceHost: localhost
+    k8sServicePort: 6443
+    kubeProxyReplacement: strict
+    hostFirewall:
+      enabled: true
+    routingMode: tunnel
+    tunnelProtocol: vxlan
+    mtu: 1400
+    encryption:
+      enabled: true
+      type: wireguard
+      nodeEncryption: true
+    cni:
+      exclusive: false
+      install: true
+    operator:
+      enabled: true
+      replicas: 1
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          memory: 256Mi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    hubble:
+      enabled: true
+      relay:
+        enabled: true
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
+      ui:
+        enabled: true
+        replicas: 1
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
+    ipv4NativeRoutingCIDR: 10.42.0.0/16
+    prometheus:
+      enabled: true
+    securityContext:
+      privileged: true

@@ -1,9 +1,9 @@
 creation_rules:
-  # Kubernetes Secret 加密规则
-  # 只加密 data 和 stringData 字段，其他保持可读
+  # Kubernetes Secret encryption rules
+  # Only encrypt data and stringData fields, keep others readable
   - path_regex: .*\.sops\.yaml$
     encrypted_regex: ^(data|stringData)$
     age: age1dhr8f8ze9ymr9cu9kmkw5w7feg6e5lae7ggjug4e5x87fukudydspd0fpx
 
-  # 默认规则（加密整个文件）
+  # Default rule (encrypt entire file)
   - age: age1dhr8f8ze9ymr9cu9kmkw5w7feg6e5lae7ggjug4e5x87fukudydspd0fpx

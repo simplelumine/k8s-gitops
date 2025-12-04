@@ -1,61 +1,54 @@
-# Kubernetes GitOps Repository
+# k8s-gitops
 
-This repository contains the full configuration for a Kubernetes infrastructure managed via GitOps principles. It uses a declarative approach, with Git as the single source of truth for all system and application configurations.
+Declarative Kubernetes cluster management. A GitOps repository powered by Flux to reconcile the platform and applications.
 
-## Core Principles
+## Architecture
 
-- **Declarative:** All configurations are defined as code in this repository.
-- **Versioned and Immutable:** Git's version history provides a complete, auditable trail of all changes.
-- **Automated:** CI/CD pipelines automate the validation and deployment of changes.
-- **Continuous Reconciliation:** A GitOps operator (like Flux CD) ensures the cluster state always matches the configuration in Git.
+This repository uses a layered GitOps architecture to manage multiple environments (Sandbox & Production) from a single source of truth.
 
-## Architectural Philosophy
+> 📖 **Deep Dive**: For a detailed explanation of the design philosophy, resource management strategy, and architectural layers, please read [ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
-This repository follows a layered and modular architectural approach, designed for clarity, scalability, and security.
+### Directory Structure
 
-- **`core/` (The Foundation):** This layer contains the operators and controllers that extend Kubernetes itself. This is the stable, rarely-touched bedrock of the platform (e.g., `cert-manager`, `longhorn`).
-- **`services/` (The Platform Layer):** This layer contains the instances and deployments created *by* the `core` operators or that provide shared functionality. These are the consumable, often stateful, and swappable components that support your applications (e.g., a PostgreSQL cluster, Prometheus for monitoring).
-- **`apps/` (The Application Layer):** This layer contains the final, user-facing applications.
-
-This separation allows for clear dependency management and isolates the foundational components from the more dynamic application and service layers.
-
-## Repository Structure
-
-```
+```text
 .
-├── .github/              # GitHub Actions workflows for CI/CD
-├── clusters/             # Cluster-specific configurations (staging, production)
-│   ├── staging/
-│   └── us-west/
-└── environments/         # Environment-agnostic application and service definitions
-    ├── apps/             # User-facing applications
-    ├── core/             # Core infrastructure services (e.g., cert-manager, longhorn)
-    └── services/         # Data services (e.g., databases, message queues)
+├── clusters/             # Cluster definitions (The "Control Plane")
+│   ├── production/       # Production environment (Tracks Tags)
+│   │   └── overlays/     # Production-specific component selection & patches
+│   └── sandbox/          # Sandbox environment (Tracks Main)
+│       └── overlays/     # Sandbox-specific component selection & patches
+├── core/                 # Base Infrastructure (Cilium, Cert-Manager, Traefik, etc.)
+├── services/             # Platform Services (Databases, Monitoring, etc.)
+└── apps/                 # User Applications
 ```
 
-## Namespace and Resource Management Strategy
+### Environment Strategy
 
-This repository adopts a **one-namespace-per-component** strategy. While GitOps tools like Flux simplify cleanup, the primary reasons for this strategy are security, isolation, and control during runtime.
+We use a **Cluster-centric Overlay** pattern. The `core`, `services`, and `apps` directories contain stateless "Base" definitions. The `clusters/<env>/overlays` directories act as the control panel, deciding *which* components to deploy and *how* to configure them for that specific environment.
 
-- **Security:** Dedicated namespaces are the foundation for `NetworkPolicy` rules, creating a firewall between components and enforcing a zero-trust model.
-- **Access Control (RBAC):** Permissions can be scoped to a specific namespace, enforcing the principle of least privilege.
-- **Clarity:** This approach provides a clean separation of resources, making it easier to manage and troubleshoot individual components.
+| Feature | Sandbox Cluster | Production Cluster |
+| :--- | :--- | :--- |
+| **Source** | Tracks `main` branch (Bleeding Edge) | Tracks Git Tags (e.g., `v1.0.0`) (Stable) |
+| **Purpose** | Testing, experimentation, rapid iteration | Stable services, long-running workloads |
+| **Management** | Components enabled/disabled on demand | Components strictly versioned and controlled |
 
-Each component in the `core`, `services`, and `apps` directories will have its own namespace defined within its folder, which Flux will manage automatically.
+## Prerequisites & Initialization
 
-### Pod `limits` vs. Namespace `ResourceQuota`
+Before bootstrapping this GitOps repository, the underlying infrastructure (servers, OS, K3s, CNI) must be provisioned.
 
-A key concept in this architecture is the complementary relationship between pod-level resource limits and namespace-level resource quotas.
+Please refer to the **[infra-provisioning](https://github.com/simplelumine/infra-provisioning)** repository for:
+*   Server provisioning (Ansible)
+*   K3s cluster initialization (with specific flags to disable conflicting components)
+*   Base networking setup (Cilium)
 
-- **Pod `requests` and `limits`** are set on individual deployments to define the resource needs and containment for a single instance of an application.
-- **Namespace `ResourceQuota`** acts as a higher-level administrative budget for the entire namespace. It limits the *sum total* of resources that all pods within that namespace can consume.
+## Workflow
 
-This is crucial in a declarative, multi-replica environment. While a pod's `limit` might be small, a change in a Git commit that increases the `replicas` count could lead to a massive aggregate resource request. The `ResourceQuota` serves as a vital safety rail, preventing a single namespace from accidentally starving the entire cluster by exceeding its allocated budget. This ensures that scalability does not come at the cost of platform stability.
+1.  **Development**: Changes are pushed to the `main` branch.
+2.  **Sandbox Sync**: The Sandbox cluster automatically reconciles the latest changes from `main`.
+3.  **Verification**: Components are tested in the Sandbox environment.
+4.  **Release**: A new Git Tag (e.g., `v1.0.1`) is pushed.
+5.  **Production Sync**: The Production cluster detects the new tag and updates itself safely.
 
-## Secrets Management
+## Secrets
 
-Secrets are encrypted using [SOPS](https://github.com/mozilla/sops) and can be safely committed to the repository. The GitOps operator is configured with the necessary decryption keys to apply the secrets in the cluster.
-
-## Contributing
-
-All changes to the infrastructure must be made through a pull request. The PR will be automatically validated by the CI/CD pipelines, and a review is required before merging to the `main` branch.
+Secrets are encrypted using [SOPS](https://github.com/mozilla/sops) and committed safely to the repository. Flux decrypts them inside the cluster using private keys.
