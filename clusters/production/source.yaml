@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: flux-system-prod
+  namespace: flux-system
+spec:
+  interval: 10m
+  url: https://github.com/simplelumine/k8s-gitops
+  ref:
+    tag: v0.0.0 # Placeholder: Update this to your actual release tag
