@@ -3,7 +3,7 @@
 
 version: 2
 updates:
-  # GitHub Actions - 保持开启，非常有价值
+  # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
