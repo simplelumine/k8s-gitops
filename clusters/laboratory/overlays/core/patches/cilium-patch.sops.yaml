@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+    name: cilium
+    namespace: kube-system
+spec:
+    values:
+        # Lab Control Plane IP (from hosts.ini: lab-lax-cp-01)
+        k8sServiceHost: ENC[AES256_GCM,data:pZ7YVGy1YO4GCItP,iv:1d+pRG/D0ciXrEYDzt5+7pDXTaq/8fd/XfX+azaBK64=,tag:6gorf0eF2IVOqcS0ill/nw==,type:str]
+        k8sServicePort: 6443
+sops:
+    age:
+        - recipient: age1dhr8f8ze9ymr9cu9kmkw5w7feg6e5lae7ggjug4e5x87fukudydspd0fpx
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBhK2hoQ0wwdmVUVzFOd1dv
+            bnh5ZW82NUo0Tlo1bm5tN0ZvdDdHaG1CMlZrCmhyTXVYV0lwZGxMMHRlNVhYUWVV
+            MHBkY0hIc0pSR2dHdjlzM2R3RHV3R0UKLS0tIDZ6UGtJcFFDb1AvOFJBeVpJc21v
+            TytzNUxxNFhUNjRHTTlwa3dYdGE3blkKLfMoDBd0Jhx1UqOI/fFl9bP4vF/P3xdt
+            GEUdbctkzMw3UrJNFQqMUSmlWUq/rGvee8TmYWkraZdS5R1YN3qISA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-12-10T14:35:49Z"
+    mac: ENC[AES256_GCM,data:QzFIbArGtnU2q69D5VSSWSXot8kTCtkVeihHCkx9Vs+MxDqzZlqCcI/SdxVHa77OPsLjFfHYVfwRy0nM2YiJPzRuW18tncYJO+XVXsvMkcrZS5nIhDesHQFYamXylYMgnOCh9tTNChmoeCMxq1+FSTUoyqESxIJZn/JAnOdn9no=,iv:CYgP0xgX3jfBUn2ECslUwsbNUzTr8leYIG8LTjM+EoQ=,tag:/EFM1fp0TeLTPL/pmW6aHw==,type:str]
+    encrypted_regex: ^(k8sServiceHost)$
+    version: 3.11.0

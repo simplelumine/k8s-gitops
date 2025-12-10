@@ -6,8 +6,6 @@ Declarative Kubernetes cluster management. A GitOps repository powered by Flux t
 
 This repository uses a layered GitOps architecture to manage multiple environments (laboratory & Production) from a single source of truth.
 
-> 📖 **Deep Dive**: For a detailed explanation of the design philosophy, resource management strategy, and architectural layers, please read [ARCHITECTURE.md](docs/ARCHITECTURE.md).
-
 ### Directory Structure
 
 ```text
@@ -52,3 +50,27 @@ Please refer to the **[infra-provisioning](https://github.com/simplelumine/infra
 ## Secrets
 
 Secrets are encrypted using [SOPS](https://github.com/mozilla/sops) and committed safely to the repository. Flux decrypts them inside the cluster using private keys.
+
+
+## Fast-Terminal
+
+```bash
+flux --version
+flux check --pre
+
+export GITHUB_TOKEN=<Github_PAT_Token>
+export GITHUB_USER=<Github_Username>
+
+flux bootstrap github \
+  --owner=$GITHUB_USER \
+  --repository=k8s-gitops \
+  --branch=main \
+  --path=./clusters/laboratory \
+  --personal \
+  --timeout=5m
+
+flux get kustomizations -A
+
+sops --encrypt --in-place <path>.yaml
+
+```
