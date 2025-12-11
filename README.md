@@ -69,8 +69,18 @@ flux bootstrap github \
   --personal \
   --timeout=5m
 
+kubectl create secret generic sops-age `
+  --namespace=flux-system `
+  --from-file=age.agekey="$env:APPDATA\sops\age\keys.txt"
+
 flux get kustomizations -A
 
 sops --encrypt --in-place <path>.yaml
 
+kubectl annotate gitrepository flux-system -n flux-system reconcile.fluxcd.io/requestedAt="now" --overwrite
+kubectl annotate kustomization core -n flux-system reconcile.fluxcd.io/requestedAt="now" --overwrite
+
+flux reconcile kustomization core -n flux-system --with-source --timeout=5m
+
+flux get kustomization core -n flux-system
 ```

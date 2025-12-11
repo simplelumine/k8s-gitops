@@ -1,0 +1,15 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cilium
+  namespace: kube-system
+spec:
+  valuesFrom:
+    - kind: Secret
+      name: cilium-secret
+  values:
+    hubble:
+      relay:
+        enabled: true
+      ui:
+        enabled: true
