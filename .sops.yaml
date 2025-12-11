@@ -4,9 +4,9 @@ creation_rules:
     encrypted_regex: ^(k8sServiceHost)$
     age: age1dhr8f8ze9ymr9cu9kmkw5w7feg6e5lae7ggjug4e5x87fukudydspd0fpx
 
-  # Encrypt specific fields for Cilium Values Secret (Audit Friendly)
+  # Encrypt specific fields for Cilium Values Secret (Standard Pattern)
   - path_regex: .*/cilium-secret\.sops\.yaml$
-    encrypted_regex: ^(k8sServiceHost|k8sServicePort)$
+    encrypted_regex: ^(data|stringData)$
     age: age1dhr8f8ze9ymr9cu9kmkw5w7feg6e5lae7ggjug4e5x87fukudydspd0fpx
 
   # Kubernetes Secret encryption rules (default)

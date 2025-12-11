@@ -7,12 +7,6 @@ spec:
   valuesFrom:
     - kind: Secret
       name: cilium-secret
-      valuesKey: k8sServiceHost
-      targetPath: k8sServiceHost
-    - kind: Secret
-      name: cilium-secret
-      valuesKey: k8sServicePort
-      targetPath: k8sServicePort
   values:
     hubble:
       relay:
