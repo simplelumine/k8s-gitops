@@ -2,6 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../../../core/cilium
+  - secrets/cilium-secret.sops.yaml
   # - ../../../../core/cert-manager
   # - ../../../../core/cloudnative-pg
   # - ../../../../core/longhorn
@@ -9,7 +10,7 @@ resources:
   # - ../../../../core/tailscale-operator
 
 patches:
-  - path: patches/cilium-patch.sops.yaml
+  - path: patches/cilium.yaml
     target:
       kind: HelmRelease
       name: cilium
