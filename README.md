@@ -62,6 +62,7 @@ Secrets are encrypted using [SOPS](https://github.com/mozilla/sops) and committe
 
 ## Fast-Terminal
 
+### Bootstrap Flux
 ```bash
 flux --version
 flux check --pre
@@ -82,13 +83,14 @@ kubectl create secret generic sops-age `
   --from-file=age.agekey="$env:APPDATA\sops\age\keys.txt"
 
 flux get kustomizations -A
+```
 
-sops --encrypt --in-place <path>.yaml
+### Debugging
+```bash
+sops --encrypt --in-place clusters/<path>.yaml
 
-kubectl annotate gitrepository flux-system -n flux-system reconcile.fluxcd.io/requestedAt="now" --overwrite
-kubectl annotate kustomization core -n flux-system reconcile.fluxcd.io/requestedAt="now" --overwrite
-
-flux reconcile kustomization core -n flux-system --with-source --timeout=5m
-
+flux get kustomizations -n flux-system
 flux get kustomization core -n flux-system
+flux get helmreleases -n kube-system
+
 ```
