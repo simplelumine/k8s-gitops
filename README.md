@@ -96,7 +96,11 @@ sops -d clusters/laboratory/overlays/core/secrets/cilium-secret.sops.yaml
 
 ### Flux Debugging
 ```bash
-flux get kustomizations -n flux-system
-flux get kustomization core -n flux-system
-flux get helmreleases -n kube-system
+flux reconcile kustomization flux-system --with-source
+flux reconcile kustomization core
+flux reconcile helmrelease <apps> -n <namespace>
+
+flux get helmreleases -n <namespace>
+helm get values <apps> -n <namespace> --all
+kubectl get pods -n <namespace> -l k8s-app=<apps> -w
 ```
