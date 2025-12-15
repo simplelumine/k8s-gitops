@@ -96,8 +96,9 @@ sops -d clusters/laboratory/overlays/core/secrets/cilium-secret.sops.yaml
 
 ### Flux Debugging
 ```bash
+flux reconcile source git flux-system --with-source
 flux reconcile kustomization flux-system --with-source
-flux reconcile kustomization core
+flux reconcile kustomization core --with-source
 flux reconcile helmrelease <name> -n <namespace>
 flux get helmreleases --all-namespaces
 flux get helmreleases -n <namespace>
