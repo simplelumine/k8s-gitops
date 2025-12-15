@@ -22,6 +22,8 @@ spec:
     logs:
       access:
         enabled: true
+    service:
+      type: ClusterIP
     ports:
       web:
         redirections:
