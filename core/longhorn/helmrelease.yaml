@@ -22,5 +22,6 @@ spec:
     defaultSettings:
       defaultDataPath: /var/lib/longhorn
     persistence:
-      defaultClass: true
-      defaultClassReplicaCount: "2"
+      defaultClassReplicaCount: 2 # Optimizing for small clusters, 3 is default
+    preUpgradeChecker:
+      jobEnabled: false
