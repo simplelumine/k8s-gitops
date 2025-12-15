@@ -24,4 +24,8 @@ spec:
         enabled: true
     ports:
       web:
-        redirectTo: websecure
+        redirections:
+          entryPoint:
+            to: websecure
+            scheme: https
+            permanent: true
