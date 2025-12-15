@@ -98,16 +98,23 @@ sops -d clusters/laboratory/overlays/core/secrets/cilium-secret.sops.yaml
 ```bash
 flux reconcile kustomization flux-system --with-source
 flux reconcile kustomization core
-flux reconcile helmrelease <apps> -n <namespace>
+flux reconcile helmrelease <name> -n <namespace>
 
+flux get helmreleases --all-namespaces
 flux get helmreleases -n <namespace>
-helm get values <apps> -n <namespace> --all
-kubectl get pods -n <namespace> -l k8s-app=<apps> -w
 ```
 
 ### Helm Debugging
 ```bash
 helm repo list
 helm repo update
-helm search repo <apps>
+helm search repo <name>
+```
+
+### Kubectl Debugging
+```bash
+kubectl get all -n <namespace>
+kubectl get deployment <name> -n <namespace> -o yaml
+kubectl get pods -n <namespace> -l k8s-app=<name> -w
+kubectl get helmrelease <name> -n <namespace> -o yaml
 ```
