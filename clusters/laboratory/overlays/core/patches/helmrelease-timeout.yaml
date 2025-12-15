@@ -1,0 +1,10 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: all-helmreleases
+  namespace: flux-system # Ignored by patch target, but good for validation
+spec:
+  install:
+    timeout: 30m
+  upgrade:
+    timeout: 30m

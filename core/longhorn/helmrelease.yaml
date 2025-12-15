@@ -16,10 +16,8 @@ spec:
       interval: 12h
   install:
     crds: Create
-    timeout: 10m
   upgrade:
     crds: CreateReplace
-    timeout: 10m
   values:
     defaultSettings:
       defaultDataPath: /var/lib/longhorn
