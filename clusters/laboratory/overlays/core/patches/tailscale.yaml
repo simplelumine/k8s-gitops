@@ -1,0 +1,11 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tailscale
+  namespace: tailscale
+spec:
+  values:
+    operatorConfig:
+      hostname: tailscale-operator-lab
+      tags: tag:k8s-operator-lab
+    defaultTags: tag:k8s-lab
