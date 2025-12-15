@@ -9,6 +9,7 @@ spec:
     operatorConfig:
       hostname: tailscale-operator-lab
       tags:
-        - tag:k8s-operator-lab
-    defaultTags:
-      - tag:k8s-lab
+        - "tag:k8s-operator-lab"
+    proxyConfig:
+      defaultTags:
+        - "tag:k8s-lab"

@@ -29,11 +29,5 @@ spec:
       valuesKey: client_secret
       targetPath: oauth.clientSecret
   values:
-    operatorConfig:
-      hostname: tailscale-operator
-      tags:
-        - tag:k8s-operator
-    defaultTags:
-      - tag:k8s
     apiServerProxyConfig:
       mode: "true"
