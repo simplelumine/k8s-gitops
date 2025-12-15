@@ -4,17 +4,20 @@ resources:
   - ../../../../core/cilium
   - secrets/cilium-secret.sops.yaml
 
-  - ../../../../core/cert-manager
-  - secrets/cloudflare-secret.sops.yaml
+  # - ../../../../core/cert-manager
+  # - secrets/cloudflare-secret.sops.yaml
 
   - ../../../../core/tailscale-operator
   - secrets/tailscale-secret.sops.yaml
 
-  - ../../../../core/longhorn
+  # - ../../../../core/longhorn
   - ../../../../core/traefik
 
-  # - ../../../../core/cloudnative-pg
-  # - ../../../../core/redis-operator
+  - ../../../../core/cloudnative-pg
+  - ../../../../core/redis-operator
+
+  # - ../../../../core/cloudflared
+  # - secrets/cloudflare-tunnel-secret.sops.yaml
 
 patches:
   - path: patches/tailscale.yaml
@@ -27,13 +30,13 @@ patches:
       kind: HelmRelease
       name: cilium
       namespace: kube-system
-  - path: patches/helmrelease-timeout.yaml
-    target:
-      kind: HelmRelease
-      name: traefik
-      namespace: traefik
-  - path: patches/helmrelease-timeout.yaml
-    target:
-      kind: HelmRelease
-      name: longhorn
-      namespace: longhorn-system
+  # - path: patches/helmrelease-timeout.yaml
+  #   target:
+  #     kind: HelmRelease
+  #     name: traefik
+  #     namespace: traefik
+  # - path: patches/helmrelease-timeout.yaml
+  #   target:
+  #     kind: HelmRelease
+  #     name: longhorn
+  #     namespace: longhorn-system
