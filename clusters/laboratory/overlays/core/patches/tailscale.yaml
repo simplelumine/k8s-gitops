@@ -4,8 +4,11 @@ metadata:
   name: tailscale
   namespace: tailscale
 spec:
+  interval: 1h
   values:
     operatorConfig:
       hostname: tailscale-operator-lab
-      tags: tag:k8s-operator-lab
-    defaultTags: tag:k8s-lab
+      tags:
+        - tag:k8s-operator-lab
+    defaultTags:
+      - tag:k8s-lab
