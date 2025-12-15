@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: traefik
+      version: "37.4.0" # Traefik v3.x latest
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: traefik
+      interval: 12h
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  values:
+    logs:
+      access:
+        enabled: true
+    ports:
+      web:
+        redirectTo: websecure

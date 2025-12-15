@@ -88,9 +88,7 @@ flux get kustomizations -A
 ### Encrypting Secrets
 ```bash
 sops --encrypt --in-place <-secret.sops.yaml>
-
 sops --encrypt --filename-override <-secret.sops.yaml> <-secret.yaml>
-
 sops -d clusters/laboratory/overlays/core/secrets/cilium-secret.sops.yaml
 ```
 
@@ -109,6 +107,7 @@ flux get helmreleases -n <namespace>
 helm repo list
 helm repo update
 helm search repo <name>
+helm show values <repo>/<apps> --version <version> > .<path>
 ```
 
 ### Kubectl Debugging
@@ -118,7 +117,6 @@ kubectl get helmrelease <name> -n <namespace> -o yaml
 kubectl get secret <name> -n <namespace> -o yaml
 kubectl get deployment <name> -n <namespace> -o yaml
 kubectl get pods -n <namespace> -l k8s-app=<name> -w
-kubectl rollout restart deployment <name> -n <namespace>
 kubectl logs -n <namespace> -l app=<name> --tail=50
-
+kubectl rollout restart deployment <name> -n <namespace>
 ```
