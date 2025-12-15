@@ -85,12 +85,18 @@ kubectl create secret generic sops-age `
 flux get kustomizations -A
 ```
 
-### Debugging
+### Encrypting Secrets
 ```bash
-sops --encrypt --in-place clusters/<path>.yaml
+sops --encrypt --in-place <-secret.sops.yaml>
 
+sops --encrypt --filename-override <-secret.sops.yaml> <-secret.yaml>
+
+sops -d clusters/laboratory/overlays/core/secrets/cilium-secret.sops.yaml
+```
+
+### Flux Debugging
+```bash
 flux get kustomizations -n flux-system
 flux get kustomization core -n flux-system
 flux get helmreleases -n kube-system
-
 ```
