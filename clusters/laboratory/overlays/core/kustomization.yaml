@@ -5,12 +5,15 @@ resources:
   - secrets/cilium-secret.sops.yaml 
 
   - ../../../../core/cert-manager
-  - secrets/cloudflare-secret.sops.yaml 
+  - secrets/cloudflare-secret.sops.yaml
 
   - ../../../../core/tailscale-operator
   - secrets/tailscale-secret.sops.yaml 
+
+  - ../../../../core/longhorn
+  - ../../../../core/traefik
+
   # - ../../../../core/cloudnative-pg
-  # - ../../../../core/longhorn
   # - ../../../../core/redis-operator
 
 patches:
