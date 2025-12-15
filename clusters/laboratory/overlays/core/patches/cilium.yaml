@@ -4,9 +4,11 @@ metadata:
   name: cilium
   namespace: kube-system
 spec:
+  valuesFrom:
+    - kind: Secret
+      name: cilium-secret
+      valuesKey: values.yaml
   values:
-    k8sServiceHost: "96.44.157.40"
-    k8sServicePort: "6443"
     hubble:
       relay:
         enabled: true
