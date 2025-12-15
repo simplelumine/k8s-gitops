@@ -104,3 +104,10 @@ flux get helmreleases -n <namespace>
 helm get values <apps> -n <namespace> --all
 kubectl get pods -n <namespace> -l k8s-app=<apps> -w
 ```
+
+### Helm Debugging
+```bash
+helm repo list
+helm repo update
+helm search repo <apps>
+```

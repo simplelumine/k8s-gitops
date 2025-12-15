@@ -9,41 +9,15 @@ spec:
   chart:
     spec:
       chart: cert-manager
-      version: v1.19.1
+      version: "v1.19.2"
       sourceRef:
         kind: HelmRepository
-        name: cert-manager
+        name: jetstack
         namespace: cert-manager
       interval: 12h
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
   values:
     installCRDs: true
-
-    # Enable prometheus monitoring
-    prometheus:
-      enabled: true
-
-    # Resource requests and limits
-    resources:
-      requests:
-        cpu: 10m
-        memory: 32Mi
-      limits:
-        memory: 128Mi
-
-    # Webhook configuration
-    webhook:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 32Mi
-        limits:
-          memory: 128Mi
-
-    # CA Injector configuration
-    cainjector:
-      resources:
-        requests:
-          cpu: 10m
-          memory: 32Mi
-        limits:
-          memory: 128Mi

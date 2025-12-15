@@ -3,13 +3,22 @@ kind: Kustomization
 resources:
   - ../../../../core/cilium
   - secrets/cilium-secret.sops.yaml 
-  # - ../../../../core/cert-manager
+
+  - ../../../../core/cert-manager
+  - secrets/cloudflare-secret.sops.yaml 
+
+  - ../../../../core/tailscale-operator
+  - secrets/tailscale-secret.sops.yaml 
   # - ../../../../core/cloudnative-pg
   # - ../../../../core/longhorn
   # - ../../../../core/redis-operator
-  # - ../../../../core/tailscale-operator
 
 patches:
+  - path: patches/tailscale.yaml
+    target:
+      kind: HelmRelease
+      name: tailscale
+      namespace: tailscale
   - path: patches/cilium.yaml
     target:
       kind: HelmRelease
