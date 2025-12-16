@@ -113,9 +113,11 @@ helm show values <repo>/<apps> --version <version> > .<path>
 ```bash
 kubectl get all -n <namespace>
 kubectl get helmrelease <name> -n <namespace> -o yaml
+kubectl describe helmrelease <name> -n <namespace>
 kubectl get secret <name> -n <namespace> -o yaml
 kubectl get deployment <name> -n <namespace> -o yaml
-kubectl get pods -n <namespace> -l k8s-app=<name> -w
-kubectl logs -n <namespace> -l app=<name> --tail=50
-kubectl rollout restart deployment <name> -n <namespace>
+kubectl logs -n <namespace> deployment/<deployment> --tail=50
+kubectl logs -n <namespace> pod/<pod> --tail=50
+kubectl delete helmrelease <name> -n <namespace>
+kubectl rollout restart deployment <deployment> -n <namespace>
 ```
