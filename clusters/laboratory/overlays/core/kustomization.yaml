@@ -10,14 +10,14 @@ resources:
   - ../../../../core/tailscale-operator
   - secrets/tailscale-secret.sops.yaml
 
-  - ../../../../core/longhorn
-  - ../../../../core/traefik
+  # - ../../../../core/longhorn
+  # - ../../../../core/traefik
 
   # - ../../../../core/cloudnative-pg
   # - ../../../../core/redis-operator
 
-  # - ../../../../core/cloudflared
-  # - secrets/cloudflare-tunnel-secret.sops.yaml
+  - ../../../../core/cloudflared
+  - secrets/cloudflare-tunnel-secret.sops.yaml
 
 patches:
   - path: patches/tailscale.yaml
