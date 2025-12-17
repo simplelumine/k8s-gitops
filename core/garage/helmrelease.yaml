@@ -1,0 +1,50 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: garage
+  namespace: garage
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: ./scripts/helm/garage
+      sourceRef:
+        kind: GitRepository
+        name: garage
+        namespace: garage
+  values:
+    replicaCount: 3
+
+    image:
+      tag: v2.1.0
+
+    garage:
+      # v1.0+ Configuration
+      replication_factor: 3
+      consistency_mode: consistent
+
+      # Database engine: lmdb is default (fast), sqlite is robust.
+      # Users reported corruption with LMDB on unclean shutdowns.
+      db_engine: sqlite
+
+      # Block size (1MB default)
+      block_size: 1048576
+
+    persistence:
+      enabled: true
+      type: hostPath
+      hostPath: /var/lib/garage
+
+    # RPC Secret acts as the shared key for the cluster
+    # It must be generated and consistent across all nodes.
+    # We will inject this via an environment variable from a Secret in production.
+    # For now, we rely on the chart's mechanism or manual set up if the chart autogenerates it.
+
+    # Topology spread constraints are preferred over affinity in modern k8s
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: garage
