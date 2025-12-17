@@ -1,0 +1,31 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vm-stack
+  namespace: monitoring
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: victoria-metrics-k8s-stack
+      version: "0.66.x"
+      sourceRef:
+        kind: HelmRepository
+        name: victoriametrics
+        namespace: monitoring
+  values:
+    # Disable components if you want a lighter stack, but by default this installs:
+    # - vmsingle (storage)
+    # - vmalert (alerting)
+    # - vmagent (scraper)
+    # - grafana (UI)
+
+    grafana:
+      enabled: true
+      sidecar:
+        dashboards:
+          enabled: true
+          label: grafana_dashboard
+        datasources:
+          enabled: true
+          label: grafana_datasource
