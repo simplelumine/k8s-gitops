@@ -1,0 +1,30 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: juicefs-db
+  namespace: juicefs
+spec:
+  instances: 3
+
+  # Local storage for high performance and HA via CNPG application replication
+  storage:
+    size: 10Gi
+    # Ensure this uses a Local PV storage class if available, or standard if it maps to local
+    # If uncertain, we use the default (which might be Longhorn, caveat from plan applied:
+    # Longhorn should be configured to local-only for databases if used).
+    # Ideally use a 'local-path' SC if available.
+
+  # Bootstrap method: initdb (empty)
+  bootstrap:
+    initdb:
+      database: juicefs
+      owner: juicefs
+
+  # High Availability settings
+  primaryUpdateStrategy: unsupervised
+
+  # Backup configuration (optional but recommended)
+  # backup:
+  #   barmanObjectStore:
+  #     destinationPath: s3://backups/
+  #     ...

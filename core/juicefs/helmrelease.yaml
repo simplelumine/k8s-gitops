@@ -1,0 +1,21 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: juicefs-csi-driver
+  namespace: juicefs
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: juicefs-csi-driver
+      version: "0.30.x"
+      sourceRef:
+        kind: HelmRepository
+        name: juicedata
+        namespace: juicefs
+  values:
+    # Standard CSI driver values
+    controller:
+      replicas: 1
+    node:
+      enable: true
