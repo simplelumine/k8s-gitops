@@ -1,0 +1,18 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: juicefs-sc
+provisioner: csi.juicefs.com
+parameters:
+  # Reference the secret that holds S3 and DB credentials
+  csi.storage.k8s.io/node-publish-secret-name: juicefs-secret
+  csi.storage.k8s.io/node-publish-secret-namespace: juicefs
+  csi.storage.k8s.io/provisioner-secret-name: juicefs-secret
+  csi.storage.k8s.io/provisioner-secret-namespace: juicefs
+  csi.storage.k8s.io/controller-expand-secret-name: juicefs-secret
+  csi.storage.k8s.io/controller-expand-secret-namespace: juicefs
+
+  # Dynamic provisioning pattern
+  pathPattern: "${.PVC.namespace}/${.PVC.name}"
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
