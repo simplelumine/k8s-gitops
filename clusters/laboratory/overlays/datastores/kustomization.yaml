@@ -1,6 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources: []
-  # - ../../../../datastores/garage
+resources:
+  - ../../../../datastores/garage
+  - secrets/garage-secret.sops.yaml
+
   # - ../../../../datastores/juicefs
+  # - secrets/juicefs-secret.sops.yaml
   # - ../../../../datastores/longhorn # Not used, kept for reference
