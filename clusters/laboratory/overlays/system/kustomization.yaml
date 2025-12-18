@@ -7,14 +7,14 @@ resources:
   - ../../../../system/tailscale-operator
   - secrets/tailscale-secret.sops.yaml
 
+  - ../../../../system/cloudflared
+  - secrets/cloudflare-tunnel-secret.sops.yaml
+
   # - ../../../../system/cert-manager
   # - secrets/cloudflare-secret.sops.yaml
 
   # - ../../../../system/cloudnative-pg
   # - ../../../../system/redis-operator
-
-  - ../../../../system/cloudflared
-  - secrets/cloudflare-tunnel-secret.sops.yaml
 
 patches:
   - path: patches/tailscale.yaml

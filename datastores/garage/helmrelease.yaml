@@ -38,7 +38,9 @@ spec:
     # RPC Secret acts as the shared key for the cluster
     # It must be generated and consistent across all nodes.
     # We will inject this via an environment variable from a Secret in production.
-    # For now, we rely on the chart's mechanism or manual set up if the chart autogenerates it.
+    envFrom:
+      - secretRef:
+          name: garage-secret
 
     # Topology spread constraints are preferred over affinity in modern k8s
     topologySpreadConstraints:

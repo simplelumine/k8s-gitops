@@ -96,7 +96,7 @@ sops -d clusters/laboratory/overlays/core/secrets/cilium-secret.sops.yaml
 ```bash
 flux reconcile source git flux-system --with-source
 flux reconcile kustomization flux-system --with-source
-flux reconcile kustomization core --with-source
+flux reconcile kustomization system --with-source
 flux get helmreleases --all-namespaces
 flux get helmreleases -n <namespace>
 ```
