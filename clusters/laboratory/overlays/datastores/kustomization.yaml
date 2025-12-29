@@ -4,6 +4,15 @@ resources:
   - ../../../../datastores/garage
   - secrets/garage-secret.sops.yaml
 
-  # - ../../../../datastores/juicefs
-  # - secrets/juicefs-secret.sops.yaml
+  - ../../../../datastores/juicefs
+  - secrets/juicefs-secret.sops.yaml
+
+  - ../../../../datastores/postgres
+  - ../../../../datastores/redis
+
   # - ../../../../datastores/longhorn # Not used, kept for reference
+
+patches:
+  - path: garage-patch.yaml
+  - path: postgres-patch.yaml
+  - path: redis-patch.yaml

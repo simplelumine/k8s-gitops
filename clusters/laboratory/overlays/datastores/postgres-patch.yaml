@@ -1,0 +1,8 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-ha
+  namespace: postgres
+spec:
+  # Downgrade to 2 instances for Lab cluster (2 nodes)
+  instances: 2
