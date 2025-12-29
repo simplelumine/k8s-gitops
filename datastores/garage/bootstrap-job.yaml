@@ -13,7 +13,7 @@ rules:
   # Allow reading the CNPG secret to get DB password
   - apiGroups: [""]
     resources: ["secrets"]
-    resourceNames: ["juicefs-secret", "juicefs-db-app"]
+    resourceNames: ["juicefs-secret", "juicefs-db-juicefs"]
     verbs: ["get", "patch"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -111,7 +111,7 @@ spec:
               # Fetch Postgres Password from CNPG Secret (juicefs-db-app)
               echo "Fetching Postgres password..."
               SECRET_RESP=$(curl -s --cacert $KUBE_CA -H "Authorization: Bearer $KUBE_TOKEN" \
-                "https://kubernetes.default.svc/api/v1/namespaces/juicefs/secrets/juicefs-db-app")
+                "https://kubernetes.default.svc/api/v1/namespaces/juicefs/secrets/juicefs-db-juicefs")
 
               PG_PASS_B64=$(echo "$SECRET_RESP" | sed -n 's/.*"password": "\([^"]*\)".*/\1/p')
               if [ -z "$PG_PASS_B64" ]; then

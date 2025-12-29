@@ -1,0 +1,20 @@
+apiVersion: redis.redis.opstreelabs.in/v1beta2
+kind: RedisSentinel
+metadata:
+  name: redis-ha
+  namespace: redis
+spec:
+  # Downgrade to 2 (1 master + 1 replica) for Lab cluster
+  # Note: Sentinel quorum might be fragile with 3 Sentinels on 2 nodes,
+  # or if running 2 Sentinels (quorum=2).
+  # Operator usually handles Sentinel count separately or derives it.
+  # Assuming clusterSize controls data nodes + sentinels mostly.
+  clusterSize: 2
+---
+apiVersion: redis.redis.opstreelabs.in/v1beta2
+kind: RedisReplication
+metadata:
+  name: redis-ha
+  namespace: redis
+spec:
+  clusterSize: 2
