@@ -22,17 +22,6 @@ spec:
         cpu: 500m
         memory: 512Mi
 
-  # Persistent storage
-  storage:
-    volumeClaimTemplate:
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        storageClassName: local-path
-        resources:
-          requests:
-            storage: 2Gi
-
   # Sentinel Configuration
   redisSentinelConfig:
     redisReplicationName: redis-ha # Name of the Redis replication to monitor
