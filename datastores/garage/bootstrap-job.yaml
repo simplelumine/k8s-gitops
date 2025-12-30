@@ -60,7 +60,13 @@ spec:
               echo "Garage is ready!"
       containers:
         - name: bootstrap
-          image: dxflrs/garage:v2.1.0
+          image: alpine:3.19
+          envFrom:
+            - secretRef:
+                name: garage-secret
+          env:
+            - name: GARAGE_RPC_HOST
+              value: "garage.garage.svc.cluster.local:3901"
           command:
             - sh
             - -c
@@ -69,34 +75,32 @@ spec:
 
               echo "=== Garage & JuiceFS Auto-Bootstrap ==="
 
+              # Install dependencies and download garage CLI
+              apk add --no-cache curl jq
+              curl -L -o /usr/local/bin/garage https://garagehq.deuxfleurs.fr/_releases/v2.1.0/x86_64-unknown-linux-musl/garage
+              chmod +x /usr/local/bin/garage
+
+              # GARAGE_RPC_SECRET is injected via envFrom from garage-secret
+
               # 1. Garage Key Logic
               # -------------------
-              EXISTING_KEYS=$(garage json-api ListKeys '{}')
-              if echo "$EXISTING_KEYS" | grep -q '"name":"juicefs"'; then
+              EXISTING_KEYS=$(garage key list 2>/dev/null || echo "")
+              if echo "$EXISTING_KEYS" | grep -q 'juicefs'; then
                  echo "Key 'juicefs' already exists."
-                 # Need to fetching existing key to ensure secret is perfectly in sync? 
-                 # Usually if key exists, we assume secret is set. 
-                 # But to be robust, we fetch it again to update secret just in case.
-                 KEY_INFO=$(garage json-api GetKeyInfo '{"accessKeyId":"'$(echo "$EXISTING_KEYS" | grep -o 'GK[a-f0-9]*' | head -1)'"}')
-                 # Parsing list is complex, for safety let's skip re-patching if exists, 
-                 # or we assume user didn't delete the secret. 
-                 # Simpler logic for idempotent run: If key exists, we extract it.
-                 # Garage ListKeys returns array. We need jq for robust parsing.
-                 # Without jq in garage image, we rely on text matching carefully.
-                 echo "Existing key found. Extracting might be brittle without jq. Assuming Secret logic handles updates manually if needed."
-                 # For robust idempotency in a simple script, we just proceed to step 2 if we can't easily parse.
-                 # Better: Create a new key if not found.
+                 # Get existing key info
+                 ACCESS_KEY=$(garage key info juicefs 2>/dev/null | grep 'Key ID' | awk '{print $3}' || echo "")
+                 SECRET_KEY=$(garage key info juicefs 2>/dev/null | grep 'Secret' | awk '{print $3}' || echo "")
               else
                  echo "Creating API key for JuiceFS..."
-                 KEY_JSON=$(garage json-api CreateKey '{"name":"juicefs"}')
-                 ACCESS_KEY=$(echo "$KEY_JSON" | sed -n 's/.*"accessKeyId":"\([^"]*\)".*/\1/p')
-                 SECRET_KEY=$(echo "$KEY_JSON" | sed -n 's/.*"secretAccessKey":"\([^"]*\)".*/\1/p')
-                 garage json-api CreateBucket '{"globalAlias":"juicefs"}' || true
+                 garage key create juicefs
+                 ACCESS_KEY=$(garage key info juicefs | grep 'Key ID' | awk '{print $3}')
+                 SECRET_KEY=$(garage key info juicefs | grep 'Secret' | awk '{print $3}')
                  
-                 # Grant
-                 BUCKET_INFO=$(garage json-api GetBucketInfo '{"globalAlias":"juicefs"}')
-                 BUCKET_ID=$(echo "$BUCKET_INFO" | sed -n 's/.*"id":"\([^"]*\)".*/\1/p')
-                 garage json-api AllowBucketKey "{\"bucketId\":\"$BUCKET_ID\",\"accessKeyId\":\"$ACCESS_KEY\",\"permissions\":{\"read\":true,\"write\":true,\"owner\":true}}"
+                 # Create bucket
+                 garage bucket create juicefs || true
+                 
+                 # Grant permissions
+                 garage bucket allow --read --write --owner juicefs --key juicefs
               fi
 
               # Note: If key existed, variables are empty. 
