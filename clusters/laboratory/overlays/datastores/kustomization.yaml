@@ -7,8 +7,8 @@ resources:
   - ../../../../datastores/juicefs
   - secrets/juicefs-secret.sops.yaml
 
-  - ../../../../datastores/postgres
-  - ../../../../datastores/redis
+  # - ../../../../datastores/postgres
+  # - ../../../../datastores/redis
 
   # - ../../../../datastores/longhorn # Not used, kept for reference
 
