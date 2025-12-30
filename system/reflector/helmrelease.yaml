@@ -1,0 +1,18 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: reflector
+  namespace: reflector
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: reflector
+      version: "9.x"
+      sourceRef:
+        kind: HelmRepository
+        name: ember-stack
+  values:
+    configuration:
+      # Enable if you want to support CertManager secrets specifically, usually auto-detected
+      includeNamespaces: ""

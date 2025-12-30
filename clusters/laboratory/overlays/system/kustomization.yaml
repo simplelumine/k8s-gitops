@@ -16,6 +16,8 @@ resources:
   - ../../../../system/cloudnative-pg
   - ../../../../system/redis-operator
 
+  - ../../../../system/reflector
+
 patches:
   - path: patches/tailscale.yaml
     target:

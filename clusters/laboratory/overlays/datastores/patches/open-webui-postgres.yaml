@@ -1,0 +1,22 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-ha
+  namespace: postgres
+spec:
+  managed:
+    roles:
+      - name: open-webui
+        login: true
+        passwordSecret:
+          name: open-webui-db-user
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: open-webui-db-user
+  namespace: postgres
+  annotations:
+    reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+    reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+    reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "open-webui"
