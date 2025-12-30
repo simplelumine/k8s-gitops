@@ -5,13 +5,5 @@ resources:
   - ../../../../datastores/redis
 
 patches:
-  - path: /patches/postgres-patch.yaml
-    target:
-      kind: HelmRelease
-      name: postgres
-      namespace: postgres
-  - path: /patches/redis-patch.yaml
-    target:
-      kind: HelmRelease
-      name: redis
-      namespace: redis
+  - path: patches/postgres-patch.yaml
+  - path: patches/redis-patch.yaml
