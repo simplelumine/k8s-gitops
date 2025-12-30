@@ -1,0 +1,100 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: seaweedfs
+  namespace: seaweedfs
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: seaweedfs
+      version: ">= 4.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: seaweedfs
+        namespace: seaweedfs
+  values:
+    image:
+      registry: docker.io
+      repository: chrislusf/seaweedfs
+
+    global:
+      imageName: chrislusf/seaweedfs
+
+    # ---------------------------------------------------------
+    # 1. Backing Storage (Infrastructure Layer)
+    # Using hostPath directly for stability and performance.
+    # We avoid PVCs here to prevent circular dependencies.
+    # ---------------------------------------------------------
+    master:
+      enabled: true
+      replicas: 3
+      # Persistence for metadata (md5/sequence numbers)
+      persistence:
+        enabled: false
+
+      # Bind to host path for robustness
+      # Assuming standard path. Adjust path if you have specific NVMe mount points.
+      extraVolumeMounts:
+        - name: master-data
+          mountPath: /data
+      extraVolumes:
+        - name: master-data
+          hostPath:
+            path: /var/lib/seaweedfs/master
+            type: DirectoryOrCreate
+
+      # Replicate across nodes for HA
+      defaultReplication: "001"
+
+    volume:
+      enabled: true
+      replicas: 3
+      persistence:
+        enabled: false
+
+      # Raw disk usage.
+      # SeaweedFS manages its own capacity.
+      dataDirs:
+        - name: data
+          type: "hostPath"
+          hostPathPrefix: "/var/lib/seaweedfs/volume"
+          maxVolumes: 0 # 0 = Auto-detect based on disk size
+
+    filer:
+      enabled: true
+      replicas: 3
+      persistence:
+        enabled: false
+
+      # Filer metadata (LevelDB) needs high IOPS, hostPath is ideal.
+      extraVolumeMounts:
+        - name: filer-data
+          mountPath: /data
+      extraVolumes:
+        - name: filer-data
+          hostPath:
+            path: /var/lib/seaweedfs/filer
+            type: DirectoryOrCreate
+
+      s3:
+        enabled: false
+
+    # ---------------------------------------------------------
+    # 2. Serving Layer (S3 & CSI)
+    # ---------------------------------------------------------
+    s3:
+      enabled: true
+      replicas: 2
+      # S3 is stateless gateway
+
+    csi:
+      enabled: true
+      image: chrislusf/seaweedfs-csi-driver
+      persistence:
+        enabled: false
+      storageClass:
+        enabled: true
+        name: seaweedfs-storage
+        defaultClass: false
+        reclaimPolicy: Delete
