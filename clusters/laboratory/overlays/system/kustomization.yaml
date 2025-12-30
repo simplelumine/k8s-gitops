@@ -13,8 +13,8 @@ resources:
   # - ../../../../system/cert-manager
   # - secrets/cloudflare-secret.sops.yaml
 
-  # - ../../../../system/cloudnative-pg
-  # - ../../../../system/redis-operator
+  - ../../../../system/cloudnative-pg
+  - ../../../../system/redis-operator
 
 patches:
   - path: patches/tailscale.yaml
