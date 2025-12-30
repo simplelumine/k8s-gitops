@@ -14,5 +14,5 @@ resources:
 
 patches:
   - path: garage-patch.yaml
-  - path: postgres-patch.yaml
-  - path: redis-patch.yaml
+  # - path: postgres-patch.yaml
+  # - path: redis-patch.yaml
