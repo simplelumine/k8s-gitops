@@ -25,6 +25,6 @@ test-secret*.yaml
 *.tmp
 
 infrastructure
-.gemini/
+# .gemini/
 gha-creds-*.json
 .temp/
