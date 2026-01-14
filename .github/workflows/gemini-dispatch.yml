@@ -7,9 +7,10 @@ on:
   pull_request_review:
     types:
       - 'submitted'
-  pull_request:
-    types:
-      - 'opened'
+  # NOTE: Auto PR review disabled - use @gemini-cli /review to trigger manually
+  # pull_request:
+  #   types:
+  #     - 'opened'
   issues:
     types:
       - 'opened'
@@ -25,7 +26,7 @@ defaults:
 jobs:
   debugger:
     if: |-
-     ${{ fromJSON(vars.DEBUG || vars.ACTIONS_STEP_DEBUG || false) }}
+      ${{ fromJSON(vars.GEMINI_DEBUG || vars.ACTIONS_STEP_DEBUG || false) }}
     runs-on: 'ubuntu-latest'
     permissions:
       contents: 'read'
@@ -43,9 +44,7 @@ jobs:
           env | grep '^DEBUG_'
 
   dispatch:
-    # For PRs: only if not from a fork
-    # For issues: only on open/reopen
-    # For comments: only if user types @gemini-cli and is OWNER/MEMBER/COLLABORATOR
+    # NOTE: Auto PR review disabled
     if: |-
       (
         github.event_name == 'issues' &&
@@ -70,7 +69,7 @@ jobs:
         id: 'mint_identity_token'
         if: |-
           ${{ vars.APP_ID }}
-        uses: 'actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94' # ratchet:actions/create-github-app-token@v2
+        uses: 'actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b' # ratchet:actions/create-github-app-token@v2
         with:
           app-id: '${{ vars.APP_ID }}'
           private-key: '${{ secrets.APP_PRIVATE_KEY }}'
@@ -80,7 +79,7 @@ jobs:
 
       - name: 'Extract command'
         id: 'extract_command'
-        uses: 'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd' # ratchet:actions/github-script@v7
+        uses: 'actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea' # ratchet:actions/github-script@v7
         env:
           EVENT_TYPE: '${{ github.event_name }}.${{ github.event.action }}'
           REQUEST: '${{ github.event.comment.body || github.event.review.body || github.event.issue.body }}'
@@ -90,6 +89,10 @@ jobs:
             const request = process.env.REQUEST;
             core.setOutput('request', request);
 
+            // NOTE: Auto PR review disabled
+            // if (eventType === 'pull_request.opened') {
+            //   core.setOutput('command', 'review');
+            // } else
             if (['issues.opened', 'issues.reopened'].includes(eventType)) {
               core.setOutput('command', 'triage');
             } else if (request.startsWith("@gemini-cli /review")) {
@@ -178,7 +181,7 @@ jobs:
         id: 'mint_identity_token'
         if: |-
           ${{ vars.APP_ID }}
-        uses: 'actions/create-github-app-token@7e473efe3cb98aa54f8d4bac15400b15fad77d94' # ratchet:actions/create-github-app-token@v2
+        uses: 'actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b' # ratchet:actions/create-github-app-token@v2
         with:
           app-id: '${{ vars.APP_ID }}'
           private-key: '${{ secrets.APP_PRIVATE_KEY }}'
