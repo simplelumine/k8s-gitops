@@ -72,7 +72,7 @@ jobs:
               "telemetry": {
                 "enabled": true,
                 "target": "local",
-                "outfile": '.gemini/telemetry.log'
+                "outfile": ".gemini/telemetry.log"
               },
               "mcpServers": {
                 "github": {
@@ -106,7 +106,7 @@ jobs:
                     "search_code"
                   ],
                   "env": {
-                    "GITHUB_PERSONAL_ACCESS_TOKEN": '${GITHUB_TOKEN}'
+                    "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
                   }
                 }
               },
