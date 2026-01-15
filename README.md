@@ -67,16 +67,15 @@ Secrets are encrypted using [SOPS](https://github.com/mozilla/sops) and committe
 flux --version
 flux check --pre
 
-export GITHUB_TOKEN=<Github_PAT_Token>
-export GITHUB_USER=<Github_Username>
+$env:GITHUB_TOKEN = "your_token"
+$env:GITHUB_USER = "your_username"
 
-flux bootstrap github \
-  --owner=$GITHUB_USER \
-  --repository=k8s-gitops \
-  --branch=main \
-  --path=./clusters/production \
-  --personal \
-  --timeout=5m
+flux bootstrap github `
+  --owner=$env:GITHUB_USER `
+  --repository=k8s-gitops `
+  --branch=main `
+  --path=./clusters/production `
+  --personal `
 
 kubectl create secret generic sops-age `
   --namespace=flux-system `
