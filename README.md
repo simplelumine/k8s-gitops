@@ -74,7 +74,7 @@ flux bootstrap github \
   --owner=$GITHUB_USER \
   --repository=k8s-gitops \
   --branch=main \
-  --path=./clusters/laboratory \
+  --path=./clusters/production \
   --personal \
   --timeout=5m
 

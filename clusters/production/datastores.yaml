@@ -7,7 +7,7 @@ spec:
   dependsOn:
     - name: system
   interval: 10m
-  path: ./clusters/production/overlays/datastores
+  path: ./clusters/production/datastores
   prune: true
   sourceRef:
     kind: GitRepository
