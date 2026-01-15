@@ -7,7 +7,7 @@ spec:
   dependsOn:
     - name: system
   interval: 10m
-  path: ./clusters/production/overlays/platform
+  path: ./clusters/production/platform
   prune: true
   sourceRef:
     kind: GitRepository
