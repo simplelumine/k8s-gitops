@@ -75,7 +75,7 @@ flux bootstrap github `
   --repository=k8s-gitops `
   --branch=main `
   --path=./clusters/production `
-  --personal `
+  --personal
 
 kubectl create secret generic sops-age `
   --namespace=flux-system `
