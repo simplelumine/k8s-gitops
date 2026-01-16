@@ -87,8 +87,6 @@ flux get kustomizations -A
 ### Encrypting Secrets
 ```bash
 sops --encrypt --in-place <-secret.sops.yaml>
-sops --encrypt --filename-override <-secret.sops.yaml> <-secret.yaml>
-sops -d clusters/laboratory/overlays/core/secrets/cilium-secret.sops.yaml
 ```
 
 ### Flux Debugging
