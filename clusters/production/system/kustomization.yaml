@@ -10,8 +10,11 @@ resources:
   - ../../../system/cloudflared
   - cloudflare-tunnel-secret.sops.yaml
 
+  - ../../../system/external-secrets
+
   - ../../../system/cloudnative-pg
   - ../../../system/redis-operator
+  - ../../../system/reloader
 
 patches:
   - path: cilium-patch.yaml
