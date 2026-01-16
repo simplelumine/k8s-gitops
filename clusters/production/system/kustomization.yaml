@@ -4,6 +4,15 @@ resources:
   - ../../../system/cilium
   - cilium-secret.sops.yaml
 
+  - ../../../system/tailscale-operator
+  - tailscale-secret.sops.yaml
+
+  - ../../../system/cloudflared
+  - cloudflare-tunnel-secret.sops.yaml
+
+  - ../../../system/cloudnative-pg
+  - ../../../system/redis-operator
+
 patches:
   - path: cilium-patch.yaml
     target:
