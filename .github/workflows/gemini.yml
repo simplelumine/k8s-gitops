@@ -3,7 +3,7 @@ name: "✨ Gemini"
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 * * * *" # Runs every hour
+    - cron: "0 8 * * *" # Runs every day at 08:00
   pull_request_review_comment:
     types:
       - "created"
