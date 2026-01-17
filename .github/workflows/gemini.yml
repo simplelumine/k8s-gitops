@@ -27,7 +27,7 @@ jobs:
     uses: simplelumine/gemini-lumine/.github/workflows/gemini-dispatch.yml@main
     secrets: inherit
     permissions:
-      contents: read
+      contents: write
       issues: write
       pull-requests: write
       id-token: write
