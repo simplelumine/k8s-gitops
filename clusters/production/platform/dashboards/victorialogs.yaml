@@ -8,7 +8,6 @@ metadata:
 data:
   victorialogs.json: |
     {
-      "title": "VictoriaLogs Demo",
       "title": "VictoriaLogs Overview",
       "uid": "victorialogs-overview",
       "timezone": "browser",
