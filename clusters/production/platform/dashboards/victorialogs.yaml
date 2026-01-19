@@ -9,8 +9,8 @@ data:
   victorialogs.json: |
     {
       "title": "VictoriaLogs Demo",
-      "uid": "victorialogs-demo",
-      "tags": ["logs"],
+      "title": "VictoriaLogs Overview",
+      "uid": "victorialogs-overview",
       "timezone": "browser",
       "schemaVersion": 30,
       "version": 1,
