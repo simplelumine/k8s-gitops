@@ -1,0 +1,42 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vm-stack
+  namespace: monitoring
+spec:
+  values:
+    grafana:
+      # Use the secret for Admin credentials
+      admin:
+        existingSecret: vm-stack-auth
+        userKey: admin-user
+        passwordKey: admin-password
+
+      # Inject secret values as Environment Variables
+      envFromSecret: vm-stack-auth
+
+      # Configure Grafana.ini to use Env Vars
+      grafana.ini:
+        server:
+          # domain: grafana.example.com
+          # root_url: https://grafana.example.com
+          serve_from_sub_path: false
+
+        auth.github:
+          enabled: false
+          # allow_sign_up: true
+          # Read from Env Vars injected by envFromSecret
+          # client_id: ${GF_AUTH_GITHUB_CLIENT_ID}
+          # client_secret: ${GF_AUTH_GITHUB_CLIENT_SECRET}
+          # scopes: user:email,read:org
+          # auth_url: https://github.com/login/oauth/authorize
+          # token_url: https://github.com/login/oauth/access_token
+          # api_url: https://api.github.com/user
+          # Replace with your GitHub Organization
+          # allowed_organizations: my-org
+          # Map GitHub Teams to Grafana Roles
+          # Example: @my-org/platform-admins -> Admin, Everyone else -> Viewer
+          # role_attribute_path: "contains(groups[*], '@my-org/platform-admins') && 'Admin' || 'Viewer'"
+
+        auth.anonymous:
+          enabled: false

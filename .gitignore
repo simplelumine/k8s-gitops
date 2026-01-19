@@ -3,6 +3,7 @@
 
 **/repository-secret.yaml
 **/*-secret.yaml
+**/*-auth.yaml
 !**/*-secret.yaml.example
 
 !**/*.sops.yaml
@@ -28,3 +29,5 @@ infrastructure
 # .gemini/
 gha-creds-*.json
 .temp/
+
+values.yaml

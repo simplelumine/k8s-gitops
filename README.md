@@ -86,7 +86,7 @@ flux get kustomizations -A
 
 ### Encrypting Secrets
 ```bash
-sops --encrypt --in-place <-secret.sops.yaml>
+sops --encrypt --in-place <.sops.yaml>
 ```
 
 ### Flux Debugging
@@ -100,10 +100,11 @@ flux get helmreleases -n <namespace>
 
 ### Helm Debugging
 ```bash
-helm repo list
 helm repo update
-helm search repo <name>
-helm show values <repo>/<apps> --version <version> > .<path>
+helm repo list
+helm search repo <repo>
+helm repo add <repo> <url>
+helm show values <repo>/<app> > <path>/values.yaml
 ```
 
 ### Kubectl Debugging
