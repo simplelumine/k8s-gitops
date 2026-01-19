@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-victorialogs
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  victorialogs.json: |
+    {
+      "title": "VictoriaLogs Overview",
+      "uid": "victorialogs-overview",
+      "timezone": "browser",
+      "schemaVersion": 30,
+      "version": 1,
+      "panels": [
+        {
+          "type": "logs",
+          "title": "All Logs (Stream)",
+          "gridPos": {
+            "h": 20,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "VictoriaLogs"
+          },
+          "targets": [
+            {
+              "expr": "_stream:{job!=\"\"}",
+              "refId": "A"
+            }
+          ],
+          "options": {
+            "showTime": true,
+            "showLabels": false,
+            "showCommonLabels": true,
+            "wrapLogMessage": true,
+            "preload": false,
+            "dedupStrategy": "none",
+            "sortOrder": "Descending"
+          }
+        },
+        {
+          "type": "stat",
+          "title": "Log Rates (Last 1h)",
+          "gridPos": {
+             "h": 5,
+             "w": 24,
+             "x": 0,
+             "y": 20
+          },
+          "datasource": {
+            "type": "victoriametrics-logs-datasource",
+            "uid": "VictoriaLogs"
+          },
+          "targets": [
+             {
+                "expr": "count(*)",
+                "refId": "A"
+             }
+          ]
+        }
+      ]
+    }
