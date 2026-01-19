@@ -69,6 +69,13 @@ spec:
         GF_INSTALL_PLUGINS: "victoriametrics-logs-datasource"
       persistence:
         enabled: false
+      sidecar:
+        dashboards:
+          enabled: true
+          label: grafana_dashboard
+        datasources:
+          enabled: true
+          label: grafana_datasource
       additionalDataSources:
         - name: VictoriaLogs
           type: victoriametrics-logs-datasource
