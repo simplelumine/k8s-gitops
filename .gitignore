@@ -3,6 +3,7 @@
 
 **/repository-secret.yaml
 **/*-secret.yaml
+**/*-auth.yaml
 !**/*-secret.yaml.example
 
 !**/*.sops.yaml
