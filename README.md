@@ -91,11 +91,8 @@ sops --encrypt --in-place <.sops.yaml>
 
 ### Flux Debugging
 ```bash
-flux reconcile source git flux-system --with-source
 flux reconcile kustomization flux-system --with-source
-flux reconcile kustomization system --with-source
 flux get helmreleases --all-namespaces
-flux get helmreleases -n <namespace>
 ```
 
 ### Helm Debugging
