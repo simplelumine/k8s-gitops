@@ -8,8 +8,6 @@ resources:
 patches:
   - path: vm-stack-patch.yaml
     target:
-      group: helm.toolkit.fluxcd.io
-      version: v2beta1
       kind: HelmRelease
       name: vm-stack
       namespace: monitoring
