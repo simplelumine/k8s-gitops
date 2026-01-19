@@ -14,14 +14,61 @@ spec:
         name: victoriametrics
         namespace: monitoring
   values:
-    # Disable components if you want a lighter stack, but by default this installs:
-    # - vmsingle (storage)
-    # - vmalert (alerting)
-    # - vmagent (scraper)
-    # - grafana (UI)
+    # Global config
+    global:
+      clusterLabel: cluster
 
+    # Disable single-node to use cluster mode
+    vmsingle:
+      enabled: false
+
+    # Enable Cluster mode for HA (application-replication)
+    vmcluster:
+      enabled: true
+      spec:
+        retentionPeriod: "7d"
+        replicationFactor: 2
+        vmstorage:
+          replicaCount: 2
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              memory: "1Gi"
+          storage:
+            volumeClaimTemplate:
+              spec:
+                storageClassName: local-path
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 20Gi
+        vmselect:
+          replicaCount: 2
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              memory: "512Mi"
+        vminsert:
+          replicaCount: 2
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "128Mi"
+            limits:
+              memory: "512Mi"
+
+    # Configure Grafana with VictoriaLogs integration
     grafana:
       enabled: true
+      env:
+        GF_INSTALL_PLUGINS: "victoriametrics-logs-datasource"
+      persistence:
+        enabled: false
       sidecar:
         dashboards:
           enabled: true
@@ -29,3 +76,19 @@ spec:
         datasources:
           enabled: true
           label: grafana_datasource
+      additionalDataSources:
+        - name: VictoriaLogs
+          type: victoriametrics-logs-datasource
+          access: proxy
+          url: http://victoria-logs-victoria-logs-single-server.victoria-logs.svc:9428
+          isDefault: false
+          jsonData:
+            maxLines: 1000
+
+    # standard components
+    vmalert:
+      enabled: true
+    vmagent:
+      enabled: true
+    victoria-metrics-operator:
+      enabled: true
