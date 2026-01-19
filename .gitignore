@@ -29,3 +29,5 @@ infrastructure
 # .gemini/
 gha-creds-*.json
 .temp/
+
+values.yaml
