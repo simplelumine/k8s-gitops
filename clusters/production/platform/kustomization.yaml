@@ -4,6 +4,7 @@ resources:
   - ../../../platform/vm-stack
   - ../../../platform/victoria-logs
   - vm-stack-auth.sops.yaml
+  - dashboards/victorialogs.yaml
 
 patches:
   - path: vm-stack-patch.yaml
