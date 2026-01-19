@@ -18,25 +18,25 @@ spec:
       # Configure Grafana.ini to use Env Vars
       grafana.ini:
         server:
-          # domain: grafana.example.com
-          # root_url: https://grafana.example.com
+          domain: monitor.simplelumine.com
+          root_url: https://monitor.simplelumine.com
           serve_from_sub_path: false
 
         auth.github:
-          enabled: false
-          # allow_sign_up: true
+          enabled: true
+          allow_sign_up: true
           # Read from Env Vars injected by envFromSecret
-          # client_id: ${GF_AUTH_GITHUB_CLIENT_ID}
-          # client_secret: ${GF_AUTH_GITHUB_CLIENT_SECRET}
-          # scopes: user:email,read:org
-          # auth_url: https://github.com/login/oauth/authorize
-          # token_url: https://github.com/login/oauth/access_token
-          # api_url: https://api.github.com/user
+          client_id: ${GF_AUTH_GITHUB_CLIENT_ID}
+          client_secret: ${GF_AUTH_GITHUB_CLIENT_SECRET}
+          scopes: user:email,read:org
+          auth_url: https://github.com/login/oauth/authorize
+          token_url: https://github.com/login/oauth/access_token
+          api_url: https://api.github.com/user
           # Replace with your GitHub Organization
-          # allowed_organizations: my-org
+          allowed_organizations: lumine-duality
           # Map GitHub Teams to Grafana Roles
-          # Example: @my-org/platform-admins -> Admin, Everyone else -> Viewer
-          # role_attribute_path: "contains(groups[*], '@my-org/platform-admins') && 'Admin' || 'Viewer'"
+          # Example: @lumine-duality/admins -> Admin, Everyone else -> Viewer
+          role_attribute_path: "contains(groups[*], '@lumine-duality/admins') && 'Admin' || 'Viewer'"
 
         auth.anonymous:
           enabled: false
