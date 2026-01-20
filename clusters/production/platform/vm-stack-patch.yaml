@@ -15,6 +15,28 @@ spec:
       # Inject secret values as Environment Variables
       envFromSecret: vm-stack-auth
 
+    # 1. Force Kubelet to use Tailscale
+    kubelet:
+      vmScrape:
+        spec:
+          relabelConfigs:
+            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_ip]
+              regex: "(.+)"
+              targetLabel: __address__
+              replacement: "${1}:10250"
+              action: replace
+
+    # 2. Force Node Exporter to use Tailscale
+    nodeExporter:
+      vmNodeScrape:
+        spec:
+          relabelConfigs:
+            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_ip]
+              regex: "(.+)"
+              targetLabel: __address__
+              replacement: "${1}:9100"
+              action: replace
+
       # Configure Grafana.ini to use Env Vars
       grafana.ini:
         server:
