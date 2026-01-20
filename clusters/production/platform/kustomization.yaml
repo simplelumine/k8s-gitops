@@ -2,9 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../../platform/vm-stack
-  - ../../../platform/victoria-logs
   - vm-stack-auth.sops.yaml
-  - dashboards/victorialogs.yaml
+
+  # - ../../../platform/victoria-logs
+  # - dashboards/victorialogs.yaml
 
 patches:
   - path: vm-stack-patch.yaml
