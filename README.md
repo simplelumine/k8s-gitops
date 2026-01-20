@@ -80,8 +80,6 @@ flux bootstrap github `
 kubectl create secret generic sops-age `
   --namespace=flux-system `
   --from-file=age.agekey="$env:APPDATA\sops\age\keys.txt"
-
-flux get kustomizations -A
 ```
 
 ### Encrypting Secrets
@@ -92,16 +90,18 @@ sops --encrypt --in-place <.sops.yaml>
 ### Flux Debugging
 ```bash
 flux reconcile kustomization flux-system --with-source
-flux get helmreleases --all-namespaces
+flux get helmreleases -A
+flux get kustomizations -A
 ```
 
 ### Helm Debugging
 ```bash
-helm repo update
 helm repo list
-helm search repo <repo>
 helm repo add <repo> <url>
+helm repo update
+helm search repo <repo>
 helm show values <repo>/<app> > <path>/values.yaml
+helm repo remove <repo>
 ```
 
 ### Kubectl Debugging
