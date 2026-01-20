@@ -16,11 +16,10 @@ spec:
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 10m
+        memory: 16Mi
       limits:
-        cpu: 500m
-        memory: 512Mi
+        memory: 64Mi
 
   # Sentinel Configuration
   redisSentinelConfig:
@@ -34,7 +33,7 @@ metadata:
   name: redis-ha
   namespace: redis
 spec:
-  clusterSize: 3 # 1 master + 2 replicas
+  clusterSize: 2 # 1 master + 1 replica
 
   redisExporter:
     enabled: true
@@ -45,11 +44,10 @@ spec:
     imagePullPolicy: IfNotPresent
     resources:
       requests:
-        cpu: 100m
-        memory: 128Mi
+        cpu: 50m
+        memory: 32Mi
       limits:
-        cpu: 500m
-        memory: 512Mi
+        memory: 128Mi
 
   # Persistent storage
   storage:

@@ -1,0 +1,18 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-ha
+  namespace: postgres
+spec:
+  managed:
+    roles:
+      - name: open-webui
+        ensure: present
+        login: true
+        passwordSecret:
+          name: open-webui-db-secret
+      - name: litellm
+        ensure: present
+        login: true
+        passwordSecret:
+          name: litellm-db-secret

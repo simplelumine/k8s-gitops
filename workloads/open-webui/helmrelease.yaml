@@ -42,3 +42,10 @@ spec:
     databaseUrl: ""
 
     commonEnvVars: []
+
+    resources:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+      limits:
+        memory: 1.5Gi
