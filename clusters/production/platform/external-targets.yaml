@@ -16,7 +16,7 @@ spec:
         region: "los-angeles"
 
     - targets:
-        - "100.104.96.89:9100" 
+        - "100.104.96.89:9100"
       labels:
         instance: "hkg-eg-01"
         region: "hong-kong"
