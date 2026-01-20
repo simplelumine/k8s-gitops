@@ -112,8 +112,9 @@ kubectl describe helmrelease <name> -n <namespace>
 kubectl get secret <name> -n <namespace> -o yaml
 kubectl get deployment <name> -n <namespace> -o yaml
 kubectl logs -n <namespace> deployment/<deployment> --tail=50
-kubectl logs -n <namespace> pod/<pod> --tail=50
 kubectl delete helmrelease <name> -n <namespace>
-kubectl rollout restart deployment <deployment> -n <namespace>
+
+kubectl logs <kind>/<kind.name> --tail=50 -n <namespace>
+kubectl rollout restart <kind> <kind.name> -n <namespace>
 ``` 
  

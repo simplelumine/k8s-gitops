@@ -12,7 +12,7 @@ spec:
     image: quay.io/opstree/redis-exporter:v1.44.0
 
   kubernetesConfig:
-    image: redis:7.2-alpine
+    image: quay.io/opstree/redis:v7.0.12
     imagePullPolicy: IfNotPresent
     resources:
       requests:
@@ -40,7 +40,7 @@ spec:
     image: quay.io/opstree/redis-exporter:v1.44.0
 
   kubernetesConfig:
-    image: redis:7.2-alpine
+    image: quay.io/opstree/redis:v7.0.12
     imagePullPolicy: IfNotPresent
     resources:
       requests:
