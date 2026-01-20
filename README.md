@@ -106,9 +106,6 @@ helm show values <repo>/<app> > <path>/values.yaml
 
 ### Kubectl Debugging
 ```bash
-kubectl get kustomization -n flux-system
-kubectl get helmrelease -A
-
 kubectl get all -n <namespace>
 kubectl get helmrelease <name> -n <namespace> -o yaml
 kubectl describe helmrelease <name> -n <namespace>
