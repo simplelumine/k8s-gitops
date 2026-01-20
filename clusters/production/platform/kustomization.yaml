@@ -4,6 +4,8 @@ resources:
   - ../../../platform/vm-stack
   - vm-stack-auth.sops.yaml
 
+  - external-targets.yaml
+
   # - ../../../platform/victoria-logs
   # - dashboards/victorialogs.yaml
 
