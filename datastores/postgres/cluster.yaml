@@ -4,8 +4,8 @@ metadata:
   name: postgres-ha
   namespace: postgres
 spec:
-  # HA Configuration: 3 instances (1 primary + 2 standby)
-  instances: 3
+  # HA Configuration: 2 instances (1 primary + 1 standby)
+  instances: 2
 
   # Storage Configuration
   storage:
@@ -19,7 +19,6 @@ spec:
       cpu: "250m"
     limits:
       memory: "768Mi"
-      cpu: "1000m"
 
   # Bootstrap with a default database
   bootstrap:
