@@ -1,4 +1,4 @@
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: open-webui
@@ -13,23 +13,32 @@ spec:
         kind: HelmRepository
         name: open-webui
   values:
+    ollama:
+      enabled: false
+
     # Enable internal Pipelines for enhanced functionality (e.g. filters, pipes)
     pipelines:
-      enabled: true
-
-    # Disable internal PostgreSQL as we use an external shared instance
-    postgresql:
       enabled: false
 
     # Enable internal Valkey/Redis if needed for caching, or disable if using external
-    redis:
-      enabled: false
+    websocket:
+      enabled: true
+      manager: redis
+      url: redis://open-webui-redis:6379/0
+      redis:
+        enabled: true
 
-    # We don't need the bundled Ollama
-    ollama:
+    tika:
       enabled: false
 
     persistence:
       enabled: true
       storageClass: local-path
       size: 10Gi
+
+    service:
+      annotations: {}
+
+    databaseUrl: ""
+
+    commonEnvVars: []
