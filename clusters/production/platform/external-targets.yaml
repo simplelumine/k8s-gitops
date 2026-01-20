@@ -1,0 +1,22 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMStaticScrape
+metadata:
+  name: external-node-exporter
+  namespace: monitoring
+spec:
+  jobName: "edge-nodes"
+
+  interval: "30s"
+
+  targetEndpoints:
+    - targets:
+        - "100.118.201.99:9100"
+      labels:
+        instance: "lax-eg-01"
+        region: "los-angeles"
+
+    - targets:
+        - "100.104.96.89:9100"
+      labels:
+        instance: "hkg-eg-01"
+        region: "hong-kong"
