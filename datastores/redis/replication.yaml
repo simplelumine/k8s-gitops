@@ -9,8 +9,7 @@ spec:
     runAsUser: 1000
     fsGroup: 1000
   sentinel:
-    replicas: 3
-    enabled: true
+    size: 3
     image: quay.io/opstree/redis-sentinel:v7.0.15
     imagePullPolicy: IfNotPresent
     resources:
