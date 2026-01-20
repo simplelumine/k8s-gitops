@@ -11,6 +11,8 @@ spec:
         - "100.118.201.99:9100"
       interval: "30s"
       labels:
+        job: "node-exporter"
+        hostname: "lax-eg-01"
         instance: "lax-eg-01"
         region: "los-angeles"
 
@@ -18,5 +20,7 @@ spec:
         - "100.104.96.89:9100"
       interval: "30s"
       labels:
+        job: "node-exporter"
+        hostname: "hkg-eg-01"
         instance: "hkg-eg-01"
         region: "hong-kong"
