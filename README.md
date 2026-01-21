@@ -98,10 +98,11 @@ flux get kustomizations -A
 ```bash
 helm repo list
 helm repo add <repo> <url>
+helm repo remove <repo>
 helm repo update
 helm search repo <repo>
 helm show values <repo>/<app> > <path>/values.yaml
-helm repo remove <repo>
+helm uninstall <app> -n <namespace>
 ```
 
 ### Kubectl Debugging

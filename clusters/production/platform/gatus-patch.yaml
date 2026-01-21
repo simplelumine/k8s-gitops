@@ -1,0 +1,97 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gatus
+  namespace: gatus
+spec:
+  values:
+    config:
+      endpoints:
+        # --- External Connectivity ---
+        - name: google
+          group: external
+          url: "https://www.google.com"
+          interval: 5m
+          conditions:
+            - "[STATUS] == 200"
+        - name: github
+          group: external
+          url: "https://github.com"
+          interval: 5m
+          conditions:
+            - "[STATUS] == 200"
+        - name: open-webui
+          group: external
+          url: "https://chat.simplelumine.com"
+          interval: 1m
+          conditions:
+            - "[STATUS] == 200"
+        - name: grafana
+          group: external
+          # Assuming monitor.simplelumine.com based on pattern, user said monitor.xxx
+          url: "https://monitor.simplelumine.com"
+          interval: 1m
+          conditions:
+            - "[STATUS] == 200"
+
+        # --- Internal Services ---
+        - name: kubernetes-api
+          group: internal-services
+          url: "https://kubernetes.default.svc"
+          interval: 1m
+          client:
+            insecure: true
+          conditions:
+            - "[STATUS] == 403" # 403 is expected for unauthenticated access, confirms it's up
+        - name: open-webui-svc
+          group: internal-services
+          url: "http://open-webui.open-webui.svc.cluster.local:8080"
+          interval: 30s
+          conditions:
+            - "[STATUS] == 200"
+        - name: vm-stack-svc
+          group: internal-services
+          url: "http://vm-stack-victoria-metrics-k8s-stack-victoria-metrics-cluster-vmselect.monitoring.svc.cluster.local:8481/select/0/prometheus/api/v1/query?query=up"
+          interval: 30s
+          conditions:
+            - "[STATUS] == 200"
+
+        # --- Infrastructure: K8s Nodes (Tailscale) ---
+        - name: slc-cp-01
+          group: k8s-nodes
+          url: "icmp://100.100.40.83"
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
+        - name: geg-wk-01
+          group: k8s-nodes
+          url: "icmp://100.75.26.98"
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
+        - name: lax-wk-01
+          group: k8s-nodes
+          url: "icmp://100.91.66.41"
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
+        - name: sfo-wk-01
+          group: k8s-nodes
+          url: "icmp://100.91.135.58"
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
+
+        # --- Infrastructure: Edge Nodes (Tailscale) ---
+        - name: hkg-eg-01
+          group: edge-nodes
+          url: "icmp://100.104.96.89"
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
+        - name: lax-eg-01
+          group: edge-nodes
+          url: "icmp://100.118.201.99"
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
