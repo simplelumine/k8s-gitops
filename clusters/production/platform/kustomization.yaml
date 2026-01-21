@@ -6,6 +6,8 @@ resources:
 
   - external-targets.yaml
 
+  - ../../../platform/gatus
+
   # - ../../../platform/victoria-logs
   # - dashboards/victorialogs.yaml
 
