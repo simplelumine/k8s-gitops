@@ -20,11 +20,6 @@ spec:
       enabled: false
     serviceMonitor:
       enabled: false
-    config:
-      # Postgres configuration template (uncomment to use)
-      # storage:
-      #   type: postgres
-      #   path: postgres://user:password@hostname:5432/gatus?sslmode=disable
     resources:
       limits:
         memory: 128Mi
