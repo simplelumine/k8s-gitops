@@ -40,7 +40,7 @@ spec:
           #       name: sillytavern-env-config
           resources:
             requests:
-              cpu: "250m"  
+              cpu: "250m"
               memory: "512Mi"
             limits:
               memory: "3Gi"
