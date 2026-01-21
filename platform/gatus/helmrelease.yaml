@@ -26,7 +26,3 @@ spec:
       requests:
         cpu: 50m
         memory: 32Mi
-    securityContext:
-      capabilities:
-        add:
-          - NET_RAW
