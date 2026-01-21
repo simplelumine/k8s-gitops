@@ -41,4 +41,4 @@ spec:
       - name: REDIS_PORT
         value: "6379"
     serviceMonitor:
-      enabled: true
+      enabled: false
