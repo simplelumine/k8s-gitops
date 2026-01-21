@@ -13,6 +13,7 @@ resources:
 
 patches:
   - path: vm-stack-patch.yaml
+  - path: gatus-patch.yaml
     target:
       kind: HelmRelease
       name: vm-stack
