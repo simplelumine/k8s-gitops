@@ -19,7 +19,7 @@ spec:
     persistence:
       enabled: false
     serviceMonitor:
-      enabled: true
+      enabled: false
     config:
       # Postgres configuration template (uncomment to use)
       # storage:
