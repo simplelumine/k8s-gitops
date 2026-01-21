@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    tailscale.com/expose: "true"
+  name: sillytavern-svc
+  namespace: sillytavern
+spec:
+  selector:
+    app: sillytavern
+  type: ClusterIP
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sillytavern
+  namespace: sillytavern
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sillytavern
+  template:
+    metadata:
+      labels:
+        app: sillytavern
+    spec:
+      containers:
+        - name: sillytavern-container
+          image: ghcr.io/sillytavern/sillytavern:1.13.3
+          ports:
+            - containerPort: 8000
+          # envFrom:
+          #   - configMapRef:
+          #       name: sillytavern-env-config
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              memory: "3Gi"
+          volumeMounts:
+            - name: data
+              mountPath: /home/node/app/config
+              subPath: config
+            - name: data
+              mountPath: /home/node/app/data
+              subPath: data
+            - name: data
+              mountPath: /home/node/app/plugins
+              subPath: plugins
+            - name: data
+              mountPath: /home/node/app/public/scripts/extensions/third-party
+              subPath: extensions
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: sillytavern-data
