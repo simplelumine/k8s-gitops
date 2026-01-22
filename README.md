@@ -90,6 +90,7 @@ sops --encrypt --in-place <.sops.yaml>
 ### Flux Debugging
 ```bash
 flux reconcile kustomization flux-system --with-source
+flux reconcile kustomization <kustomization> --with-source
 flux get helmreleases -A
 flux get kustomizations -A
 ```
@@ -115,6 +116,7 @@ kubectl get deployment <name> -n <namespace> -o yaml
 kubectl logs -n <namespace> deployment/<deployment> --tail=50
 kubectl delete helmrelease <name> -n <namespace>
 
+kubectl get <kind> <kind.name> -n <namespace>
 kubectl logs <kind>/<kind.name> --tail=50 -n <namespace>
 kubectl rollout restart <kind> <kind.name> -n <namespace>
 kubectl explain <kind>
