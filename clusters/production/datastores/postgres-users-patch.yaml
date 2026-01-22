@@ -26,3 +26,12 @@ spec:
         login: true
         passwordSecret:
           name: infisical-db-secret
+    databases:
+      - name: open-webui
+        owner: open-webui
+      - name: litellm
+        owner: litellm
+      - name: gatus
+        owner: gatus
+      - name: infisical
+        owner: infisical
