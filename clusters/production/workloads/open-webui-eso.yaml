@@ -19,9 +19,7 @@ spec:
       remoteRef:
         key: open-webui-db-secret
         property: username
-        namespace: postgres
     - secretKey: password
       remoteRef:
         key: open-webui-db-secret
         property: password
-        namespace: postgres
