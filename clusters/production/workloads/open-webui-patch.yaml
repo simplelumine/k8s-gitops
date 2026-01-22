@@ -8,6 +8,7 @@ spec:
   values:
     websocket:
       enabled: true
+      # Using external Redis (defined by 'url'), so internal redis is disabled but manager is set to redis
       manager: redis
       url: redis://redis-ha.redis.svc.cluster.local:6379/0
       redis:
@@ -22,10 +23,6 @@ spec:
         tailscale.com/expose: "true"
 
     commonEnvVars:
-      - name: CHAT_STREAM_RESPONSE_CHUNK_MAX_BUFFER_SIZE
-        value: "10485760"
-      - name: REPLACE_IMAGE_URLS_IN_CHAT_RESPONSE
-        value: "true"
       - name: OFFLINE_MODE
         value: "true"
       - name: ENABLE_OPENAI_API
@@ -38,12 +35,10 @@ spec:
         value: "false"
       - name: BYPASS_ADMIN_ACCESS_CONTROL
         value: "false"
-      - name: WEBSOCKET_REDIS_URL
-        value: "redis://redis-ha.redis.svc.cluster.local:6379/0"
-      - name: VECTOR_DB
-        value: "qdrant"
-      - name: QDRANT_URI
-        value: "http://vector-db-qdrant.ai-infra"
+      - name: CHAT_STREAM_RESPONSE_CHUNK_MAX_BUFFER_SIZE
+        value: "10485760"
+      - name: REPLACE_IMAGE_URLS_IN_CHAT_RESPONSE
+        value: "true"
 
     extraEnvVars:
       - name: DATABASE_URL
