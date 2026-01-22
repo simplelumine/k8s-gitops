@@ -117,6 +117,7 @@ kubectl logs -n <namespace> deployment/<deployment> --tail=50
 kubectl delete helmrelease <name> -n <namespace>
 
 kubectl get <kind> <kind.name> -n <namespace>
+kubectl describe <kind> <kind.name> -n <namespace>
 kubectl logs <kind>/<kind.name> --tail=50 -n <namespace>
 kubectl rollout restart <kind> <kind.name> -n <namespace>
 kubectl explain <kind>
