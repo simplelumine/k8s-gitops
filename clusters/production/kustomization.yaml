@@ -1,0 +1,9 @@
+# clusters/production/sync/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - flux-sync/source.yaml
+  - flux-sync/datastores.yaml
+  - flux-sync/platform.yaml
+  - flux-sync/system.yaml
+  - flux-sync/workloads.yaml
