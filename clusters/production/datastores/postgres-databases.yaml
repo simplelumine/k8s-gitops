@@ -1,0 +1,46 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: open-webui-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres-ha
+  name: open-webui
+  owner: open-webui
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: litellm-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres-ha
+  name: litellm
+  owner: litellm
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: gatus-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres-ha
+  name: gatus
+  owner: gatus
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: infisical-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres-ha
+  name: infisical
+  owner: infisical
