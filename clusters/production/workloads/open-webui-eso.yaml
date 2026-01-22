@@ -1,0 +1,27 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: open-webui-db-secret
+  namespace: open-webui
+spec:
+  refreshInterval: 1m
+  secretStoreRef:
+    name: cluster-secret-store
+    kind: ClusterSecretStore
+  target:
+    name: open-webui-db-secret
+    template:
+      engineVersion: v2
+      data:
+        DATABASE_URL: "postgres://{{ .username }}:{{ .password }}@postgres-ha-rw.postgres.svc.cluster.local:5432/open-webui"
+  data:
+    - secretKey: username
+      remoteRef:
+        key: open-webui-db-secret
+        property: username
+        namespace: postgres
+    - secretKey: password
+      remoteRef:
+        key: open-webui-db-secret
+        property: password
+        namespace: postgres
