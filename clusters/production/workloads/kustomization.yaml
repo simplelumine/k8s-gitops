@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ../../../workloads/open-webui
-  - open-webui-eso.yaml
+  - open-webui-secrets.sops.yaml
 
 patches:
   - path: open-webui-patch.yaml
