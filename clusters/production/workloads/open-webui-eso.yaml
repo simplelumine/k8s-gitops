@@ -13,7 +13,7 @@ spec:
     template:
       engineVersion: v2
       data:
-        DATABASE_URL: "postgres://{{ .username }}:{{ .password }}@postgres-ha-rw.postgres.svc.cluster.local:5432/open-webui"
+        DATABASE_URL: "postgresql://{{ .username }}:{{ .password }}@postgres-ha-rw.postgres.svc.cluster.local:5432/open-webui"
   data:
     - secretKey: username
       remoteRef:
