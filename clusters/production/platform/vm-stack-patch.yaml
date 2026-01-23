@@ -37,14 +37,11 @@ spec:
           # Map GitHub Teams to Grafana Roles
           role_attribute_path: "contains(groups[*], '@lumine-duality/admins') && 'Admin' || 'Viewer'"
 
-        auth.anonymous:
-          enabled: false
-
     nodeExporter:
       vmNodeScrape:
         spec:
           relabelConfigs:
-            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_com_ip]
+            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_ip]
               regex: "(.+)"
               targetLabel: __address__
               replacement: "${1}:9100"

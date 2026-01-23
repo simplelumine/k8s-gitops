@@ -65,8 +65,6 @@ spec:
     # Configure Grafana with VictoriaLogs integration
     grafana:
       enabled: true
-      env:
-        GF_INSTALL_PLUGINS: "victoriametrics-logs-datasource"
       persistence:
         enabled: false
       sidecar:
