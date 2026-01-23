@@ -45,7 +45,7 @@ spec:
       vmScrape:
         spec:
           relabelConfigs:
-            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_ip]
+            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_com_ip]
               regex: "(.+)"
               targetLabel: __address__
               replacement: "${1}:10250"
@@ -56,7 +56,7 @@ spec:
       vmNodeScrape:
         spec:
           relabelConfigs:
-            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_ip]
+            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_com_ip]
               regex: "(.+)"
               targetLabel: __address__
               replacement: "${1}:9100"
