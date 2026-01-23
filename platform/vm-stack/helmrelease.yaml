@@ -76,15 +76,6 @@ spec:
         datasources:
           enabled: true
           label: grafana_datasource
-      additionalDataSources:
-        - name: VictoriaLogs
-          uid: VictoriaLogs
-          type: victoriametrics-logs-datasource
-          access: proxy
-          url: http://victoria-logs-victoria-logs-single-server.victoria-logs.svc:9428
-          isDefault: false
-          jsonData:
-            maxLines: 1000
 
     # standard components
     vmalert:
