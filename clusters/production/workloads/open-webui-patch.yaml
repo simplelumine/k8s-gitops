@@ -23,13 +23,6 @@ spec:
         tailscale.com/expose: "true"
 
     commonEnvVars:
-      # Redis configuration for multi-worker deployments
-      - name: REDIS_URL
-        value: "redis://redis-ha-master.redis.svc.cluster.local:6379/0"
-      - name: WEBSOCKET_MANAGER
-        value: "redis"
-      - name: WEBSOCKET_REDIS_URL
-        value: "redis://redis-ha-master.redis.svc.cluster.local:6379/0"
       - name: OFFLINE_MODE
         value: "true"
       - name: ENABLE_OPENAI_API
