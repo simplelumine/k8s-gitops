@@ -4,7 +4,8 @@ resources:
   - ../../../platform/vm-stack
   - vm-stack-auth.sops.yaml
 
-  - external-targets.yaml
+  # Temporarily commented out - requires VMStaticScrape CRD from vm-stack
+  # - external-targets.yaml
 
   - ../../../platform/gatus
 
