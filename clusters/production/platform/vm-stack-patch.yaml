@@ -37,10 +37,17 @@ spec:
           # Map GitHub Teams to Grafana Roles
           role_attribute_path: "contains(groups[*], '@lumine-duality/admins') && 'Admin' || 'Viewer'"
 
+    # Configure node-exporter to use VMNodeScrape with Tailscale IPs
     nodeExporter:
+      # Disable ServiceMonitor - can't read node annotations
+      serviceMonitor:
+        enabled: false
+      # Enable VMNodeScrape - can read node annotations for Tailscale IP
       vmNodeScrape:
+        enabled: true
         spec:
           relabelConfigs:
+            # Replace target address with Tailscale IP from node annotation
             - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_ip]
               regex: "(.+)"
               targetLabel: __address__
