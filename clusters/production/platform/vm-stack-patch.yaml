@@ -36,3 +36,9 @@ spec:
           allowed_organizations: lumine-duality
           # Map GitHub Teams to Grafana Roles
           role_attribute_path: "contains(groups[*], '@lumine-duality/admins') && 'Admin' || 'Viewer'"
+
+    # VMAgent configuration - enable hostNetwork to bypass Cilium loopback restrictions
+    vmagent:
+      spec:
+        hostNetwork: true
+        dnsPolicy: ClusterFirstWithHostNet
