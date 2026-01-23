@@ -39,3 +39,13 @@ spec:
 
         auth.anonymous:
           enabled: false
+
+    nodeExporter:
+      vmNodeScrape:
+        spec:
+          relabelConfigs:
+            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_com_ip]
+              regex: "(.+)"
+              targetLabel: __address__
+              replacement: "${1}:9100"
+              action: replace
