@@ -10,7 +10,7 @@ spec:
       enabled: true
       # Using external Redis (defined by 'url'), so internal redis is disabled but manager is set to redis
       manager: redis
-      url: redis://redis-ha-leader.redis.svc.cluster.local:6379/0
+      url: redis://redis-ha-master.redis.svc.cluster.local:6379/0
       redis:
         enabled: false
     tika:
@@ -23,9 +23,13 @@ spec:
         tailscale.com/expose: "true"
 
     commonEnvVars:
-      # Redis URL for application state storage (required for multi-worker deployments)
+      # Redis configuration for multi-worker deployments
       - name: REDIS_URL
-        value: "redis://redis-ha-leader.redis.svc.cluster.local:6379/0"
+        value: "redis://redis-ha-master.redis.svc.cluster.local:6379/0"
+      - name: WEBSOCKET_MANAGER
+        value: "redis"
+      - name: WEBSOCKET_REDIS_URL
+        value: "redis://redis-ha-master.redis.svc.cluster.local:6379/0"
       - name: OFFLINE_MODE
         value: "true"
       - name: ENABLE_OPENAI_API
