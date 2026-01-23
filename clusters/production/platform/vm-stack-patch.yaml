@@ -36,17 +36,3 @@ spec:
           allowed_organizations: lumine-duality
           # Map GitHub Teams to Grafana Roles
           role_attribute_path: "contains(groups[*], '@lumine-duality/admins') && 'Admin' || 'Viewer'"
-
-    prometheus-node-exporter:
-      vmScrape:
-        enabled: false
-      # 启用 VMNodeScrape (可以读取节点注解的 Tailscale IP)
-      vmNodeScrape:
-        enabled: true
-        spec:
-          relabelConfigs:
-            - sourceLabels: [__meta_kubernetes_node_annotation_tailscale_ip]
-              regex: "(.+)"
-              targetLabel: __address__
-              replacement: "${1}:9100"
-              action: replace
