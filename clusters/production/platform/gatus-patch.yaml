@@ -8,15 +8,16 @@ spec:
     config:
       endpoints:
         # --- External Connectivity ---
-        - name: open-webui
-          group: external
-          url: "https://chat.simplelumine.com"
-          interval: 2m
-          conditions:
-            - "[STATUS] == 200"
         - name: grafana
           group: external
           url: "https://monitor.simplelumine.com"
+          interval: 2m
+          conditions:
+            - "[STATUS] == 200"
+            
+        - name: open-webui
+          group: external
+          url: "https://chat.simplelumine.com"
           interval: 2m
           conditions:
             - "[STATUS] == 200"
