@@ -108,6 +108,8 @@ helm uninstall <app> -n <namespace>
 
 ### Kubectl Debugging
 ```bash
+kubectl delete helmrelease <app> -n <namespace>
+
 kubectl get all -n <namespace>
 kubectl get helmrelease <name> -n <namespace> -o yaml
 kubectl describe helmrelease <name> -n <namespace>
