@@ -31,3 +31,4 @@ gha-creds-*.json
 .temp/
 
 values.yaml
+.test/
