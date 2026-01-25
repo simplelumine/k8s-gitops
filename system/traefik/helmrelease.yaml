@@ -23,7 +23,7 @@ spec:
       access:
         enabled: true
     service:
-      type: ClusterIP
+      type: LoadBalancer
     ports:
       web:
         redirections:
