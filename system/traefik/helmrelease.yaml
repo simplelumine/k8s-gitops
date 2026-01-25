@@ -37,20 +37,18 @@ spec:
         enabled: true
     service:
       type: ClusterIP
-    # Security Context: Allow binding to privileged ports (80/443) as non-root user
-    # This relies on Linux Capabilities (NET_BIND_SERVICE)
+    # Security Context: Grant NET_BIND_SERVICE capability to bind ports 80/443
     podSecurityContext:
       runAsGroup: 65532
       runAsNonRoot: true
       runAsUser: 65532
+      fsGroup: 65532
     securityContext:
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true
       capabilities:
         drop: [ALL]
         add: [NET_BIND_SERVICE]
-      readOnlyRootFilesystem: true
-      runAsGroup: 65532
-      runAsNonRoot: true
-      runAsUser: 65532
     ports:
       metrics:
         port: 9200
