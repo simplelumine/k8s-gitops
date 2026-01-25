@@ -19,11 +19,15 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
+    hostNetwork: true
+    dnsPolicy: ClusterFirstWithHostNet
+    deployment:
+      replicas: 2
     logs:
       access:
         enabled: true
     service:
-      type: LoadBalancer
+      type: ClusterIP
     ports:
       web:
         redirections:
