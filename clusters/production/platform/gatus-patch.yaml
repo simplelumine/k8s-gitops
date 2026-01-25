@@ -7,31 +7,68 @@ spec:
   values:
     config:
       endpoints:
-        # --- External Connectivity ---
+        # --- External Services ---
         - name: grafana
-          group: external
+          group: external-services
           url: "https://monitor.simplelumine.com"
           interval: 2m
           conditions:
             - "[STATUS] == 200"
-            
+
         - name: open-webui
-          group: external
+          group: external-services
           url: "https://chat.simplelumine.com"
           interval: 2m
           conditions:
             - "[STATUS] == 200"
 
+        - name: gcli
+          group: external-services
+          url: "https://gpi-tem.simplelumine.com"
+          interval: 2m
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: litellm
+          group: external-services
+          url: "https://api-tem.simplelumine.com"
+          interval: 2m
+          conditions:
+            - "[STATUS] == 200"
+
         # --- Internal Services ---
+        - name: vm-stack-svc
+          group: internal-services
+          url: "http://vmselect-vm-stack-victoria-metrics-k8s-stack.monitoring.svc.cluster.local:8481/select/0/prometheus/api/v1/query?query=up"
+          interval: 30s
+          conditions:
+            - "[STATUS] == 200"
+
         - name: open-webui-svc
           group: internal-services
           url: "http://open-webui.open-webui.svc.cluster.local:80"
           interval: 30s
           conditions:
             - "[STATUS] == 200"
-        - name: vm-stack-svc
-          group: internal-services
-          url: "http://vmselect-vm-stack-victoria-metrics-k8s-stack.monitoring.svc.cluster.local:8481/select/0/prometheus/api/v1/query?query=up"
-          interval: 30s
+
+        # --- Textverse Services ---
+        - name: sillytavern
+          group: textverse-services
+          url: "https://st.textverse.top"
+          interval: 2m
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: sillytavern-us
+          group: textverse-services
+          url: "https://st-us.textverse.top"
+          interval: 2m
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: sillytavern-hk
+          group: textverse-services
+          url: "https://st-hk.textverse.top"
+          interval: 2m
           conditions:
             - "[STATUS] == 200"

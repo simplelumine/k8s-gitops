@@ -22,9 +22,6 @@ spec:
             - tunnel
             # Points to the secret that contains the tunnel token
             - run
-            # Enforce http2 protocol to prevent connection timeouts caused by QUIC/UDP issues.
-            - --protocol
-            - http2
             - --token
             - "$(TUNNEL_TOKEN)"
           env:
