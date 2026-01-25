@@ -23,12 +23,26 @@ spec:
     dnsPolicy: ClusterFirstWithHostNet
     deployment:
       replicas: 2
+    # Prefer scheduling on control-plane node
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: Exists
     logs:
       access:
         enabled: true
     service:
       type: ClusterIP
+    # Change metrics port to avoid conflict with node_exporter (9100)
     ports:
+      metrics:
+        port: 9200
+        expose:
+          default: false
       web:
         redirections:
           entryPoint:
