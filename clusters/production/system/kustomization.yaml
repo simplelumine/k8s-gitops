@@ -16,8 +16,6 @@ resources:
   - cloudflare-tunnel-secret.sops.yaml
   - ../../../system/cert-manager
   - cert-manager-cloudflare-secret.sops.yaml
-  - ../../../system/external-dns
-  - external-dns-cloudflare-secret.sops.yaml
 
 patches:
   - path: cilium-patch.yaml
