@@ -3,13 +3,11 @@ kind: Kustomization
 resources:
   - ../../../platform/vm-stack
   - vm-stack-auth.sops.yaml
-
   - external-targets.yaml
 
   - ../../../platform/gatus
 
-  # - ../../../platform/victoria-logs
-  # - dashboards/victorialogs.yaml
+  - cluster-issuer.yaml
 
 patches:
   - path: vm-stack-patch.yaml
