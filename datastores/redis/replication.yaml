@@ -16,8 +16,6 @@ spec:
       requests:
         cpu: 20m
         memory: 16Mi
-      limits:
-        memory: 128Mi
   redisExporter:
     enabled: true
     image: quay.io/opstree/redis-exporter:v1.44.0
@@ -29,8 +27,6 @@ spec:
       requests:
         cpu: 20m
         memory: 32Mi
-      limits:
-        memory: 128Mi
   storage:
     volumeClaimTemplate:
       spec:

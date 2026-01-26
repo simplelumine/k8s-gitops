@@ -21,8 +21,6 @@ spec:
       requests:
         cpu: 100m
         memory: 256Mi
-      limits:
-        memory: 1Gi
     db:
       useExisting: true
       endpoint: postgres-ha-rw.postgres.svc.cluster.local
