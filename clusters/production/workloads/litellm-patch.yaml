@@ -5,6 +5,12 @@ metadata:
   namespace: litellm
 spec:
   values:
+    # --- Use custom ConfigMap instead of Helm-generated one ---
+    proxyConfigMap:
+      create: false
+      name: litellm-config
+      key: config.yaml
+
     # --- Infrastructure Configuration ---
     db:
       useExisting: true
@@ -23,7 +29,7 @@ spec:
     # --- Runtime Configuration ---
     # Override command to load all configs in the mount directory
     command: ["litellm"]
-    args: ["--config", "/app/config/parent_config.yaml"]
+    args: ["--config", "/app/config/config.yaml"]
 
     # --- Environment Variables ---
     # Load ALL keys from our SOPS secret
