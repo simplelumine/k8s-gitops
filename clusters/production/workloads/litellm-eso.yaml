@@ -6,7 +6,7 @@ metadata:
 spec:
   refreshInterval: 1h
   secretStoreRef:
-    name: kubernetes-central
+    name: postgres-store
     kind: ClusterSecretStore
   target:
     name: litellm-db-secret
@@ -17,9 +17,9 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: postgres/litellm-db-secret
+        key: litellm-db-secret
         property: username
     - secretKey: password
       remoteRef:
-        key: postgres/litellm-db-secret
+        key: litellm-db-secret
         property: password

@@ -6,7 +6,7 @@ metadata:
 spec:
   refreshInterval: 1h
   secretStoreRef:
-    name: kubernetes-central
+    name: postgres-store
     kind: ClusterSecretStore
   target:
     name: open-webui-db-secret
@@ -20,7 +20,7 @@ spec:
     - secretKey: username
       remoteRef:
         # Verified: The secret exists in 'postgres' namespace with name 'open-webui-db-secret'
-        key: postgres/open-webui-db-secret
+        key: open-webui-db-secret
         property: username
     - secretKey: password
       remoteRef:
