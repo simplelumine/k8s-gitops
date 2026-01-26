@@ -16,13 +16,14 @@ spec:
         # Construct the URL manually to ensure FQDN for cross-namespace access
         # Format: postgres://user:password@host.namespace.svc:5432/dbname
         DATABASE_URL: "postgres://{{ .username }}:{{ .password }}@postgres-ha-rw.postgres.svc.cluster.local:5432/open-webui"
+        username: "{{ .username }}"
+        password: "{{ .password }}"
   data:
     - secretKey: username
       remoteRef:
-        # Verified: The secret exists in 'postgres' namespace with name 'open-webui-db-secret'
         key: open-webui-db-secret
         property: username
     - secretKey: password
       remoteRef:
-        key: postgres/open-webui-db-secret
+        key: open-webui-db-secret
         property: password
