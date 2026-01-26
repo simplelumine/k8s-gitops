@@ -35,10 +35,3 @@ spec:
       enabled: true
       storageClass: local-path
       size: 10Gi
-
-    resources:
-      requests:
-        cpu: 500m
-        memory: 512Mi
-      limits:
-        memory: 1.5Gi
