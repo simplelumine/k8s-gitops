@@ -20,9 +20,10 @@ spec:
       enabled: false
 
     # --- Runtime Configuration ---
+    # --- Runtime Configuration ---
     # Override command to load all configs in the mount directory
-    command: ["/bin/sh", "-c"]
-    args: ["litellm --config /app/config/models/*.yaml"]
+    command: ["litellm"]
+    args: ["--config", "/app/config/parent_config.yaml"]
 
     # --- Environment Variables ---
     # Load ALL keys from our SOPS secret
@@ -44,13 +45,13 @@ spec:
 
     # --- Mounts ---
     extraVolumes:
-      - name: model-configs
+      - name: litellm-config
         configMap:
-          name: litellm-models
+          name: litellm-config
 
     extraVolumeMounts:
-      - name: model-configs
-        mountPath: /app/config/models
+      - name: litellm-config
+        mountPath: /app/config
         readOnly: true
 
     # --- Ingress ---

@@ -1,0 +1,133 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: litellm-config
+  namespace: litellm
+data:
+  parent_config.yaml: |
+    include:
+      - ./deepseek.yaml
+      - ./azure_config.yaml
+      - ./aistudio_free_config.yaml
+
+    litellm_settings:
+      drop_params: True
+      set_verbose: True
+      cache: True  
+      cache_params:
+        type: redis
+
+  deepseek.yaml: |
+    model_list:
+      - model_name: deepseek-chat
+        litellm_params:
+          model: deepseek/deepseek-chat
+          api_key: os.environ/DEEPSEEK_API_KEY
+      - model_name: deepseek-coder
+        litellm_params:
+          model: deepseek/deepseek-coder
+          api_key: os.environ/DEEPSEEK_API_KEY
+
+  azure.yaml: |
+    model_list:
+      - model_name: gpt-4o-mini
+        litellm_params:
+          model: azure/gpt-4o-mini
+          api_key: os.environ/AZURE_API_KEY
+          api_base: os.environ/AZURE_API_BASE
+          api_version: os.environ/AZURE_API_VERSION
+
+  aistudio.yaml: |
+    model_list:
+      - model_name: aistudio:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_key: os.environ/AISTUDIO_FREE_KEY1
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_key: os.environ/AISTUDIO_FREE_KEY1
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash-lite
+        litellm_params:
+          model: gemini/gemini-2.5-flash-lite
+          api_key: os.environ/AISTUDIO_FREE_KEY1
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-embedding-001
+        litellm_params:
+          model: gemini/gemini-embedding-001
+          api_key: os.environ/AISTUDIO_FREE_KEY1
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+          model_info:
+            mode: embedding
+
+
+      - model_name: aistudio:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_key: os.environ/AISTUDIO_FREE_KEY2
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_key: os.environ/AISTUDIO_FREE_KEY2
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash-lite
+        litellm_params:
+          model: gemini/gemini-2.5-flash-lite
+          api_key: os.environ/AISTUDIO_FREE_KEY2
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-embedding-001
+        litellm_params:
+          model: gemini/gemini-embedding-001
+          api_key: os.environ/AISTUDIO_FREE_KEY2
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+          model_info:
+            mode: embedding
+
+
+
+      - model_name: aistudio:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_key: os.environ/AISTUDIO_FREE_KEY3
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_key: os.environ/AISTUDIO_FREE_KEY3
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash-lite
+        litellm_params:
+          model: gemini/gemini-2.5-flash-lite
+          api_key: os.environ/AISTUDIO_FREE_KEY3
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-embedding-001
+        litellm_params:
+          model: gemini/gemini-embedding-001
+          api_key: os.environ/AISTUDIO_FREE_KEY3
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+          model_info:
+            mode: embedding
