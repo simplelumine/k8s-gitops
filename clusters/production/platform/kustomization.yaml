@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - ../../../platform/vm-stack
   - vm-stack-auth.sops.yaml
-  # - external-targets.yaml
+  - edge-nodes.yaml
 
   - ../../../platform/gatus
 
