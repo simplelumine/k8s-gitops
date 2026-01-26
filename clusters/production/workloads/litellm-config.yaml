@@ -5,40 +5,21 @@ metadata:
   namespace: litellm
 data:
   config.yaml: |
-    include:
-      - ./deepseek.yaml
-      - ./azure.yaml
-      - ./aistudio.yaml
-
+    # =====================================================
+    # LiteLLM Settings
+    # =====================================================
     litellm_settings:
       drop_params: True
-      set_verbose: True
-      cache: True  
+      cache: True
       cache_params:
         type: redis
 
-  deepseek.yaml: |
+    # =====================================================
+    # Model List
+    # =====================================================
     model_list:
-      - model_name: deepseek-chat
-        litellm_params:
-          model: deepseek/deepseek-chat
-          api_key: os.environ/DEEPSEEK_API_KEY
-      - model_name: deepseek-coder
-        litellm_params:
-          model: deepseek/deepseek-coder
-          api_key: os.environ/DEEPSEEK_API_KEY
 
-  azure.yaml: |
-    model_list:
-      - model_name: gpt-4o-mini
-        litellm_params:
-          model: azure/gpt-4o-mini
-          api_key: os.environ/AZURE_API_KEY
-          api_base: os.environ/AZURE_API_BASE
-          api_version: os.environ/AZURE_API_VERSION
-
-  aistudio.yaml: |
-    model_list:
+    # -----AI Studio-----
       - model_name: aistudio:gemini-3-flash-preview
         litellm_params:
           model: gemini/gemini-3-flash-preview
@@ -99,7 +80,6 @@ data:
           output_cost_per_token: 0
           model_info:
             mode: embedding
-
 
 
       - model_name: aistudio:gemini-3-flash-preview
