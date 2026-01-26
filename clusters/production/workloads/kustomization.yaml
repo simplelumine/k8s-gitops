@@ -5,6 +5,7 @@ resources:
   - open-webui-eso.yaml
 
   - ../../../workloads/litellm
+  - litellm-config.yaml
   - litellm-eso.yaml
 
 patches:
