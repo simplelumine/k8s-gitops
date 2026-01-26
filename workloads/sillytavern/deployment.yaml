@@ -3,6 +3,7 @@ kind: Service
 metadata:
   annotations:
     tailscale.com/expose: "true"
+    tailscale.com/hostname: "sillytavern"
   name: sillytavern-svc
   namespace: sillytavern
 spec:
@@ -32,7 +33,7 @@ spec:
     spec:
       containers:
         - name: sillytavern-container
-          image: ghcr.io/sillytavern/sillytavern:1.13.3
+          image: ghcr.io/sillytavern/sillytavern:latest
           ports:
             - containerPort: 8000
           # envFrom:
