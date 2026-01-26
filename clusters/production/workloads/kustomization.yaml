@@ -4,5 +4,9 @@ resources:
   - ../../../workloads/open-webui
   - open-webui-eso.yaml
 
+  - ../../../workloads/litellm
+  - litellm-eso.yaml
+
 patches:
   - path: open-webui-patch.yaml
+  - path: litellm-patch.yaml

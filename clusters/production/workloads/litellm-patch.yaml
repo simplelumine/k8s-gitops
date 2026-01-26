@@ -1,0 +1,70 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: litellm
+  namespace: litellm
+spec:
+  values:
+    # --- Infrastructure Configuration ---
+    db:
+      useExisting: true
+      endpoint: postgres-ha-rw.postgres.svc.cluster.local
+      database: litellm
+      secret:
+        name: litellm-db-secret
+        usernameKey: username
+        passwordKey: password
+      deployStandalone: false
+
+    redis:
+      enabled: false
+
+    # --- Runtime Configuration ---
+    # Override command to load all configs in the mount directory
+    command: ["/bin/sh", "-c"]
+    args: ["litellm --config /app/config/models/*.yaml"]
+
+    # --- Environment Variables ---
+    # Load ALL keys from our SOPS secret
+    envFrom:
+      - secretRef:
+          name: litellm-secret
+
+    # Specific Env Vars (Infrastructure)
+    extraEnvVars:
+      - name: REDIS_HOST
+        value: "redis-ha-leader.redis.svc.cluster.local"
+      - name: REDIS_PORT
+        value: "6379"
+      - name: DATABASE_URL
+        valueFrom:
+          secretKeyRef:
+            name: litellm-db-secret
+            key: DATABASE_URL
+
+    # --- Mounts ---
+    extraVolumes:
+      - name: model-configs
+        configMap:
+          name: litellm-models
+
+    extraVolumeMounts:
+      - name: model-configs
+        mountPath: /app/config/models
+        readOnly: true
+
+    # --- Ingress ---
+    ingress:
+      enabled: true
+      className: "traefik"
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      hosts:
+        - host: api.simplelumine.com
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: litellm-tls
+          hosts:
+            - api.simplelumine.com
