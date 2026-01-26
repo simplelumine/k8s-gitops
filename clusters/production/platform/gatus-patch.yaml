@@ -16,10 +16,7 @@ spec:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       hosts:
-        - host: status.simplelumine.com
-          paths:
-            - path: /
-              pathType: Prefix
+        - status.simplelumine.com
       tls:
         - secretName: gatus-tls
           hosts:

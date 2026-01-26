@@ -28,15 +28,9 @@ spec:
       class: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-      hosts:
-        - host: chat.simplelumine.com
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - secretName: open-webui-tls
-          hosts:
-            - chat.simplelumine.com
+      host: chat.simplelumine.com
+      tls: true
+      existingSecret: open-webui-tls
 
     commonEnvVars:
       - name: OFFLINE_MODE
