@@ -1,0 +1,28 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: open-webui-db-secret-sync
+  namespace: open-webui
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: kubernetes-central
+    kind: ClusterSecretStore
+  target:
+    name: open-webui-db-secret
+    template:
+      engineVersion: v2
+      data:
+        # Construct the URL manually to ensure FQDN for cross-namespace access
+        # Format: postgres://user:password@host.namespace.svc:5432/dbname
+        DATABASE_URL: "postgres://{{ .username }}:{{ .password }}@postgres-ha-rw.postgres.svc.cluster.local:5432/open-webui"
+  data:
+    - secretKey: username
+      remoteRef:
+        # Verified: The secret exists in 'postgres' namespace with name 'open-webui-db-secret'
+        key: postgres/open-webui-db-secret
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: postgres/open-webui-db-secret
+        property: password
