@@ -50,13 +50,14 @@ spec:
             key: DATABASE_URL
 
     # --- Mounts ---
-    extraVolumes:
-      - name: litellm-config
+    # Note: Using volumes/volumeMounts instead of extraVolumes to override Helm defaults
+    volumes:
+      - name: config-volume
         configMap:
           name: litellm-config
 
-    extraVolumeMounts:
-      - name: litellm-config
+    volumeMounts:
+      - name: config-volume
         mountPath: /app/config
         readOnly: true
 
