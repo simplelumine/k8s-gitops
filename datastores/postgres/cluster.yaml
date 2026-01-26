@@ -12,13 +12,13 @@ spec:
     size: 10Gi
     storageClass: local-path
 
-  # Resource Limits (Crucial for stability)
-  resources:
-    requests:
-      memory: "128Mi"
-      cpu: "250m"
-    limits:
-      memory: "768Mi"
+  # # Resource Limits (Crucial for stability)
+  # resources:
+  #   requests:
+  #     memory: "128Mi"
+  #     cpu: "250m"
+  #   limits:
+  #     memory: "768Mi"
 
   # Bootstrap with a default database
   bootstrap:
