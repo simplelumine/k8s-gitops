@@ -34,8 +34,6 @@ spec:
             requests:
               cpu: "100m"
               memory: "512Mi"
-            limits:
-              memory: "1Gi"
           storage:
             volumeClaimTemplate:
               spec:
@@ -49,18 +47,15 @@ spec:
           replicaCount: 1
           resources:
             requests:
-              cpu: "50m"
+              cpu: "100m"
               memory: "128Mi"
-            limits:
-              memory: "512Mi"
         vminsert:
           replicaCount: 1
           resources:
             requests:
-              cpu: "50m"
+              cpu: "100m"
               memory: "128Mi"
-            limits:
-              memory: "512Mi"
+
 
     # Configure Grafana with VictoriaLogs integration
     grafana:
