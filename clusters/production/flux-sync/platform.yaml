@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: system
+    - name: datastores
   interval: 10m
   path: ./clusters/production/platform
   prune: true

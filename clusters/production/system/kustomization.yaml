@@ -8,10 +8,17 @@ resources:
 
   - ../../../system/tailscale-operator
   - tailscale-secret.sops.yaml
-
-  - ../../../system/cloudflared-tunnel
-  - cloudflare-tunnel-secret.sops.yaml
   - ../../../system/cert-manager
   - cert-manager-cloudflare-secret.sops.yaml
   - ../../../system/external-dns
   - external-dns-cloudflare-secret.sops.yaml
+
+  - ../../../system/vm-stack
+  - vm-stack-auth.sops.yaml
+
+patches:
+  - path: vm-stack-patch.yaml
+    target:
+      kind: HelmRelease
+      name: vm-stack
+      namespace: monitoring
