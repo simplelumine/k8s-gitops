@@ -16,27 +16,14 @@ spec:
       interval: 1h
   values:
     image:
-      tag: v1.80.11-stable.1
+      tag: main-latest
     resources:
       requests:
         cpu: 100m
         memory: 256Mi
     db:
-      useExisting: true
-      endpoint: postgres-ha-rw.postgres.svc.cluster.local
-      database: litellm
-      url: postgresql://$(DATABASE_USERNAME):$(DATABASE_PASSWORD)@$(DATABASE_HOST)/$(DATABASE_NAME)
-      secret:
-        name: litellm-db-secret
-        usernameKey: username
-        passwordKey: password
       deployStandalone: false
     redis:
       enabled: false
-    extraEnvVars:
-      - name: REDIS_HOST
-        value: "redis-ha-leader.redis.svc.cluster.local"
-      - name: REDIS_PORT
-        value: "6379"
     serviceMonitor:
       enabled: false
