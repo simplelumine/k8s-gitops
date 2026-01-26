@@ -5,7 +5,7 @@ metadata:
   namespace: litellm
 spec:
   values:
-    # --- Use custom ConfigMap instead of Helm-generated one ---
+    # --- Use custom ConfigMap (standard Helm approach) ---
     proxyConfigMap:
       create: false
       name: litellm-config
@@ -25,19 +25,11 @@ spec:
     redis:
       enabled: false
 
-    # --- Runtime Configuration ---
-    # --- Runtime Configuration ---
-    # Override command to load all configs in the mount directory
-    command: ["litellm"]
-    args: ["--config", "/app/config/config.yaml"]
-
     # --- Environment Variables ---
-    # Load ALL keys from our SOPS secret
-    envFrom:
-      - secretRef:
-          name: litellm-secret
+    # Load ALL keys from secret (official Helm approach)
+    environmentSecrets:
+      - litellm-secret
 
-    # Specific Env Vars (Infrastructure)
     extraEnvVars:
       - name: REDIS_HOST
         value: "redis-ha-leader.redis.svc.cluster.local"
@@ -48,18 +40,6 @@ spec:
           secretKeyRef:
             name: litellm-db-secret
             key: DATABASE_URL
-
-    # --- Mounts ---
-    # Note: Using volumes/volumeMounts instead of extraVolumes to override Helm defaults
-    volumes:
-      - name: config-volume
-        configMap:
-          name: litellm-config
-
-    volumeMounts:
-      - name: config-volume
-        mountPath: /app/config
-        readOnly: true
 
     # --- Ingress ---
     ingress:
