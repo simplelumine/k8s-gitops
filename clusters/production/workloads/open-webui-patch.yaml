@@ -23,6 +23,21 @@ spec:
         tailscale.com/expose: "true"
         tailscale.com/hostname: "open-webui"
 
+    ingress:
+      enabled: true
+      class: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      hosts:
+        - host: chat.simplelumine.com
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: open-webui-tls
+          hosts:
+            - chat.simplelumine.com
+
     commonEnvVars:
       - name: OFFLINE_MODE
         value: "true"

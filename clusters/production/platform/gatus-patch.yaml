@@ -5,6 +5,26 @@ metadata:
   namespace: gatus
 spec:
   values:
+    service:
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/hostname: "gatus"
+
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      hosts:
+        - host: status.simplelumine.com
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: gatus-tls
+          hosts:
+            - status.simplelumine.com
+
     config:
       endpoints:
         # --- External Services ---

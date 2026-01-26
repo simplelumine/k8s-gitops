@@ -6,6 +6,23 @@ metadata:
 spec:
   values:
     grafana:
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        hosts:
+          - monitor.simplelumine.com
+        tls:
+          - secretName: grafana-tls
+            hosts:
+              - monitor.simplelumine.com
+
+      service:
+        annotations:
+          tailscale.com/expose: "true"
+          tailscale.com/hostname: "vm-stack"
+
       # Use the secret for Admin credentials
       admin:
         existingSecret: vm-stack-auth
