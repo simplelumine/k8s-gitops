@@ -22,13 +22,27 @@ spec:
           hosts:
             - status.simplelumine.com
 
+    env:
+      DATABASE_URL:
+        valueFrom:
+          secretKeyRef:
+            name: gatus-db-secret
+            key: DATABASE_URL
+
     config:
+      storage:
+        type: postgres
+        path: "${DATABASE_URL}"
+        caching: true
+
       endpoints:
         # --- External Services ---
         - name: grafana
           group: external-services
           url: "https://monitor.simplelumine.com"
           interval: 2m
+          ui:
+            hide-url: true
           conditions:
             - "[STATUS] == 200"
 
@@ -36,6 +50,8 @@ spec:
           group: external-services
           url: "https://chat.simplelumine.com"
           interval: 2m
+          ui:
+            hide-url: true
           conditions:
             - "[STATUS] == 200"
 
@@ -43,28 +59,26 @@ spec:
           group: external-services
           url: "https://gpi-tem.simplelumine.com"
           interval: 2m
+          ui:
+            hide-url: true
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: gatus
+          group: external-services
+          url: "https://status.simplelumine.com"
+          interval: 2m
+          ui:
+            hide-url: true
           conditions:
             - "[STATUS] == 200"
 
         - name: litellm
           group: external-services
-          url: "https://api-tem.simplelumine.com"
+          url: "https://api.simplelumine.com"
           interval: 2m
-          conditions:
-            - "[STATUS] == 200"
-
-        # --- Internal Services ---
-        - name: vm-stack-svc
-          group: internal-services
-          url: "http://vmselect-vm-stack-victoria-metrics-k8s-stack.monitoring.svc.cluster.local:8481/select/0/prometheus/api/v1/query?query=up"
-          interval: 30s
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: open-webui-svc
-          group: internal-services
-          url: "http://open-webui.open-webui.svc.cluster.local:80"
-          interval: 30s
+          ui:
+            hide-url: true
           conditions:
             - "[STATUS] == 200"
 
@@ -73,19 +87,25 @@ spec:
           group: textverse-services
           url: "https://st.textverse.top"
           interval: 2m
+          ui:
+            hide-url: true
           conditions:
             - "[STATUS] == 200"
 
-        - name: sillytavern-us
+        - name: sillytavern-unitedstates
           group: textverse-services
           url: "https://st-us.textverse.top"
           interval: 2m
+          ui:
+            hide-url: true
           conditions:
             - "[STATUS] == 200"
 
-        - name: sillytavern-hk
+        - name: sillytavern-hongkong
           group: textverse-services
           url: "https://st-hk.textverse.top"
           interval: 2m
+          ui:
+            hide-url: true
           conditions:
             - "[STATUS] == 200"

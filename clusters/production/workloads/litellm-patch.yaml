@@ -36,6 +36,11 @@ spec:
       - name: REDIS_PORT
         value: "6379"
 
+    service:
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/hostname: "litellm"
+
     # --- Ingress ---
     ingress:
       enabled: true

@@ -5,10 +5,10 @@ resources:
   - cloudflare-tunnel-secret.sops.yaml
 
   - ../../../platform/gatus
+  - gatus-eso.yaml
 
   - cluster-issuer.yaml
-  - cluster-secret-store.yaml
-  - edge-nodes.yaml
+  - edge-scrape.yaml
 
 patches:
   - path: gatus-patch.yaml

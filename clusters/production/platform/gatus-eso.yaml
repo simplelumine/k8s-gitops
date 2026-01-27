@@ -1,0 +1,25 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: gatus-db-secret-sync
+  namespace: gatus
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: postgres-store
+    kind: ClusterSecretStore
+  target:
+    name: gatus-db-secret
+    template:
+      engineVersion: v2
+      data:
+        DATABASE_URL: "postgres://{{ .username }}:{{ .password }}@postgres-ha-rw.postgres.svc.cluster.local:5432/gatus"
+  data:
+    - secretKey: username
+      remoteRef:
+        key: gatus-db-secret
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: gatus-db-secret
+        property: password
