@@ -222,100 +222,6 @@ data:
           base_model: anthropic/claude-opus-4-5
 
 
-    # -----AI Studio-----
-      - model_name: aistudio:gemini-3-flash-preview
-        litellm_params:
-          model: gemini/gemini-3-flash-preview
-          api_key: os.environ/AISTUDIO_FREE_KEY1
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash
-        litellm_params:
-          model: gemini/gemini-2.5-flash
-          api_key: os.environ/AISTUDIO_FREE_KEY1
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash-lite
-        litellm_params:
-          model: gemini/gemini-2.5-flash-lite
-          api_key: os.environ/AISTUDIO_FREE_KEY1
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-embedding-001
-        litellm_params:
-          model: gemini/gemini-embedding-001
-          api_key: os.environ/AISTUDIO_FREE_KEY1
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-          model_info:
-            mode: embedding
-
-
-      - model_name: aistudio:gemini-3-flash-preview
-        litellm_params:
-          model: gemini/gemini-3-flash-preview
-          api_key: os.environ/AISTUDIO_FREE_KEY2
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash
-        litellm_params:
-          model: gemini/gemini-2.5-flash
-          api_key: os.environ/AISTUDIO_FREE_KEY2
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash-lite
-        litellm_params:
-          model: gemini/gemini-2.5-flash-lite
-          api_key: os.environ/AISTUDIO_FREE_KEY2
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-embedding-001
-        litellm_params:
-          model: gemini/gemini-embedding-001
-          api_key: os.environ/AISTUDIO_FREE_KEY2
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-          model_info:
-            mode: embedding
-
-
-      - model_name: aistudio:gemini-3-flash-preview
-        litellm_params:
-          model: gemini/gemini-3-flash-preview
-          api_key: os.environ/AISTUDIO_FREE_KEY3
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash
-        litellm_params:
-          model: gemini/gemini-2.5-flash
-          api_key: os.environ/AISTUDIO_FREE_KEY3
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash-lite
-        litellm_params:
-          model: gemini/gemini-2.5-flash-lite
-          api_key: os.environ/AISTUDIO_FREE_KEY3
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-embedding-001
-        litellm_params:
-          model: gemini/gemini-embedding-001
-          api_key: os.environ/AISTUDIO_FREE_KEY3
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-          model_info:
-            mode: embedding
-
-
     # -----xAI-----
       - model_name: xai:grok-4-1-fast
         litellm_params:
@@ -348,3 +254,93 @@ data:
         litellm_params:
           model: deepseek/deepseek-coder
           api_key: os.environ/DEEPSEEK_KEY 
+
+
+    # -----AI Studio-----
+      - model_name: aistudio:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_key: os.environ/AISTUDIO_FREE_KEY1
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_key: os.environ/AISTUDIO_FREE_KEY1
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash-lite
+        litellm_params:
+          model: gemini/gemini-2.5-flash-lite
+          api_key: os.environ/AISTUDIO_FREE_KEY1
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-embedding-001
+        litellm_params:
+          model: gemini/gemini-embedding-001
+          api_key: os.environ/AISTUDIO_FREE_KEY1
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+
+
+      - model_name: aistudio:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_key: os.environ/AISTUDIO_FREE_KEY2
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_key: os.environ/AISTUDIO_FREE_KEY2
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash-lite
+        litellm_params:
+          model: gemini/gemini-2.5-flash-lite
+          api_key: os.environ/AISTUDIO_FREE_KEY2
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-embedding-001
+        litellm_params:
+          model: gemini/gemini-embedding-001
+          api_key: os.environ/AISTUDIO_FREE_KEY2
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+
+
+      - model_name: aistudio:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_key: os.environ/AISTUDIO_FREE_KEY3
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_key: os.environ/AISTUDIO_FREE_KEY3
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-2.5-flash-lite
+        litellm_params:
+          model: gemini/gemini-2.5-flash-lite
+          api_key: os.environ/AISTUDIO_FREE_KEY3
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: aistudio:gemini-embedding-001
+        litellm_params:
+          model: gemini/gemini-embedding-001
+          api_key: os.environ/AISTUDIO_FREE_KEY3
+          input_cost_per_token: 0
+          output_cost_per_token: 0
