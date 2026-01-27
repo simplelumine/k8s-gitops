@@ -4,6 +4,7 @@ resources:
   - ../../../datastores/postgres
   - postgres-users-secret.sops.yaml
   - postgres-databases.yaml
+  - postgres-secret-store.yaml
 
   - ../../../datastores/redis
 
