@@ -42,7 +42,7 @@ spec:
           url: "https://monitor.simplelumine.com"
           interval: 2m
           ui:
-            hide-url: true
+            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -51,7 +51,7 @@ spec:
           url: "https://chat.simplelumine.com"
           interval: 2m
           ui:
-            hide-url: true
+            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -60,7 +60,7 @@ spec:
           url: "https://gpi-tem.simplelumine.com"
           interval: 2m
           ui:
-            hide-url: true
+            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -69,7 +69,7 @@ spec:
           url: "https://status.simplelumine.com"
           interval: 2m
           ui:
-            hide-url: true
+            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -78,7 +78,7 @@ spec:
           url: "https://api.simplelumine.com"
           interval: 2m
           ui:
-            hide-url: true
+            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -88,7 +88,7 @@ spec:
           url: "https://st.textverse.top"
           interval: 2m
           ui:
-            hide-url: true
+            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -97,7 +97,7 @@ spec:
           url: "https://st-us.textverse.top"
           interval: 2m
           ui:
-            hide-url: true
+            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -106,6 +106,6 @@ spec:
           url: "https://st-hk.textverse.top"
           interval: 2m
           ui:
-            hide-url: true
+            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
