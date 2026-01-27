@@ -18,6 +18,209 @@ data:
     # Model List
     # =====================================================
     model_list:
+    # -----Vertex AI-----
+      - model_name: vertexai:gemini-3-pro-preview
+        litellm_params:
+          model: vertex_ai/gemini-3-pro-preview
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:gemini-3-pro-image-preview
+        litellm_params:
+          model: vertex_ai/gemini-3-pro-image-preview
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:gemini-3-flash-preview
+        litellm_params:
+          model: vertex_ai/gemini-3-flash-preview
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:gemini-2.5-pro
+        litellm_params:
+          model: vertex_ai/gemini-2.5-pro
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:gemini-2.5-flash
+        litellm_params:
+          model: vertex_ai/gemini-2.5-flash
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:gemini-2.5-flash-image
+        litellm_params:
+          model: vertex_ai/gemini-2.5-flash-image
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:gemini-2.5-flash-lite
+        litellm_params:
+          model: vertex_ai/gemini-2.5-flash-lite
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:gemini-embedding-001
+        litellm_params:
+          model: vertex_ai/gemini-embedding-001
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:imagen-4.0-generate-001
+        litellm_params:
+          model: vertex_ai/imagen-4.0-generate-001
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:imagen-4.0-ultra-generate-001
+        litellm_params:
+          model: vertex_ai/imagen-4.0-ultra-generate-001
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+      - model_name: vertexai:imagen-4.0-fast-generate-001
+        litellm_params:
+          model: vertex_ai/imagen-4.0-fast-generate-001
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
+
+    # -----Gemini CLI-----
+      - model_name: geminicli:gemini-3-pro-preview
+        litellm_params:
+          model: gemini/gemini-3-pro-preview
+          api_key: os.environ/GEMINI_CLI_KEY
+          api_base: os.environ/GEMINI_CLI_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
+      - model_name: geminicli:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_key: os.environ/GEMINI_CLI_KEY
+          api_base: os.environ/GEMINI_CLI_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-flash-preview
+
+      - model_name: geminicli:gemini-2.5-pro
+        litellm_params:
+          model: gemini/gemini-2.5-pro
+          api_key: os.environ/GEMINI_CLI_KEY
+          api_base: os.environ/GEMINI_CLI_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-2.5-pro
+
+      - model_name: geminicli:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_key: os.environ/GEMINI_CLI_KEY
+          api_base: os.environ/GEMINI_CLI_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-2.5-flash
+
+      - model_name: geminicli:gemini-2.5-flash-lite
+        litellm_params:
+          model: gemini/gemini-2.5-flash-lite
+          api_key: os.environ/GEMINI_CLI_KEY
+          api_base: os.environ/GEMINI_CLI_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-2.5-flash-lite
+
+
+    # -----Antigravity-----
+      - model_name: antigravity:gemini-3-pro-high
+        litellm_params:
+          model: gemini/gemini-3-pro-high
+          api_key: os.environ/ANTIGRAVITY_KEY
+          api_base: os.environ/ANTIGRAVITY_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
+      - model_name: antigravity:gemini-3-pro-low
+        litellm_params:
+          model: gemini/gemini-3-pro-low
+          api_key: os.environ/ANTIGRAVITY_KEY
+          api_base: os.environ/ANTIGRAVITY_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
+      - model_name: antigravity:gemini-3-pro-image
+        litellm_params:
+          model: gemini/gemini-3-pro-image
+          api_key: os.environ/ANTIGRAVITY_KEY
+          api_base: os.environ/ANTIGRAVITY_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          mode: image_generation
+          base_model: vertex_ai/gemini-3-pro-image-preview
+
+      - model_name: antigravity:gemini-3-flash
+        litellm_params:
+          model: gemini/gemini-3-flash
+          api_key: os.environ/ANTIGRAVITY_KEY
+          api_base: os.environ/ANTIGRAVITY_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-flash-preview
+
+      - model_name: antigravity:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_key: os.environ/ANTIGRAVITY_KEY
+          api_base: os.environ/ANTIGRAVITY_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-2.5-flash
+
+      - model_name: antigravity:claude-sonnet-4-5-thinking
+        litellm_params:
+          model: gemini/claude-sonnet-4-5-thinking
+          api_key: os.environ/ANTIGRAVITY_KEY
+          api_base: os.environ/ANTIGRAVITY_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: anthropic/claude-sonnet-4-5
+
+      - model_name: antigravity:claude-opus-4-5-thinking
+        litellm_params:
+          model: gemini/claude-opus-4-5-thinking
+          api_key: os.environ/ANTIGRAVITY_KEY
+          api_base: os.environ/ANTIGRAVITY_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: anthropic/claude-opus-4-5
+
 
     # -----AI Studio-----
       - model_name: aistudio:gemini-3-flash-preview
@@ -111,3 +314,37 @@ data:
           output_cost_per_token: 0
           model_info:
             mode: embedding
+
+
+    # -----xAI-----
+      - model_name: xai:grok-4-1-fast
+        litellm_params:
+          model: xai/grok-4-1-fast
+          api_key: os.environ/XAI_KEY
+
+      - model_name: xai:grok-4
+        litellm_params:
+          model: xai/grok-4
+          api_key: os.environ/XAI_KEY
+
+      - model_name: xai:grok-code-fast
+        litellm_params:
+          model: xai/grok-code-fast
+          api_key: os.environ/XAI_KEY
+
+
+    # -----DeepSeek-----
+      - model_name: deepseek:deepseek-chat
+        litellm_params:
+          model: deepseek/deepseek-chat
+          api_key: os.environ/DEEPSEEK_KEY 
+
+      - model_name: deepseek:deepseek-reasoner
+        litellm_params:
+          model: deepseek/deepseek-reasoner
+          api_key: os.environ/DEEPSEEK_KEY 
+
+      - model_name: deepseek:deepseek-coder
+        litellm_params:
+          model: deepseek/deepseek-coder
+          api_key: os.environ/DEEPSEEK_KEY 

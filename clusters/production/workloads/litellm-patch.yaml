@@ -35,11 +35,6 @@ spec:
         value: "redis-ha-leader.redis.svc.cluster.local"
       - name: REDIS_PORT
         value: "6379"
-      - name: DATABASE_URL
-        valueFrom:
-          secretKeyRef:
-            name: litellm-db-secret
-            key: DATABASE_URL
 
     # --- Ingress ---
     ingress:
