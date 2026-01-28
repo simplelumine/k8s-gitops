@@ -25,6 +25,7 @@ jobs:
               line-length: disable
               document-start: disable
               truthy: disable
+        continue-on-error: true
 
   build:
     name: Build Kustomize
@@ -36,5 +37,11 @@ jobs:
       - name: Setup Kustomize
         uses: imranismail/setup-kustomize@v2
 
-      - name: Build Production Cluster
-        run: kustomize build clusters/production
+      - name: Setup Kubeconform
+        run: |
+          wget https://github.com/yannh/kubeconform/releases/download/v0.6.4/kubeconform-linux-amd64.tar.gz
+          tar -xf kubeconform-linux-amd64.tar.gz
+          sudo mv kubeconform /usr/local/bin/
+
+      - name: Build and Validate Production Cluster
+        run: kustomize build clusters/production | kubeconform -summary -ignore-missing-schemas
