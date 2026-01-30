@@ -9,24 +9,6 @@ on:
       - main
 
 jobs:
-  lint:
-    name: Lint YAML
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: YAML Lint
-        uses: ibiqlik/action-yamllint@v3
-        with:
-          config_data: |
-            extends: default
-            rules:
-              line-length: disable
-              document-start: disable
-              truthy: disable
-        continue-on-error: true
-
   build:
     name: Build Kustomize
     runs-on: ubuntu-latest
