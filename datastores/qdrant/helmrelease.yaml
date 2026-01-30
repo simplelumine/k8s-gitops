@@ -1,0 +1,34 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qdrant
+  namespace: qdrant
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: qdrant
+      version: ">= 0.12.0"
+      sourceRef:
+        kind: HelmRepository
+        name: qdrant
+        namespace: qdrant
+  values:
+    replicaCount: 3
+
+    config:
+      cluster:
+        enabled: true
+
+    podDisruptionBudget:
+      enabled: true
+      maxUnavailable: 1
+
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: qdrant
+            app.kubernetes.io/instance: qdrant
