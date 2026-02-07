@@ -24,9 +24,6 @@ This repository uses a layered GitOps architecture to manage multiple environmen
 └── docs/                 # Architecture Decision Records (ADR)
 ```
 
-## Documentation
-
-- **[ADR-001: Cilium & GitOps Structure](docs/ADR-001-cilium-refactor-gitops-structure.md)**: Details the directory structure decisions (Flat & Organized) and secret management strategy.
 
 ### Environment Strategy
 
