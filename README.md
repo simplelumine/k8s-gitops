@@ -1,72 +1,61 @@
 # k8s-gitops
 
-Declarative Kubernetes cluster management. A GitOps repository powered by Flux to reconcile the platform and applications.
+**Production-Grade GitOps Repository powered by Flux v2.**
 
-## Architecture
+## 🏗 Architecture
 
-This repository uses a layered GitOps architecture to manage multiple environments (laboratory & Production) from a single source of truth.
+This repository follows a structured **GitOps** workflow to manage Kubernetes clusters. It uses a **Multi-Layer Kustomization** strategy to ensure dependencies are deployed in the correct order.
 
 ### Directory Structure
 
 ```text
 .
-├── clusters/             # Cluster definitions (The "Control Plane")
-│   ├── production/       # Production environment (Tracks Tags)
-│   │   └── overlays/     # Production-specific component selection & patches
-│   └── laboratory/       # laboratory environment (Tracks Main)
-│       └── overlays/     # laboratory-specific component selection & patches
-│           └── core/
-│               ├── secrets/ # Local Encrypted Secrets
-│               └── patches/ # Local Config Patches
-├── core/                 # Base Infrastructure (Cilium, Cert-Manager, Traefik, etc.)
-├── services/             # Platform Services (Databases, Monitoring, etc.)
-├── apps/                 # User Applications
-└── docs/                 # Architecture Decision Records (ADR)
+├── clusters/             # Cluster Entrypoints (Flux Bootstrap)
+│   └── production/       # Production Enviroment
+│       └── flux-sync/    # GitOps Control Plane (Kustomizations)
+├── system/               # Layer 0: System Infrastructure (CNI, Ingress, Cert-Manager)
+├── datastores/           # Layer 1: Stateful Services (Redis, Postgres, etc.)
+├── platform/             # Layer 2: Platform Services (Monitoring, Auth, etc.)
+└── workloads/            # Layer 3: User Applications (Lumine, DeepSeek, etc.)
 ```
 
+### Dependency Chain
 
-### Environment Strategy
+We use Flux `dependsOn` to enforce startup order, preventing "CrashLoopBackOff" caused by missing dependencies.
 
-We use a **Cluster-centric Overlay** pattern. The `core`, `services`, and `apps` directories contain stateless "Base" definitions. The `clusters/<env>/overlays` directories act as the control panel, deciding _which_ components to deploy and _how_ to configure them for that specific environment.
+1.  **System** (`system/`): Core capabilities. _No dependencies._
+2.  **Datastores** (`datastores/`): Databases & Queues. _Depends on System._
+3.  **Platform** (`platform/`): Shared middleware. _Depends on Datastores._
+4.  **Workloads** (`workloads/`): Business logic. _Depends on Platform & Datastores._
 
-| Feature        | laboratory Cluster                        | Production Cluster                           |
-| :------------- | :---------------------------------------- | :------------------------------------------- |
-| **Source**     | Tracks `main` branch (Bleeding Edge)      | Tracks Git Tags (e.g., `v1.0.0`) (Stable)    |
-| **Purpose**    | Testing, experimentation, rapid iteration | Stable services, long-running workloads      |
-| **Management** | Components enabled/disabled on demand     | Components strictly versioned and controlled |
+### Secret Management
 
-## Prerequisites & Initialization
+Secrets are encrypted using **SOPS (Age)**.
 
-Before bootstrapping this GitOps repository, the underlying infrastructure (servers, OS, K3s, CNI) must be provisioned.
+- **Encrypted**: `.secret.yaml` files committed to Git.
+- **Decrypted**: By Flux controller inside the cluster using private keys.
 
-Please refer to the **[infra-provisioning](https://github.com/simplelumine/infra-provisioning)** repository for:
+---
 
-- Server provisioning (Ansible)
-- K3s cluster initialization (with specific flags to disable conflicting components)
-- Base networking setup (Cilium)
+## ⚡ Fast-Terminal / Cheat Sheet
 
-## Workflow
+A quick reference guide for managing this specific GitOps setup.
+**Environment**: Windows (PowerShell)
 
-1.  **Development**: Changes are pushed to the `main` branch.
-2.  **laboratory Sync**: The laboratory cluster automatically reconciles the latest changes from `main`.
-3.  **Verification**: Components are tested in the laboratory environment.
-4.  **Release**: A new Git Tag (e.g., `v1.0.1`) is pushed.
-5.  **Production Sync**: The Production cluster detects the new tag and updates itself safely.
+### 1. Bootstrap Cluster
 
-## Secrets
+Initialize Flux on a new cluster.
 
-Secrets are encrypted using [SOPS](https://github.com/mozilla/sops) and committed safely to the repository. Flux decrypts them inside the cluster using private keys.
-
-## Fast-Terminal
-
-### Bootstrap Flux
-```bash
+```powershell
+# 1. Pre-flight check
 flux --version
 flux check --pre
 
-$env:GITHUB_TOKEN = "your_token"
-$env:GITHUB_USER = "your_username"
+# 2. Set Credentials
+$env:GITHUB_TOKEN = "ghp_your_token_here"
+$env:GITHUB_USER = "simplelumine"
 
+# 3. Bootstrap (Installing Flux Components)
 flux bootstrap github `
   --owner=$env:GITHUB_USER `
   --repository=k8s-gitops `
@@ -74,52 +63,87 @@ flux bootstrap github `
   --path=./clusters/production `
   --personal
 
+# 4. Inject SOPS Private Key (Required for Secret Decryption)
 kubectl create secret generic sops-age `
   --namespace=flux-system `
   --from-file=age.agekey="$env:APPDATA\sops\age\keys.txt"
 ```
 
-### Encrypting Secrets
-```bash
-sops --encrypt --in-place <.sops.yaml>
+### 2. Secret Management (SOPS)
+
+Encrypt secrets before committing.
+
+```powershell
+# Encrypt existing file in-place
+sops --encrypt --in-place litellm-secret.yaml
+
+# Verify encryption (Check for "sops" metadata block)
+cat litellm-secret.yaml
 ```
 
-### Flux Debugging
-```bash
+### 3. Debugging Flux
+
+Force syncs and check reconciliation status.
+
+```powershell
+# Reconcile the Core System
 flux reconcile kustomization flux-system --with-source
-flux reconcile kustomization <kustomization> --with-source
+
+# Reconcile specific layers (e.g., if workloads are stuck)
+flux reconcile kustomization workloads --with-source
+
+# View all installed releases
 flux get helmreleases -A
 flux get kustomizations -A
+
+# Check for specific reconciliation errors
+flux logs --level=error
 ```
 
-### Helm Debugging
-```bash
-helm repo list
-helm repo add <repo> <url>
-helm repo remove <repo>
-helm repo update
-helm search repo <repo>
-helm show values <repo>/<app> > <path>/values.yaml
-helm uninstall <app> -n <namespace>
+### 4. Debugging Helm
+
+Directly inspect charts managed by HelmController.
+
+```powershell
+# Search for charts
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm search repo redis
+
+# Inspect values (Crucial for debugging "HelmChartConfig")
+helm show values bitnami/redis > ./temp-values.yaml
+
+# Uninstall a stuck release (Flux will reinstall it on next sync)
+helm uninstall <release-name> -n <namespace>
 ```
 
-### Kubectl Debugging
-```bash
-kubectl delete helmrelease <name> -n <namespace>
-kubectl exec -it <kind>/<name> -n <namespace> -- sh
+### 5. Kubectl Operations
 
-kubectl get all -n <namespace>
-kubectl get helmrelease <name> -n <namespace> -o yaml
-kubectl describe helmrelease <name> -n <namespace>
-kubectl get secret <name> -n <namespace> -o yaml
-kubectl get deployment <name> -n <namespace> -o yaml
-kubectl logs -n <namespace> deployment/<deployment> --tail=50
-kubectl delete helmrelease <name> -n <namespace>
+Low-level cluster interaction.
 
-kubectl get <kind> <kind.name> -n <namespace>
-kubectl describe <kind> <kind.name> -n <namespace>
-kubectl logs <kind>/<kind.name> --tail=50 -n <namespace>
-kubectl rollout restart <kind> <kind.name> -n <namespace>
-kubectl explain <kind>
-kubectl exec it pods 
-``` 
+```powershell
+# --- View Resources ---
+kubectl get all -n litellm
+kubectl get helmrelease -n litellm
+kubectl get pod -o wide -n litellm
+
+# --- Inspect Details ---
+# Why is my pod pending?
+kubectl describe pod <pod-name> -n <namespace>
+# Why is the HelmRelease failing?
+kubectl describe helmrelease <release-name> -n <namespace>
+
+# --- Logs ---
+kubectl logs -f deployment/<deployment-name> -n <namespace>
+kubectl logs -f -l app=<label> -n <namespace> --tail=100
+
+# --- Interactive Shell (Debug inside pod) ---
+# Syntax: kubectl exec -it <pod> -n <ns> -- <cmd>
+kubectl exec -it <pod-name> -n <namespace> -- sh
+
+# --- Restart Workloads ---
+kubectl rollout restart deployment <deployment-name> -n <namespace>
+
+# --- Clean Up ---
+# Force delete a stuck namespace (Use with caution)
+kubectl delete namespace <namespace> --grace-period=0 --force
+```
