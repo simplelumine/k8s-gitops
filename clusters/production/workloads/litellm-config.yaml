@@ -247,19 +247,19 @@ data:
           api_key: os.environ/DATABRICKS_API_KEY
           api_base: os.environ/DATABRICKS_API_BASE
 
-      - model_name: databricks:databricks-claude-haiku-4-5
+      - model_name: databricks:claude-haiku-4-5
         litellm_params:
           model: databricks/databricks-claude-haiku-4-5
           api_key: os.environ/DATABRICKS_API_KEY
           api_base: os.environ/DATABRICKS_API_BASE
 
-      - model_name: databricks:databricks-claude-opus-4-5
+      - model_name: databricks:claude-opus-4-5
         litellm_params:
           model: databricks/databricks-claude-opus-4-5
           api_key: os.environ/DATABRICKS_API_KEY
           api_base: os.environ/DATABRICKS_API_BASE
 
-      - model_name: databricks:databricks-claude-opus-4-6
+      - model_name: databricks:claude-opus-4-6
         litellm_params:
           model: databricks/databricks-claude-opus-4-6
           api_key: os.environ/DATABRICKS_API_KEY
