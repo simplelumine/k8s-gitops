@@ -8,5 +8,9 @@ resources:
 
   - ../../../datastores/redis
 
+  - ../../../datastores/qdrant
+  - qdrant-secret.sops.yaml
+
 patches:
   - path: postgres-users-patch.yaml
+  - path: qdrant-patch.yaml
