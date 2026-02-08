@@ -311,13 +311,6 @@ data:
           api_key: os.environ/AZURE_API_KEY
           api_version: os.environ/AZURE_API_VERSION
 
-      - model_name: azure:tts
-        litellm_params:
-          model: azure/tts
-          api_base: os.environ/AZURE_API_BASE
-          api_key: os.environ/AZURE_API_KEY
-          api_version: os.environ/AZURE_API_VERSION
-
 
     # -----DeepSeek-----
       - model_name: deepseek:deepseek-chat

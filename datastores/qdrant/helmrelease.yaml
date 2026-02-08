@@ -13,29 +13,4 @@ spec:
         kind: HelmRepository
         name: qdrant
         namespace: qdrant
-  values:
-    replicaCount: 3
-
-    config:
-      cluster:
-        enabled: true
-
-    podDisruptionBudget:
-      enabled: true
-      maxUnavailable: 1
-
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: ScheduleAnyway
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: qdrant
-            app.kubernetes.io/instance: qdrant
-      - maxSkew: 1
-        topologyKey: topology.kubernetes.io/zone
-        whenUnsatisfiable: ScheduleAnyway
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: qdrant
-            app.kubernetes.io/instance: qdrant
+  values: {}
