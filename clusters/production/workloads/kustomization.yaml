@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../../../workloads/open-webui
   - open-webui-eso.yaml
+  - open-webui-secret.sops.yaml
 
   - ../../../workloads/litellm
   - litellm-config.yaml

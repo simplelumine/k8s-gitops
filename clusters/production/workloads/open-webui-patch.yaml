@@ -56,3 +56,13 @@ spec:
           secretKeyRef:
             name: open-webui-db-secret
             key: DATABASE_URL
+      # Qdrant Configuration
+      - name: VECTOR_DB
+        value: "qdrant"
+      - name: QDRANT_URI
+        value: "http://qdrant.qdrant.svc.cluster.local:6333"
+      - name: QDRANT_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: open-webui-secret
+            key: qdrant-api-key
