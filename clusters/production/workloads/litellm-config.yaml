@@ -240,6 +240,84 @@ data:
           api_key: os.environ/XAI_KEY
 
 
+    # -----Dadabricks-----
+      - model_name: databricks:claude-sonnet-4-5
+        litellm_params:
+          model: databricks/databricks-claude-sonnet-4-5
+          api_key: os.environ/DATABRICKS_API_KEY
+          api_base: os.environ/DATABRICKS_API_BASE
+
+      - model_name: databricks:databricks-claude-haiku-4-5
+        litellm_params:
+          model: databricks/databricks-claude-haiku-4-5
+          api_key: os.environ/DATABRICKS_API_KEY
+          api_base: os.environ/DATABRICKS_API_BASE
+
+      - model_name: databricks:databricks-claude-opus-4-5
+        litellm_params:
+          model: databricks/databricks-claude-opus-4-5
+          api_key: os.environ/DATABRICKS_API_KEY
+          api_base: os.environ/DATABRICKS_API_BASE
+
+      - model_name: databricks:databricks-claude-opus-4-6
+        litellm_params:
+          model: databricks/databricks-claude-opus-4-6
+          api_key: os.environ/DATABRICKS_API_KEY
+          api_base: os.environ/DATABRICKS_API_BASE
+        model_info:
+          base_model: databricks/databricks-claude-opus-4-5
+
+
+    # -----Azure-----
+      - model_name: azure:gpt-4o
+        litellm_params:
+          model: azure/gpt-4o
+          api_base: os.environ/AZURE_API_BASE
+          api_key: os.environ/AZURE_API_KEY
+          api_version: os.environ/AZURE_API_VERSION
+
+      - model_name: azure:gpt-5.2-chat
+        litellm_params:
+          model: azure/gpt-5.2-chat
+          api_base: os.environ/AZURE_API_BASE
+          api_key: os.environ/AZURE_API_KEY
+          api_version: os.environ/AZURE_API_VERSION
+
+      - model_name: azure:o4-mini
+        litellm_params:
+          model: azure/o4-mini
+          api_base: os.environ/AZURE_API_BASE
+          api_key: os.environ/AZURE_API_KEY
+          api_version: os.environ/AZURE_API_VERSION
+
+      - model_name: azure:text-embedding-3-small
+        litellm_params:
+          model: azure/text-embedding-3-small
+          api_base: os.environ/AZURE_API_BASE
+          api_key: os.environ/AZURE_API_KEY
+          api_version: os.environ/AZURE_API_VERSION
+
+      - model_name: azure:text-embedding-3-large
+        litellm_params:
+          model: azure/text-embedding-3-large
+          api_base: os.environ/AZURE_API_BASE
+          api_key: os.environ/AZURE_API_KEY
+          api_version: os.environ/AZURE_API_VERSION
+
+      - model_name: azure:text-embedding-ada-002
+        litellm_params:
+          model: azure/text-embedding-ada-002
+          api_base: os.environ/AZURE_API_BASE
+          api_key: os.environ/AZURE_API_KEY
+          api_version: os.environ/AZURE_API_VERSION
+
+      - model_name: azure:tts
+        litellm_params:
+          model: azure/tts
+          api_base: os.environ/AZURE_API_BASE
+          api_key: os.environ/AZURE_API_KEY
+          api_version: os.environ/AZURE_API_VERSION
+
     # -----DeepSeek-----
       - model_name: deepseek:deepseek-chat
         litellm_params:
