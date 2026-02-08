@@ -5,4 +5,4 @@ metadata:
   namespace: qdrant
 spec:
   interval: 1h
-  url: https://qdrant.to/helm
+  url: https://qdrant.github.io/qdrant-helm
