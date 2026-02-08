@@ -318,6 +318,7 @@ data:
           api_key: os.environ/AZURE_API_KEY
           api_version: os.environ/AZURE_API_VERSION
 
+
     # -----DeepSeek-----
       - model_name: deepseek:deepseek-chat
         litellm_params:
@@ -355,6 +356,13 @@ data:
         litellm_params:
           model: dashscope/qwq-plus
           api_key: os.environ/DASHSCOPE_KEY
+
+
+    # -----XiaoMi MiMo-----
+      - model_name: xiaomi:mimo-v2-flash
+        litellm_params:
+          model: xiaomi_mimo/mimo-v2-flash
+          api_key: os.environ/XIAOMI_MIMO_KEY
 
 
     # -----AI Studio-----
