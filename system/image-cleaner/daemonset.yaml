@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: image-cleaner
+  namespace: image-cleaner
+  labels:
+    app: image-cleaner
+spec:
+  selector:
+    matchLabels:
+      app: image-cleaner
+  template:
+    metadata:
+      labels:
+        app: image-cleaner
+    spec:
+      tolerations:
+      - operator: Exists
+      containers:
+      - name: cleaner
+        image: alpine:3.19
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          set -eo pipefail
+          apk add --no-cache curl tar
+
+          CRICTL_VERSION="v1.28.0"
+          CRICTL_ARCH="amd64"
+          CRICTL_TGZ="crictl-${CRICTL_VERSION}-linux-${CRICTL_ARCH}.tar.gz"
+          CRICTL_URL="https://github.com/kubernetes-sigs/cri-tools/releases/download/${CRICTL_VERSION}/${CRICTL_TGZ}"
+          # Checksum from https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.28.0/crictl-v1.28.0-linux-amd64.tar.gz.sha256
+          CRICTL_SHA256="8dc78774f7cbeaf787994d386eec663f0a3cf24de1ea4893598096cb39ef2508"
+
+          echo "Downloading crictl $CRICTL_VERSION..."
+          curl -L -o "$CRICTL_TGZ" "$CRICTL_URL"
+
+          echo "Verifying checksum..."
+          echo "$CRICTL_SHA256  $CRICTL_TGZ" | sha256sum -c -
+
+          echo "Installing crictl..."
+          tar -zxvf "$CRICTL_TGZ" -C /usr/local/bin
+          rm "$CRICTL_TGZ"
+
+          if [ -S "/host/run/k3s/containerd/containerd.sock" ]; then
+            ENDPOINT="unix:///host/run/k3s/containerd/containerd.sock"
+          elif [ -S "/host/run/containerd/containerd.sock" ]; then
+            ENDPOINT="unix:///host/run/containerd/containerd.sock"
+          else
+            echo "Error: Container runtime socket not found in /host/run/k3s/containerd/ or /host/run/containerd/"
+            exit 1
+          fi
+
+          echo "Using runtime endpoint: $ENDPOINT"
+
+          while true; do
+            echo "[$(date)] Running image prune..."
+            # Allow failure of prune command without crashing the pod
+            crictl -r "$ENDPOINT" -i "$ENDPOINT" rmi --prune || echo "Prune command failed, ignoring."
+            echo "[$(date)] Cleanup complete. Sleeping for 24h..."
+            sleep 86400
+          done
+        volumeMounts:
+        - name: run
+          mountPath: /host/run
+        # Privileged mode is required to access the container runtime socket on the host
+        securityContext:
+          privileged: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 50Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+      volumes:
+      - name: run
+        hostPath:
+          path: /run
