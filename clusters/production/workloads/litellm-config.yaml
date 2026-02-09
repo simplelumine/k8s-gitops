@@ -358,6 +358,78 @@ data:
           api_key: os.environ/XIAOMI_MIMO_KEY
 
 
+    # -----YesCode-----
+      - model_name: yescode-cli:gemini-3-pro-preview
+        litellm_params:
+          model: gemini/gemini-3-pro-preview
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_CLI_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
+      - model_name: yescode-cli:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_CLI_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-flash-preview
+
+      - model_name: yescode-cli:gemini-2.5-pro
+        litellm_params:
+          model: gemini/gemini-2.5-pro
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_CLI_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-2.5-pro
+
+      - model_name: yescode-cli:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_CLI_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-2.5-flash
+
+      - model_name: yescode-anti:gemini-3-pro-high
+        litellm_params:
+          model: gemini/gemini-3-pro-high
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_ANTI_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
+      - model_name: yescode-anti:gemini-3-pro-image
+        litellm_params:
+          model: gemini/gemini-3-pro-image
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_ANTI_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-image-preview
+
+      - model_name: yescode-anti:gemini-3-flash
+        litellm_params:
+          model: gemini/gemini-3-flash
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_ANTI_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-flash-preview
+
+
     # -----AI Studio-----
       - model_name: aistudio:gemini-3-flash-preview
         litellm_params:
@@ -387,8 +459,6 @@ data:
           input_cost_per_token: 0
           output_cost_per_token: 0
 
-
-
       - model_name: aistudio:gemini-3-flash-preview
         litellm_params:
           model: gemini/gemini-3-flash-preview
@@ -417,8 +487,6 @@ data:
           input_cost_per_token: 0
           output_cost_per_token: 0
 
-
-
       - model_name: aistudio:gemini-3-flash-preview
         litellm_params:
           model: gemini/gemini-3-flash-preview
@@ -444,63 +512,5 @@ data:
         litellm_params:
           model: gemini/gemini-embedding-001
           api_key: os.environ/AISTUDIO_FREE_KEY3
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-
-    # -----YesCode-----
-      - model_name: yescode-cli:gemini-3-pro-preview
-        litellm_params:
-          model: gemini/gemini-3-pro-preview
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_CLI_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: yescode-cli:gemini-3-flash-preview
-        litellm_params:
-          model: gemini/gemini-3-flash-preview
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_CLI_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: yescode-cli:gemini-2.5-pro
-        litellm_params:
-          model: gemini/gemini-2.5-pro
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_CLI_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: yescode-cli:gemini-2.5-flash
-        litellm_params:
-          model: gemini/gemini-2.5-flash
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_CLI_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: yescode-anti:gemini-3-pro-high
-        litellm_params:
-          model: gemini/gemini-3-pro-high
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_ANTI_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: yescode-anti:gemini-3-pro-image
-        litellm_params:
-          model: gemini/gemini-3-pro-image
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_ANTI_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: yescode-anti:gemini-3-flash
-        litellm_params:
-          model: gemini/gemini-3-flash
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_ANTI_KEY
           input_cost_per_token: 0
           output_cost_per_token: 0
