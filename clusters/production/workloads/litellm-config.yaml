@@ -332,27 +332,23 @@ data:
     # -----DashScope-----
       - model_name: dashscope:qwen3-coder-plus
         litellm_params:
-          model: openai/qwen3-coder-plus
+          model: dashscope/qwen3-coder-plus
           api_key: os.environ/DASHSCOPE_KEY
-          api_base: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
 
       - model_name: dashscope:qwen3-max
         litellm_params:
-          model: openai/qwen3-max
+          model: dashscope/qwen3-max
           api_key: os.environ/DASHSCOPE_KEY
-          api_base: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
 
       - model_name: dashscope:qwen-plus
         litellm_params:
-          model: openai/qwen-plus
+          model: dashscope/qwen-plus
           api_key: os.environ/DASHSCOPE_KEY
-          api_base: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
 
       - model_name: dashscope:qwq-plus
         litellm_params:
-          model: openai/qwq-plus
+          model: dashscope/qwq-plus
           api_key: os.environ/DASHSCOPE_KEY
-          api_base: "https://dashscope-intl.aliyuncs.com/compatible-mode/v1"
 
 
     # -----XiaoMi MiMo-----
