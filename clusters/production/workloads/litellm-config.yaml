@@ -212,9 +212,9 @@ data:
         model_info:
           base_model: anthropic/claude-sonnet-4-5
 
-      - model_name: antigravity:claude-opus-4-5-thinking
+      - model_name: antigravity:claude-opus-4-6-thinking
         litellm_params:
-          model: gemini/claude-opus-4-5-thinking
+          model: gemini/claude-opus-4-6-thinking
           api_key: os.environ/ANTIGRAVITY_KEY
           api_base: os.environ/ANTIGRAVITY_BASE
           input_cost_per_token: 0
@@ -363,7 +363,7 @@ data:
         litellm_params:
           model: gemini/gemini-3-pro-preview
           api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_CLI_KEY
+          api_key: os.environ/YESCODE_KEY
           input_cost_per_token: 0
           output_cost_per_token: 0
         model_info:
@@ -373,7 +373,7 @@ data:
         litellm_params:
           model: gemini/gemini-3-flash-preview
           api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_CLI_KEY
+          api_key: os.environ/YESCODE_KEY
           input_cost_per_token: 0
           output_cost_per_token: 0
         model_info:
@@ -383,7 +383,7 @@ data:
         litellm_params:
           model: gemini/gemini-2.5-pro
           api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_CLI_KEY
+          api_key: os.environ/YESCODE_KEY
           input_cost_per_token: 0
           output_cost_per_token: 0
         model_info:
@@ -393,7 +393,7 @@ data:
         litellm_params:
           model: gemini/gemini-2.5-flash
           api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_CLI_KEY
+          api_key: os.environ/YESCODE_KEY
           input_cost_per_token: 0
           output_cost_per_token: 0
         model_info:
@@ -403,7 +403,7 @@ data:
         litellm_params:
           model: gemini/gemini-3-pro-high
           api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_ANTI_KEY
+          api_key: os.environ/YESCODE_KEY
           input_cost_per_token: 0
           output_cost_per_token: 0
         model_info:
@@ -413,7 +413,7 @@ data:
         litellm_params:
           model: gemini/gemini-3-pro-image
           api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_ANTI_KEY
+          api_key: os.environ/YESCODE_KEY
           input_cost_per_token: 0
           output_cost_per_token: 0
         model_info:
@@ -423,7 +423,7 @@ data:
         litellm_params:
           model: gemini/gemini-3-flash
           api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_ANTI_KEY
+          api_key: os.environ/YESCODE_KEY
           input_cost_per_token: 0
           output_cost_per_token: 0
         model_info:
