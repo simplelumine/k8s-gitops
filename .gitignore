@@ -5,6 +5,7 @@
 **/*-secret.yaml
 **/*-auth.yaml
 !**/*-secret.yaml.example
+secret.yaml
 
 !**/*.sops.yaml
 !**/*-sealed-secret.yaml
