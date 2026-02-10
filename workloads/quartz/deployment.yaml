@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quartz
+  namespace: quartz
+  labels:
+    app: quartz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quartz
+  template:
+    metadata:
+      labels:
+        app: quartz
+    spec:
+      containers:
+        - name: quartz
+          image: ghcr.io/simplelumine/obsidian-quartz:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "32Mi"
+            limits:
+              memory: "128Mi"

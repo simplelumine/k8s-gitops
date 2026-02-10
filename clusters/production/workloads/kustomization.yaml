@@ -9,6 +9,8 @@ resources:
   - litellm-config.yaml
   - litellm-eso.yaml
 
+  - ../../../workloads/quartz
+
 patches:
   - path: open-webui-patch.yaml
   - path: litellm-patch.yaml
