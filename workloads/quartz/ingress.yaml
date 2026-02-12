@@ -10,10 +10,10 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - notes.simplelumine.com
+        - wiki.simplelumine.com
       secretName: quartz-tls
   rules:
-    - host: notes.simplelumine.com
+    - host: wiki.simplelumine.com
       http:
         paths:
           - path: /
