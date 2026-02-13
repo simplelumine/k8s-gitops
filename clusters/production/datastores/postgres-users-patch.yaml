@@ -26,3 +26,8 @@ spec:
         login: true
         passwordSecret:
           name: infisical-db-secret
+      - name: coder
+        ensure: present
+        login: true
+        passwordSecret:
+          name: coder-db-secret

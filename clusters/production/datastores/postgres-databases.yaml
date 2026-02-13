@@ -44,3 +44,15 @@ spec:
     name: postgres-ha
   name: infisical
   owner: infisical
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: coder-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres-ha
+  name: coder
+  owner: coder

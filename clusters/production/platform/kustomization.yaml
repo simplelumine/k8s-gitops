@@ -4,6 +4,10 @@ resources:
   - ../../../platform/cloudflared-tunnel
   - cloudflare-tunnel-secret.sops.yaml
 
+  - ../../../platform/coder
+  - coder-eso.yaml
+  - coder-auth.sops.yaml
+
   - ../../../platform/gatus
   - gatus-eso.yaml
 
@@ -12,7 +16,4 @@ resources:
 
 patches:
   - path: gatus-patch.yaml
-    target:
-      kind: HelmRelease
-      name: gatus
-      namespace: gatus
+  - path: coder-patch.yaml
