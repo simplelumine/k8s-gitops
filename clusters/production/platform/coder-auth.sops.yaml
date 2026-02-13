@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: coder-oauth
+    namespace: coder
+type: Opaque
+stringData:
+    #ENC[AES256_GCM,data:H0r40hsAfLJh1xMW81RYStmBmlgRpQevURVnCqnjqBwAIgvyUQ==,iv:7ySFiW/GcTIuZxYY32kyKsuOwUIMKW7TAoYKgHuS8yg=,tag:19eYff/lvxRuyAWkRtJY0A==,type:comment]
+    #ENC[AES256_GCM,data:XxVOrYpTTZiFAG4WNCduzUG0KZpyRWGYD1Nm6rZqax7cIi85MDZtSdJJK+GA,iv:1xD96wCFlWXe/MVt7nj609UuirQ01GdGtfhGdpm+5gg=,tag:8e4bA3zFhu232pVRlPLJ6w==,type:comment]
+    #ENC[AES256_GCM,data:MT//JmvS3P/u/m97kEQIIem8xTZiHAep1DxM8ikqgRq1/e5wNESzgFNFvEo=,iv:F0j9iXEj7OECEKww7Nesx6L8vPR1gaumFDBkiPB7KeE=,tag:0TMlh/Rjlnjqf0cJvLBl/Q==,type:comment]
+    #ENC[AES256_GCM,data:2yIuCF71v7X23iLQcnd17lu+aTta66cp+bkHhVWnu4aE3EhHG8YVurCRcC2BhYW4GYp8H3wgbvTCTwSkjxDjb4zFFNdaBlruETokLU5eSao=,iv:ZAiXm3nVhdZKUzQou/06PQtqibtGxUnaRwnt0RehnSw=,tag:GsBAuDf0uhjchi+RlvmhqQ==,type:comment]
+    client-id: ENC[AES256_GCM,data:M7l1i4AbbGNT1X0MU6njbvJfT/k=,iv:sERfnUfpCMaymopX7Aen63QG5gY/1QVQy04NIJZxoa4=,tag:thNVTRosKHq1AAcvGmROaA==,type:str]
+    client-secret: ENC[AES256_GCM,data:kzrxqziVA1K7xCqXnZkPxcPKcQ/8A4YPfl90UMsiYj519XcqxXudQg==,iv:Q2vm06BYLcSyFHk/QFek7i0E0JpHJftocncdq3kCr0k=,tag:ZeHQEq2RdRcC1nrZOcuppA==,type:str]
+sops:
+    age:
+        - recipient: age1dhr8f8ze9ymr9cu9kmkw5w7feg6e5lae7ggjug4e5x87fukudydspd0fpx
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBUNW15NERlT21XcE5Fa1Bs
+            WjVBRUE5QmNKdWV1dGZzYTdhRmgvL0FkZ21JCjFpT0VTOFlxZVFOenFDNUxDQzgy
+            MjRiaGd3T0Y1bkFNNXNrcUtBbUdGczgKLS0tIFJCQXJJM2t6azlMdk1mdmphazBv
+            eGFBVm5wNXNtMk4vMjcvaHdGdjlwZkEKebhmDyHSUGw6jxqgVOe8NWtqrJEFoOWD
+            6dXWPmtISjeJk50rWY3yqz/k4tsJwlr4G68ucZbqtqt3JvtAaGkR1Q==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-02-13T15:59:21Z"
+    mac: ENC[AES256_GCM,data:F9KSjJTcOWXWu1FPxWt3jGhsGC6YBbXOv+GToSv+tKU5gAfDJEg5DfS2DIaOS49a4hTpNdD1gB2wWuWp/sM7pzD6am80yJbUe34gqZ5bmnZOU/IPKzjZwsYjkwmVS3K1JWkyYyXKp3oqzMb4VUyLHvgraGs8qlblzgKp7/KY+rk=,iv:YdzYEBaEsK2YEoSkitkNrUuUfTph8692mRyf4MkCQ7k=,tag:JMCpisd/SQqTT0HkIMzQnA==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.11.0

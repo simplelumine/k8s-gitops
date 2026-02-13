@@ -82,6 +82,15 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
+        - name: coder
+          group: external-services
+          url: "https://code.simplelumine.com"
+          interval: 2m
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
         # --- Textverse Services ---
         - name: sillytavern
           group: textverse-services
