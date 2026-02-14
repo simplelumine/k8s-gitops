@@ -16,7 +16,7 @@ spec:
   values:
     # Disable built-in StorageClass creation (we manage this externally in storageclass.yaml)
     storageClasses:
-      enabled: false
+      - enabled: false
 
     # Standard CSI driver values
     controller:
