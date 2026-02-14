@@ -16,6 +16,8 @@ spec:
           value: "false"
         - name: CODER_ACCESS_URL
           value: "https://code.simplelumine.com"
+        - name: CODER_WILDCARD_ACCESS_URL
+          value: "*.code.simplelumine.com"
         # GitHub OAuth
         - name: CODER_OAUTH2_GITHUB_ALLOW_SIGNUPS
           value: "true"
@@ -37,9 +39,11 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
         host: code.simplelumine.com
+        wildcardHost: "*.code.simplelumine.com"
         tls:
           enable: true
           secretName: coder-tls
+          wildcardSecretName: coder-tls
       service:
         type: ClusterIP
         annotations:
