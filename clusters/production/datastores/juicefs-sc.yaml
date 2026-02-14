@@ -4,7 +4,6 @@ metadata:
   name: juicefs-sc
 provisioner: csi.juicefs.com
 parameters:
-  # Reference the secret that holds S3 and DB credentials
   csi.storage.k8s.io/node-publish-secret-name: juicefs-secret
   csi.storage.k8s.io/node-publish-secret-namespace: juicefs
   csi.storage.k8s.io/provisioner-secret-name: juicefs-secret
@@ -12,7 +11,17 @@ parameters:
   csi.storage.k8s.io/controller-expand-secret-name: juicefs-secret
   csi.storage.k8s.io/controller-expand-secret-namespace: juicefs
 
-  # Dynamic provisioning pattern
   pathPattern: "${.PVC.namespace}/${.PVC.name}"
+
+  mountPodRequestCpu: "50m"
+  mountPodRequestMemory: "100Mi"
+  mountPodLimitCpu: "1000m"
+  mountPodLimitMemory: "512Mi"
+
+mountOptions:
+  - cache-size=2048
+  - buffer-size=64
+
 reclaimPolicy: Retain
+allowVolumeExpansion: true
 volumeBindingMode: Immediate

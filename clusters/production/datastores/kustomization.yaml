@@ -11,6 +11,12 @@ resources:
   - ../../../datastores/qdrant
   - qdrant-secret.sops.yaml
 
+  - ../../../datastores/juicefs
+  - juicefs-secret.sops.yaml
+  - juicefs-eso.yaml
+  - juicefs-sc.yaml
+
 patches:
   - path: postgres-users-patch.yaml
   - path: qdrant-patch.yaml
+  - path: juicefs-patch.yaml

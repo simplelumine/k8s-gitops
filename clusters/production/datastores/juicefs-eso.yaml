@@ -1,0 +1,28 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: juicefs-db-eso
+  namespace: juicefs
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: postgres-store
+    kind: ClusterSecretStore
+  target:
+    name: juicefs-secret
+    creationPolicy: Merge
+    template:
+      engineVersion: v2
+      data:
+        # Postgres Metadata (Templated from Secret Store)
+        # Injected into the existing juicefs-secret managed by GitOps (SOPS)
+        metaurl: "postgres://{{ .username }}:{{ .password }}@postgres-ha-rw.postgres.svc.cluster.local:5432/juicefs"
+  data:
+    - secretKey: username
+      remoteRef:
+        key: juicefs-db-secret
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: juicefs-db-secret
+        property: password
