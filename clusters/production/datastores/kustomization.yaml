@@ -15,6 +15,7 @@ resources:
   - juicefs-secret.sops.yaml
   - juicefs-eso.yaml
   - juicefs-sc.yaml
+  - juicefs-dashboard-svc.yaml
 
 patches:
   - path: postgres-users-patch.yaml

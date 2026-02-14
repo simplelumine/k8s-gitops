@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: juicefs-csi-dashboard-ts
+  namespace: juicefs
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "juicefs"
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8088
+      targetPort: 8088
+  selector:
+    app: juicefs-csi-dashboard
+    app.kubernetes.io/instance: juicefs-csi-driver
+    app.kubernetes.io/name: juicefs-csi-driver

@@ -21,9 +21,7 @@ spec:
       enabled: true
       service:
         type: ClusterIP
-        annotations:
-          tailscale.com/expose: "true"
-          tailscale.com/hostname: "juicefs"
+
       resources:
         requests:
           cpu: 10m
