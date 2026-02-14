@@ -39,11 +39,9 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
         host: code.simplelumine.com
-        wildcardHost: "*.code.simplelumine.com"
         tls:
           enable: true
           secretName: coder-tls
-          wildcardSecretName: coder-tls
       service:
         type: ClusterIP
         annotations:
