@@ -16,7 +16,11 @@ spec:
     tika:
       enabled: false
     persistence:
-      enabled: false
+      enabled: true
+      storageClass: juicefs-sc
+      accessModes:
+        - ReadWriteMany
+      size: 2Gi
 
     service:
       annotations:
