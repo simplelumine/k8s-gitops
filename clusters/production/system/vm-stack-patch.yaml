@@ -23,12 +23,6 @@ spec:
           tailscale.com/expose: "true"
           tailscale.com/hostname: "vm-stack"
 
-      # Use the secret for Admin credentials
-      admin:
-        existingSecret: vm-stack-auth
-        userKey: admin-user
-        passwordKey: admin-password
-
       # Inject secret values as Environment Variables
       envFromSecret: vm-stack-auth
 

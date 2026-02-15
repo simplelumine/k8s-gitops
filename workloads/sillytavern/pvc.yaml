@@ -5,8 +5,8 @@ metadata:
   namespace: sillytavern
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: local-path
+    - ReadWriteMany
+  storageClassName: juicefs-sc
   resources:
     requests:
-      storage: 15Gi
+      storage: 10Gi

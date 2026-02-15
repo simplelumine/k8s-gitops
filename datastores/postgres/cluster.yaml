@@ -4,36 +4,19 @@ metadata:
   name: postgres-ha
   namespace: postgres
 spec:
-  # HA Configuration: 2 instances (1 primary + 1 standby)
-  instances: 2
+  # HA Configuration: 3 instances (1 primary + 2 standby)
+  instances: 3
 
   # Storage Configuration
   storage:
     size: 10Gi
     storageClass: local-path
 
-  # # Resource Limits (Crucial for stability)
-  # resources:
-  #   requests:
-  #     memory: "128Mi"
-  #     cpu: "250m"
-  #   limits:
-  #     memory: "768Mi"
-
   # Bootstrap with a default database
   bootstrap:
     initdb:
       database: app
       owner: app
-
-  # Managed Roles (Declarative User Management)
-  # managed:
-  #   roles:
-  #     - name: new_app_user
-  #       ensure: present
-  #       login: true
-  #       passwordSecret:
-  #         name: new-app-user-secret
 
   # PostgreSQL Configuration - optimized for small clusters
   postgresql:
