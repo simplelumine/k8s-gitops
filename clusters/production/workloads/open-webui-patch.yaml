@@ -13,6 +13,8 @@ spec:
       url: redis://redis-ha-master.redis.svc.cluster.local:6379/0
       redis:
         enabled: false
+    pipelines:
+      enabled: true
     tika:
       enabled: false
     persistence:
