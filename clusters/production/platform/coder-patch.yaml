@@ -52,6 +52,8 @@ spec:
           value: "GitHub"
         - name: CODER_EXTERNAL_AUTH_0_DISPLAY_ICON
           value: "https://github.com/fluidicon.png"
+        - name: CODER_EXTERNAL_AUTH_0_SCOPES
+          value: "repo,workflow,read:user,admin:public_key"
       ingress:
         enable: true
         className: traefik
