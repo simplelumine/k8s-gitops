@@ -21,10 +21,10 @@ spec:
       plugins:
         - victoriametrics-logs-datasource
 
-      service:
-        annotations:
-          tailscale.com/expose: "true"
-          tailscale.com/hostname: "vm-stack"
+      # service:
+      #   annotations:
+      #     tailscale.com/expose: "true"
+      #     tailscale.com/hostname: "vm-stack"
 
       # Inject secret values as Environment Variables
       envFromSecret: vm-stack-auth

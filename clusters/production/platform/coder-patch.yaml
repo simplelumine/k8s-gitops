@@ -65,9 +65,9 @@ spec:
           secretName: coder-tls
       service:
         type: ClusterIP
-        annotations:
-          tailscale.com/expose: "true"
-          tailscale.com/hostname: "coder"
+        # annotations:
+        #   tailscale.com/expose: "true"
+        #   tailscale.com/hostname: "coder"
     postgres:
       enabled: false
       persistence:
