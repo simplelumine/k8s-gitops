@@ -14,8 +14,17 @@ resources:
 
   - cluster-issuer.yaml
   - edge-scrape.yaml
-
   - ../../../platform/victoria-logs
+
 patches:
   - path: gatus-patch.yaml
   - path: coder-patch.yaml
+
+configMapGenerator:
+  - name: victorialogs-dashboard
+    files:
+      - dashboards/vlogs-dashboard.json
+
+generatorOptions:
+  labels:
+    grafana_dashboard: "1"
