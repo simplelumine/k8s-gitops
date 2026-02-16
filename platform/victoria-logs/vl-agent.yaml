@@ -1,0 +1,12 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VLAgent
+metadata:
+  name: victoria-logs-agent
+  namespace: platform
+spec:
+  # Enable scraping of Kubernetes logs (DaemonSet mode)
+  k8sCollector:
+    enabled: true
+  # Where to send the logs
+  remoteWrite:
+    - url: "http://vlsingle-victoria-logs-single.platform.svc:9428/insert/elasticsearch/_bulk"

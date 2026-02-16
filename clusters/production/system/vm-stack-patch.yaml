@@ -18,6 +18,13 @@ spec:
             hosts:
               - monitor.simplelumine.com
 
+      additionalDataSources:
+        - name: VictoriaLogs
+          type: victoriametrics-logs-datasource
+          url: http://vlsingle-victoria-logs-single.platform.svc:9428
+          access: proxy
+          isDefault: false
+
       service:
         annotations:
           tailscale.com/expose: "true"
