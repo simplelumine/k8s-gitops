@@ -26,10 +26,6 @@ configMapGenerator:
     namespace: monitoring
     files:
       - dashboards/vlogs-dashboard.json
-  - name: k8s-dashboard
-    namespace: monitoring
-    files:
-      - dashboards/k8s-dashboard.json
 
 generatorOptions:
   labels:
