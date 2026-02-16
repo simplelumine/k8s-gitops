@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - single.yaml
   - collector.yaml
+  - datasource.yaml
