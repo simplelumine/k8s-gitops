@@ -15,7 +15,7 @@ spec:
         namespace: monitoring
   values:
     remoteWrite:
-      - url: "http://vlsingle-victoria-logs-single.monitoring.svc:9428/insert/elasticsearch/_bulk"
+      - url: "http://vlsingle-victoria-logs-single.monitoring.svc:9428"
     resources:
       requests:
         cpu: 50m
