@@ -5,10 +5,10 @@ metadata:
   namespace: gatus
 spec:
   values:
-    service:
-      annotations:
-        tailscale.com/expose: "true"
-        tailscale.com/hostname: "gatus"
+    # service:
+    #   annotations:
+    #     tailscale.com/expose: "true"
+    #     tailscale.com/hostname: "gatus"
 
     ingress:
       enabled: true

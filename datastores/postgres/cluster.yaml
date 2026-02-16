@@ -4,6 +4,8 @@ metadata:
   name: postgres-ha
   namespace: postgres
 spec:
+  # Pin PostgreSQL image version to prevent unexpected upgrades
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.1-system-trixie
   # HA Configuration: 3 instances (1 primary + 2 standby)
   instances: 3
 
