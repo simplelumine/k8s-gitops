@@ -92,6 +92,9 @@ flux reconcile kustomization flux-system --with-source
 # Reconcile specific layers (e.g., if workloads are stuck)
 flux reconcile kustomization workloads --with-source
 
+# Reconcile 
+flux reconcile helmrelease vm-stack -n monitoring --force
+
 # View all installed releases
 flux get helmreleases -A
 flux get kustomizations -A
