@@ -1,0 +1,62 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vm-stack
+  namespace: monitoring
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: victoria-metrics-k8s-stack
+      version: "0.66.x"
+      sourceRef:
+        kind: HelmRepository
+        name: victoriametrics
+        namespace: monitoring
+  values:
+    # Global config
+    global:
+      clusterLabel: cluster
+
+    # Enable Single-node mode for resource efficiency
+    vmsingle:
+      enabled: true
+      spec:
+        retentionPeriod: "7d"
+        replicaCount: 1
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "512Mi"
+        storage:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: local-path
+          resources:
+            requests:
+              storage: 10Gi
+
+    # Disable Cluster mode
+    vmcluster:
+      enabled: false
+
+    # Configure Grafana with VictoriaLogs integration
+    grafana:
+      enabled: true
+      persistence:
+        enabled: false
+      sidecar:
+        dashboards:
+          enabled: true
+          label: grafana_dashboard
+        datasources:
+          enabled: true
+          label: grafana_datasource
+
+    # standard components
+    vmalert:
+      enabled: true
+    vmagent:
+      enabled: true
+    victoria-metrics-operator:
+      enabled: true
