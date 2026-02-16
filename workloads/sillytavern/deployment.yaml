@@ -25,19 +25,19 @@ spec:
             limits:
               memory: "3Gi"
           volumeMounts:
-            - name: data
+            - name: sillytavern-data
               mountPath: /home/node/app/config
               subPath: config
-            - name: data
+            - name: sillytavern-data
               mountPath: /home/node/app/data
               subPath: data
-            - name: data
+            - name: sillytavern-data
               mountPath: /home/node/app/plugins
               subPath: plugins
-            - name: data
+            - name: sillytavern-data
               mountPath: /home/node/app/public/scripts/extensions/third-party
               subPath: extensions
       volumes:
-        - name: data
+        - name: sillytavern-data
           persistentVolumeClaim:
             claimName: sillytavern-data
