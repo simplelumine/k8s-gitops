@@ -1,0 +1,22 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-logs-collector
+  namespace: monitoring
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: victoria-logs-collector
+      version: "0.2.x"
+      sourceRef:
+        kind: HelmRepository
+        name: victoriametrics
+        namespace: monitoring
+  values:
+    remoteWrite:
+      - url: "http://vlsingle-victoria-logs-single.monitoring.svc:9428/insert/elasticsearch/_bulk"
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
