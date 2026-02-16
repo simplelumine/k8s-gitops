@@ -22,6 +22,7 @@ patches:
 
 configMapGenerator:
   - name: victorialogs-dashboard
+    namespace: monitoring
     files:
       - dashboards/vlogs-dashboard.json
 
