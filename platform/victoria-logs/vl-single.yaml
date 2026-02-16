@@ -1,0 +1,21 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VLSingle
+metadata:
+  name: victoria-logs-single
+  namespace: platform
+spec:
+  # Retention period for the logs.
+  # Examples: "1d", "1w", "1m", "1y".
+  retentionPeriod: "7d"
+  # Storage configuration
+  storage:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 10Gi
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
