@@ -20,11 +20,16 @@ patches:
   - path: gatus-patch.yaml
   - path: coder-patch.yaml
 
+# (Get-Content dashboard.json -Raw) -replace '原始UID', 'P4169E866C3094E38' | Set-Content dashboard.json
 configMapGenerator:
   - name: victorialogs-dashboard
     namespace: monitoring
     files:
       - dashboards/vlogs-dashboard.json
+  - name: k8s-dashboard
+    namespace: monitoring
+    files:
+      - dashboards/k8s-dashboard.json
 
 generatorOptions:
   labels:

@@ -1,9 +1,0 @@
-apiVersion: operator.victoriametrics.com/v1
-kind: VLAgent
-metadata:
-  name: victoria-logs-agent
-  namespace: monitoring
-spec:
-  # Where to send the logs
-  remoteWrite:
-    - url: "http://vlsingle-victoria-logs-single.monitoring.svc:9428/insert/elasticsearch/_bulk"
