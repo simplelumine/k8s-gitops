@@ -14,19 +14,19 @@ resources:
 
   - cluster-issuer.yaml
   - edge-scrape.yaml
-  - ../../../platform/victoria-logs
+  # - ../../../platform/victoria-logs
 
 patches:
   - path: gatus-patch.yaml
   - path: coder-patch.yaml
 
 # (Get-Content dashboard.json -Raw) -replace '原始UID', 'P4169E866C3094E38' | Set-Content dashboard.json
-configMapGenerator:
-  - name: victorialogs-dashboard
-    namespace: monitoring
-    files:
-      - dashboards/vlogs-dashboard.json
+# configMapGenerator:
+#   - name: victorialogs-dashboard
+#     namespace: monitoring
+#     files:
+#       - dashboards/vlogs-dashboard.json
 
-generatorOptions:
-  labels:
-    grafana_dashboard: "1"
+# generatorOptions:
+#   labels:
+#     grafana_dashboard: "1"
