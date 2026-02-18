@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: vm-stack
+  name: victoria-metrics
   namespace: monitoring
 spec:
   values:
@@ -24,10 +24,10 @@ spec:
       # service:
       #   annotations:
       #     tailscale.com/expose: "true"
-      #     tailscale.com/hostname: "vm-stack"
+      #     tailscale.com/hostname: "victoria-metrics"
 
       # Inject secret values as Environment Variables
-      envFromSecret: vm-stack-auth
+      envFromSecret: victoria-metrics-auth
 
       # Configure Grafana.ini to use Env Vars
       grafana.ini:

@@ -93,7 +93,7 @@ flux reconcile kustomization flux-system --with-source
 flux reconcile kustomization workloads --with-source
 
 # Reconcile 
-flux reconcile helmrelease vm-stack -n monitoring --force
+flux reconcile helmrelease victoria-metrics -n monitoring --force
 
 # View all installed releases
 flux get helmreleases -A
