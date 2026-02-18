@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespace.yaml
+  - cluster.yaml
+  - postgres-users-secret.sops.yaml
+  - postgres-backup-secret.sops.yaml
+  - postgres-vars-secret.sops.yaml
+  - postgres-databases.yaml
+  - postgres-secret-store.yaml
+  - scheduled-backup.yaml
+
+patches:
+  - path: postgres-users-patch.yaml

@@ -14,7 +14,7 @@ spec:
     # --- Infrastructure Configuration ---
     db:
       useExisting: true
-      endpoint: postgres-ha-rw.postgres.svc.cluster.local
+      endpoint: postgres-rw.postgres.svc.cluster.local
       database: litellm
       secret:
         name: litellm-db-secret
@@ -32,7 +32,7 @@ spec:
 
     extraEnvVars:
       - name: REDIS_HOST
-        value: "redis-ha-master.redis.svc.cluster.local"
+        value: "redis-master.redis.svc.cluster.local"
       - name: REDIS_PORT
         value: "6379"
 

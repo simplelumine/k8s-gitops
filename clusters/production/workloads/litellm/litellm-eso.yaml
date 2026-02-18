@@ -1,29 +1,27 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: open-webui-db-secret-sync
-  namespace: open-webui
+  name: litellm-db-secret-sync
+  namespace: litellm
 spec:
   refreshInterval: 1h
   secretStoreRef:
     name: postgres-store
     kind: ClusterSecretStore
   target:
-    name: open-webui-db-secret
+    name: litellm-db-secret
     template:
       engineVersion: v2
       data:
-        # Construct the URL manually to ensure FQDN for cross-namespace access
-        # Format: postgres://user:password@host.namespace.svc:5432/dbname
-        DATABASE_URL: "postgres://{{ .username }}:{{ .password }}@postgres-ha-rw.postgres.svc.cluster.local:5432/open-webui"
+        DATABASE_URL: "postgres://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/litellm"
         username: "{{ .username }}"
         password: "{{ .password }}"
   data:
     - secretKey: username
       remoteRef:
-        key: open-webui-db-secret
+        key: litellm-db-secret
         property: username
     - secretKey: password
       remoteRef:
-        key: open-webui-db-secret
+        key: litellm-db-secret
         property: password

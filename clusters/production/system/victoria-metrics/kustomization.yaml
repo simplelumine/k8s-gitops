@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../../system/victoria-metrics
+  - victoria-metrics-auth.sops.yaml
+
+patches:
+  - path: victoria-metrics-patch.yaml

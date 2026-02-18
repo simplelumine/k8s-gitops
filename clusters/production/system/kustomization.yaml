@@ -5,20 +5,5 @@ resources:
   - ../../../system/redis-operator
   - ../../../system/external-secrets
   - ../../../system/reloader
-
-  - ../../../system/tailscale-operator
-  - tailscale-secret.sops.yaml
-  - ../../../system/cert-manager
-  - cert-manager-cloudflare-secret.sops.yaml
-  - ../../../system/external-dns
-  - external-dns-cloudflare-secret.sops.yaml
-
-  - ../../../system/victoria-metrics
-  - victoria-metrics-auth.sops.yaml
-
-patches:
-  - path: victoria-metrics-patch.yaml
-    target:
-      kind: HelmRelease
-      name: victoria-metrics
-      namespace: monitoring
+  - victoria-metrics
+  - connectivity

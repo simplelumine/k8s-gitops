@@ -1,11 +1,21 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres-ha
+  name: postgres
   namespace: postgres
 spec:
   managed:
     roles:
+      - name: coder
+        ensure: present
+        login: true
+        passwordSecret:
+          name: coder-db-secret
+      - name: juicefs
+        ensure: present
+        login: true
+        passwordSecret:
+          name: juicefs-db-secret
       - name: open-webui
         ensure: present
         login: true
@@ -26,13 +36,3 @@ spec:
         login: true
         passwordSecret:
           name: infisical-db-secret
-      - name: coder
-        ensure: present
-        login: true
-        passwordSecret:
-          name: coder-db-secret
-      - name: juicefs
-        ensure: present
-        login: true
-        passwordSecret:
-          name: juicefs-db-secret

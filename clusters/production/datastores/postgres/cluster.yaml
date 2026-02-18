@@ -44,32 +44,19 @@ spec:
   # HA & Failover settings
   primaryUpdateStrategy: unsupervised
 
-  # Pod distribution - spread across nodes (High Availability)
-  affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchLabels:
-              # IMPORTANT: Must match the current cluster name 'postgres'
-              postgresql.cnpg.io/cluster: postgres
-          topologyKey: kubernetes.io/hostname
-
-  # # Monitoring
-  # monitoring:
-  #   enablePodMonitor: true
-
-  # # Backup Configuration (Example with Cloudflare R2 / S3)
-  # backup:
-  #   barmanObjectStore:
-  #     destinationPath: s3://your-bucket-name/postgres-backups
-  #     endpointURL: https://<account-id>.r2.cloudflarestorage.com
-  #     s3Credentials:
-  #       accessKeyId:
-  #         name: postgres-backup-secret
-  #         key: ACCESS_KEY_ID
-  #       secretAccessKey:
-  #         name: postgres-backup-secret
-  #         key: SECRET_ACCESS_KEY
-  #     wal:
-  #       compression: gzip
-  #       maxParallel: 8
+  # Backup Configuration (Cloudflare R2)
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://prod-pg-backups/
+      endpointURL: ${R2_ENDPOINT_URL}
+      s3Credentials:
+        accessKeyId:
+          name: postgres-backup-secret
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: postgres-backup-secret
+          key: SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+        maxParallel: 8
+    retentionPolicy: "2d"
