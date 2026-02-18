@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - cert-issuer
   - monitoring-rules
-  - cloudflared
   - coder
   - gatus
   - victoria-logs
