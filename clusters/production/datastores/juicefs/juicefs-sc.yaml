@@ -11,7 +11,7 @@ parameters:
   csi.storage.k8s.io/controller-expand-secret-name: juicefs-secret
   csi.storage.k8s.io/controller-expand-secret-namespace: juicefs
 
-  pathPattern: "${.PVC.namespace}/${.PVC.name}"
+  pathPattern: "$${.PVC.namespace}/$${.PVC.name}"
 
   mountPodRequestCpu: "50m"
   mountPodRequestMemory: "100Mi"
