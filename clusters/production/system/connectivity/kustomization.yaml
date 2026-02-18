@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # Tailscale
+  - ../../../../system/tailscale-operator
+  - tailscale-secret.sops.yaml
+  
+  # Cert Manager
+  - ../../../../system/cert-manager
+  - cert-manager-cloudflare-secret.sops.yaml
+  
+  # External DNS
+  - ../../../../system/external-dns
+  - external-dns-cloudflare-secret.sops.yaml
+

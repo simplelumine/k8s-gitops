@@ -10,7 +10,7 @@ spec:
       enabled: true
       # Using external Redis (defined by 'url'), so internal redis is disabled but manager is set to redis
       manager: redis
-      url: redis://redis-ha-master.redis.svc.cluster.local:6379/0
+      url: redis://redis-master.redis.svc.cluster.local:6379/0
       redis:
         enabled: false
     pipelines:

@@ -1,33 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - ../../../platform/cloudflared-tunnel
-  # - cloudflare-tunnel-secret.sops.yaml
-
-  - ../../../platform/coder
-  - coder-eso.yaml
-  - coder-auth.sops.yaml
-  - coder-apps-ingress.yaml
-
-  - ../../../platform/gatus
-  - gatus-eso.yaml
-
-  - cluster-issuer.yaml
-  - edge-scrape.yaml
-
-  - ../../../platform/victoria-logs
-
-patches:
-  - path: gatus-patch.yaml
-  - path: coder-patch.yaml
-
-# (Get-Content dashboard.json -Raw) -replace 'UID', 'P4169E866C3094E38' | Set-Content dashboard.json
-configMapGenerator:
-  - name: victorialogs-dashboard
-    namespace: monitoring
-    files:
-      - dashboards/vlogs-dashboard.json
-
-generatorOptions:
-  labels:
-    grafana_dashboard: "1"
+  - cert-issuer
+  - monitoring-rules
+  - cloudflared
+  - coder
+  - gatus
+  - victoria-logs

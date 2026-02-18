@@ -16,7 +16,7 @@ spec:
       data:
         # Postgres Metadata (Templated from Secret Store)
         # Injected into the existing juicefs-secret managed by GitOps (SOPS)
-        metaurl: "postgres://{{ .username }}:{{ .password }}@postgres-ha-rw.postgres.svc.cluster.local:5432/juicefs"
+        metaurl: "postgres://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/juicefs"
   data:
     - secretKey: username
       remoteRef:
