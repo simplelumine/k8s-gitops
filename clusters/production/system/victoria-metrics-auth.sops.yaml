@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: victoria-metrics-auth
+    namespace: monitoring
+type: Opaque
+stringData:
+    GF_AUTH_GITHUB_CLIENT_ID: ENC[AES256_GCM,data:jxyGIj90kQuKOP6eco5sN5NM1Nc=,iv:OTbz2iC7OFczzjDBPDNo+05UMSioSGueiKUycRvhsSg=,tag:seP5KmX+Jc6+PleS0i14Zw==,type:str]
+    GF_AUTH_GITHUB_CLIENT_SECRET: ENC[AES256_GCM,data:813jDdfpD3ybk4ag9XTmDLWVVnUWoDxjRVYZtU8+C563FuumMUsCHA==,iv:+qwJpE19UGy3FjJ3D94oKZSK/o6FM/UC+KRqU4w56SU=,tag:DyPx3OJFTNYOqHBiTG1UNg==,type:str]
+sops:
+    age:
+        - recipient: age1dhr8f8ze9ymr9cu9kmkw5w7feg6e5lae7ggjug4e5x87fukudydspd0fpx
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSByVW5tc0RXUmhJRUZQSWVl
+            UWNDZXNlcVdxY2MzTXRZbVgrRTBnVThKWDNZCmpsbUpYa2QyOXFScUNobXBlWThL
+            ZU83T21JZUQzTDVFT0dLdE0zaDdyZkUKLS0tIHRIbnBZRFNTTGNNYzdxQnJMWlRX
+            aWpqNHl4R2N4aWFLWlBwVzdyOU1mZjgKM8mGWwMcup6GJW9RrZCqeiCbTaQIq4ZM
+            stVoU00raqKFcTSDnUTjfDsUqXktNPwMFxp1P89ZfLa4fN8EjFFU6g==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-02-18T10:01:04Z"
+    mac: ENC[AES256_GCM,data:VT5Y/8zuGdmM4srzP/bjIvnio6Fxpct9E44OHQY/XBGYtkhvSJ3c1T8VBYBwtQ6yyK6jOIyH9bRPamhsuGDXQYyA6g2NBNvUwm2oZiA0qIsIMyClhMsXLtmZKBZqDAjnPtg/2TkgRa8zVn/hdGCZYWQ0A4wC8b6elWJBo208Kzc=,iv:oC60WfksyO6BwFzSAWhg/8B9HAyxF3PfkKB+kar6ULw=,tag:olKWiQhReiU+lsodBxI/LQ==,type:str]
+    encrypted_regex: ^(data|stringData)$
+    version: 3.11.0

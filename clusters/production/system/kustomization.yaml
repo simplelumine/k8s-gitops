@@ -13,12 +13,12 @@ resources:
   - ../../../system/external-dns
   - external-dns-cloudflare-secret.sops.yaml
 
-  - ../../../system/vm-stack
-  - vm-stack-auth.sops.yaml
+  - ../../../system/victoria-metrics
+  - victoria-metrics-auth.sops.yaml
 
 patches:
-  - path: vm-stack-patch.yaml
+  - path: victoria-metrics-patch.yaml
     target:
       kind: HelmRelease
-      name: vm-stack
+      name: victoria-metrics
       namespace: monitoring
