@@ -290,6 +290,12 @@ data:
           api_key: os.environ/DATABRICKS_API_KEY
           api_base: os.environ/DATABRICKS_API_BASE
 
+      - model_name: databricks:gpt-5-2-codex
+        litellm_params:
+          model: databricks/databricks-gpt-5-2-codex
+          api_key: os.environ/DATABRICKS_API_KEY
+          api_base: os.environ/DATABRICKS_API_BASE
+
     # -----Azure-----
       - model_name: azure:gpt-4o
         litellm_params:
