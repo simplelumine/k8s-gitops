@@ -99,6 +99,16 @@ data:
 
 
     # -----Gemini CLI-----
+      - model_name: geminicli:gemini-3.1-pro-preview
+        litellm_params:
+          model: gemini/gemini-3.1-pro-preview
+          api_key: os.environ/GEMINI_CLI_KEY
+          api_base: os.environ/GEMINI_CLI_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
       - model_name: geminicli:gemini-3-pro-preview
         litellm_params:
           model: gemini/gemini-3-pro-preview
