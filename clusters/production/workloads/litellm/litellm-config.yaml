@@ -20,6 +20,13 @@ data:
     # =====================================================
     model_list:
     # -----Vertex AI-----
+      - model_name: vertexai:gemini-3.1-pro-preview
+        litellm_params:
+          model: vertex_ai/gemini-3.1-pro-preview
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
       - model_name: vertexai:gemini-3-pro-preview
         litellm_params:
           model: vertex_ai/gemini-3-pro-preview
@@ -387,6 +394,16 @@ data:
 
 
     # -----YesCode-----
+      - model_name: yescode-cli:gemini-3.1-pro-preview
+        litellm_params:
+          model: gemini/gemini-3.1-pro-preview
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
       - model_name: yescode-cli:gemini-3-pro-preview
         litellm_params:
           model: gemini/gemini-3-pro-preview
