@@ -234,6 +234,11 @@ data:
 
 
     # -----xAI-----
+      - model_name: xai:grok-4-1
+        litellm_params:
+          model: xai/grok-4-1
+          api_key: os.environ/XAI_KEY
+
       - model_name: xai:grok-4-1-fast
         litellm_params:
           model: xai/grok-4-1-fast
@@ -251,6 +256,14 @@ data:
 
 
     # -----Dadabricks-----
+      - model_name: databricks:claude-sonnet-4-6
+        litellm_params:
+          model: databricks/databricks-claude-sonnet-4-6
+          api_key: os.environ/DATABRICKS_API_KEY
+          api_base: os.environ/DATABRICKS_API_BASE
+        model_info:
+          base_model: databricks/databricks-claude-sonnet4-5
+
       - model_name: databricks:claude-sonnet-4-5
         litellm_params:
           model: databricks/databricks-claude-sonnet-4-5
@@ -263,12 +276,6 @@ data:
           api_key: os.environ/DATABRICKS_API_KEY
           api_base: os.environ/DATABRICKS_API_BASE
 
-      - model_name: databricks:claude-opus-4-5
-        litellm_params:
-          model: databricks/databricks-claude-opus-4-5
-          api_key: os.environ/DATABRICKS_API_KEY
-          api_base: os.environ/DATABRICKS_API_BASE
-
       - model_name: databricks:claude-opus-4-6
         litellm_params:
           model: databricks/databricks-claude-opus-4-6
@@ -277,6 +284,11 @@ data:
         model_info:
           base_model: databricks/databricks-claude-opus-4-5
 
+      - model_name: databricks:claude-opus-4-5
+        litellm_params:
+          model: databricks/databricks-claude-opus-4-5
+          api_key: os.environ/DATABRICKS_API_KEY
+          api_base: os.environ/DATABRICKS_API_BASE
 
     # -----Azure-----
       - model_name: azure:gpt-4o
