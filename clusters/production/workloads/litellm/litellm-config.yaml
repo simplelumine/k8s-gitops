@@ -168,6 +168,26 @@ data:
 
 
     # -----Antigravity-----
+      - model_name: antigravity:gemini-3.1-pro-high
+        litellm_params:
+          model: gemini/gemini-3.1-pro-high
+          api_key: os.environ/ANTIGRAVITY_KEY
+          api_base: os.environ/ANTIGRAVITY_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
+      - model_name: antigravity:gemini-3.1-pro-low
+        litellm_params:
+          model: gemini/gemini-3.1-pro-low
+          api_key: os.environ/ANTIGRAVITY_KEY
+          api_base: os.environ/ANTIGRAVITY_BASE
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
       - model_name: antigravity:gemini-3-pro-high
         litellm_params:
           model: gemini/gemini-3-pro-high
@@ -443,6 +463,16 @@ data:
           output_cost_per_token: 0
         model_info:
           base_model: vertex_ai/gemini-2.5-flash
+
+      - model_name: yescode-anti:gemini-3.1-pro-high
+        litellm_params:
+          model: gemini/gemini-3.1-pro-high
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
 
       - model_name: yescode-anti:gemini-3-pro-high
         litellm_params:
