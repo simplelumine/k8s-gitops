@@ -54,6 +54,13 @@ spec:
           value: "https://github.com/fluidicon.png"
         - name: CODER_EXTERNAL_AUTH_0_SCOPES
           value: "repo,workflow,read:user,admin:public_key"
+        # Built-in DERP Server Configuration
+        - name: CODER_DERP_SERVER_ENABLE
+          value: "true"
+        - name: CODER_DERP_SERVER_REGION_NAME
+          value: "Coder Embedded Relay"
+        - name: CODER_DERP_SERVER_RELAY_URL
+          value: "https://code.simplelumine.com"
       ingress:
         enable: true
         className: traefik
