@@ -5,6 +5,8 @@ metadata:
   namespace: monitoring
 spec:
   values:
+    fullnameOverride: "victoria-metrics"
+
     grafana:
       ingress:
         enabled: true
