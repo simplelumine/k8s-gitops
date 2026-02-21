@@ -20,7 +20,7 @@ spec:
             - containerPort: 80
           env:
             - name: SIGNUPS_ALLOWED
-              value: "true"
+              value: "false"
           volumeMounts:
             - name: data
               mountPath: /data
