@@ -55,15 +55,6 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
-        - name: gcli
-          group: external-services
-          url: "https://gpi-tem.simplelumine.com"
-          interval: 2m
-          ui:
-            hide-hostname: true
-          conditions:
-            - "[STATUS] == 200"
-
         - name: gatus
           group: external-services
           url: "https://status.simplelumine.com"

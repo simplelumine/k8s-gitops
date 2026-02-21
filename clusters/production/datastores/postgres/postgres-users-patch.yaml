@@ -31,8 +31,3 @@ spec:
         login: true
         passwordSecret:
           name: gatus-db-secret
-      - name: infisical
-        ensure: present
-        login: true
-        passwordSecret:
-          name: infisical-db-secret
