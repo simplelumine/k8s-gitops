@@ -11,7 +11,6 @@ spec:
         - "100.118.201.99:9100"
       interval: "30s"
       labels:
-        job: "edge-nodes"
         hostname: "lax-eg-01"
         instance: "lax-eg-01"
         region: "los-angeles"
@@ -20,7 +19,14 @@ spec:
         - "100.104.96.89:9100"
       interval: "30s"
       labels:
-        job: "edge-nodes"
         hostname: "hkg-eg-01"
         instance: "hkg-eg-01"
         region: "hong-kong"
+
+    - targets:
+        - "100.67.192.13:9100"
+      interval: "30s"
+      labels:
+        hostname: "tyo-eg-01"
+        instance: "tyo-eg-01"
+        region: "tokyo"
