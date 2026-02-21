@@ -36,6 +36,11 @@ spec:
     # Disable in-cluster databases
     postgresql:
       enabled: false
+      useExistingPostgresSecret:
+        enabled: true
+        existingConnectionStringSecret:
+          name: "infisical-db-secret"
+          key: "DB_CONNECTION_URI"
 
     redis:
       enabled: false
