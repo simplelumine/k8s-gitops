@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gpi
+  namespace: gpi
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "gpi"
+spec:
+  selector:
+    app: gpi
+  ports:
+  - port: 7861
+    targetPort: 7861
+  type: ClusterIP
