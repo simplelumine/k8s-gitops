@@ -37,18 +37,6 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: infisical-db
-  namespace: postgres
-spec:
-  cluster:
-    name: postgres
-  name: infisical
-  owner: infisical
-
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
   name: coder-db
   namespace: postgres
 spec:
@@ -68,3 +56,15 @@ spec:
     name: postgres
   name: juicefs
   owner: juicefs
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: infisical-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres
+  name: infisical
+  owner: infisical
