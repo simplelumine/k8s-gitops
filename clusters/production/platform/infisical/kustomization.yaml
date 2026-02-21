@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../../../../platform/infisical
   - infisical-secret.sops.yaml
+  - infisical-eso.yaml
 
 patches:
   - path: infisical-patch.yaml
