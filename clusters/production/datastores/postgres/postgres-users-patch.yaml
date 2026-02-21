@@ -31,3 +31,8 @@ spec:
         login: true
         passwordSecret:
           name: gatus-db-secret
+      - name: vaultwarden
+        ensure: present
+        login: true
+        passwordSecret:
+          name: vaultwarden-db-secret

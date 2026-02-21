@@ -14,23 +14,21 @@ spec:
         app: vaultwarden
     spec:
       containers:
-      - name: vaultwarden
-        image: vaultwarden/server:latest-alpine
-        ports:
-        - containerPort: 80
-        env:
-        - name: SIGNUPS_ALLOWED
-          value: "false"
-        volumeMounts:
-        - name: data
-          mountPath: /data
-        resources:
-          requests:
-            cpu: 50m
-            memory: 128Mi
-          limits:
-            memory: 256Mi
+        - name: vaultwarden
+          image: vaultwarden/server:latest-alpine
+          ports:
+            - containerPort: 80
+          env:
+            - name: SIGNUPS_ALLOWED
+              value: "true"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
       volumes:
-      - name: data
-        persistentVolumeClaim:
-          claimName: vaultwarden-data
+        - name: data
+          persistentVolumeClaim:
+            claimName: vaultwarden-data

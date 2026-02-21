@@ -5,7 +5,8 @@ metadata:
   namespace: vaultwarden
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
+  storageClassName: juicefs-sc
   resources:
     requests:
       storage: 1Gi

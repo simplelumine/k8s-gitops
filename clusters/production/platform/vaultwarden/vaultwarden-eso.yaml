@@ -1,25 +1,25 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: infisical-db-secret-sync
-  namespace: infisical
+  name: vaultwarden-db-secret-sync
+  namespace: vaultwarden
 spec:
   refreshInterval: 1h
   secretStoreRef:
     name: postgres-store
     kind: ClusterSecretStore
   target:
-    name: infisical-db-secret
+    name: vaultwarden-db-secret
     template:
       engineVersion: v2
       data:
-        DB_CONNECTION_URI: "postgresql://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/infisical"
+        DATABASE_URL: "postgresql://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/vaultwarden"
   data:
     - secretKey: username
       remoteRef:
-        key: infisical-db-secret
+        key: vaultwarden-db-secret
         property: username
     - secretKey: password
       remoteRef:
-        key: infisical-db-secret
+        key: vaultwarden-db-secret
         property: password
