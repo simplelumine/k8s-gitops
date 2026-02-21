@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vaultwarden
+  namespace: vaultwarden
+spec:
+  template:
+    spec:
+      containers:
+        - name: vaultwarden
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-db-secret
+                  key: DATABASE_URL
+            - name: DOMAIN
+              value: "https://vault.simplelumine.com"
