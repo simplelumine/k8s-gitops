@@ -15,5 +15,21 @@ spec:
         namespace: infisical
       interval: 1h
   values:
-    # Add custom values here if needed
-    # fullnameOverride: "infisical"
+    infisical:
+      # Prerequisites:
+      # - Kubernetes Secret named 'infisical-secrets' in the same namespace
+      # - PostgreSQL database (controlled by postgresql.enabled or external DB_CONNECTION_URI)
+      # - Redis instance (controlled by redis.enabled or external REDIS_URL)
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+    postgresql:
+      # Database name: infisicalDB | User: infisical | Password: root (default)
+      enabled: true
+    redis:
+      enabled: true
+    ingress:
+      enabled: false
+      nginx:
+        enabled: false

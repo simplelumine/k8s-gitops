@@ -77,6 +77,9 @@ Encrypt secrets before committing.
 # Encrypt existing file in-place
 sops --encrypt --in-place litellm-secret.yaml
 
+# Decrypt existing file in-place
+sops --decrypt --in-place litellm-secret.yaml
+
 # Verify encryption (Check for "sops" metadata block)
 cat litellm-secret.yaml
 ```
