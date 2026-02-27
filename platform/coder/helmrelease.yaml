@@ -18,6 +18,10 @@ spec:
     coder:
       # Minimal defaults for base installation
       env: []
+      resources:
+        requests:
+          cpu: 128m
+          memory: 256Mi
     postgres:
       # Embedded postgres enabled by default for base to work standalone
       enabled: true
