@@ -14,13 +14,14 @@ parameters:
   pathPattern: "$${.PVC.namespace}/$${.PVC.name}"
 
   mountPodRequestCpu: "50m"
-  mountPodRequestMemory: "100Mi"
+  mountPodRequestMemory: "128Mi"
   mountPodLimitCpu: "1000m"
   mountPodLimitMemory: "512Mi"
 
 mountOptions:
-  - cache-size=2048
-  - buffer-size=64
+  - cache-size=5120
+  - buffer-size=128
+  - writeback
 
 reclaimPolicy: Retain
 allowVolumeExpansion: true
