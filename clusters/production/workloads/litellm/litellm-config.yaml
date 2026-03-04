@@ -27,6 +27,13 @@ data:
           vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
           vertex_credentials: os.environ/VERTEX_CREDENTIALS
 
+      - model_name: vertexai:gemini-3.1-pro-preview-customtools
+        litellm_params:
+          model: vertex_ai/gemini-3.1-pro-preview-customtools
+          vertex_project: os.environ/VERTEX_PROJECT
+          vertex_location: os.environ/VERTEX_LOCATION_GLOBAL
+          vertex_credentials: os.environ/VERTEX_CREDENTIALS
+
       - model_name: vertexai:gemini-3.1-flash-lite-preview
         litellm_params:
           model: vertex_ai/gemini-3.1-flash-lite-preview
