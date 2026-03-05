@@ -14,18 +14,11 @@ spec:
         app: gpi
     spec:
       containers:
-      - name: gpi
-        image: ghcr.io/su-kaka/gcli2api:latest
-        ports:
-        - containerPort: 7861
-        volumeMounts:
-        - name: creds
-          mountPath: /app/creds
-        resources:
-          requests:
-            cpu: 50m
-            memory: 128Mi
-      volumes:
-      - name: creds
-        persistentVolumeClaim:
-          claimName: gpi-creds
+        - name: gpi
+          image: ghcr.io/su-kaka/gcli2api:latest
+          ports:
+            - containerPort: 7861
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
