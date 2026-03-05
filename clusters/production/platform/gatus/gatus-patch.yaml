@@ -109,3 +109,12 @@ spec:
             hide-hostname: true
           conditions:
             - "[STATUS] == 200"
+
+        - name: sillytavern-japan
+          group: textverse-services
+          url: "https://st-jp.textverse.top"
+          interval: 2m
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
