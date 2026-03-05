@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: data-transfer
+  namespace: sillytavern
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: lax-wk-02
+  containers:
+    - name: transfer
+      image: busybox
+      command: ["sleep", "3600"]
+      volumeMounts:
+        - name: sillytavern-data
+          mountPath: /data
+  volumes:
+    - name: sillytavern-data
+      persistentVolumeClaim:
+        claimName: sillytavern-data-local
