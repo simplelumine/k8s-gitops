@@ -21,7 +21,7 @@ spec:
           resources:
             requests:
               cpu: "250m"
-              memory: "512Mi"
+              memory: "256Mi"
             limits:
               memory: "3Gi"
           volumeMounts:
@@ -40,4 +40,4 @@ spec:
       volumes:
         - name: sillytavern-data
           persistentVolumeClaim:
-            claimName: sillytavern-data
+            claimName: sillytavern-data-local
