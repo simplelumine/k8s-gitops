@@ -11,11 +11,6 @@ spec:
         login: true
         passwordSecret:
           name: coder-db-secret
-      - name: juicefs
-        ensure: present
-        login: true
-        passwordSecret:
-          name: juicefs-db-secret
       - name: open-webui
         ensure: present
         login: true
