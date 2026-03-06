@@ -64,6 +64,15 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
+        - name: quartz
+          group: external-services
+          url: "https://simplelumine.com"
+          interval: 2m
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
         - name: litellm
           group: external-services
           url: "https://api.simplelumine.com"
