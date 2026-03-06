@@ -30,5 +30,4 @@ spec:
               memory: 128Mi
       volumes:
         - name: data
-          persistentVolumeClaim:
-            claimName: vaultwarden-data
+          emptyDir: {}
