@@ -26,11 +26,6 @@ spec:
         login: true
         passwordSecret:
           name: litellm-db-secret
-      - name: gatus
-        ensure: present
-        login: true
-        passwordSecret:
-          name: gatus-db-secret
       - name: vaultwarden
         ensure: present
         login: true

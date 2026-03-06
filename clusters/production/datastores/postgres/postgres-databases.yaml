@@ -22,18 +22,7 @@ spec:
   owner: litellm
 
 ---
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: gatus-db
-  namespace: postgres
-spec:
-  cluster:
-    name: postgres
-  name: gatus
-  owner: gatus
 
----
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
