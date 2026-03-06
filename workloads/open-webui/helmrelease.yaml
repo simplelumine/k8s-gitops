@@ -29,7 +29,7 @@ spec:
         enabled: true
 
     tika:
-      enabled: true
+      enabled: false
 
     persistence:
       enabled: true

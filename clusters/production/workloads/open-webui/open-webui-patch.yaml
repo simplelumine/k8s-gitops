@@ -16,7 +16,7 @@ spec:
     pipelines:
       enabled: false
     tika:
-      enabled: false
+      enabled: true
     persistence:
       enabled: true
       storageClass: juicefs-sc
