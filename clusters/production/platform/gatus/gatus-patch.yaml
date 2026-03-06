@@ -22,18 +22,18 @@ spec:
           hosts:
             - status.simplelumine.com
 
-    env:
-      DATABASE_URL:
-        valueFrom:
-          secretKeyRef:
-            name: gatus-db-secret
-            key: DATABASE_URL
+    # env:
+    #   DATABASE_URL:
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: gatus-db-secret
+    #         key: DATABASE_URL
 
-    config:
-      storage:
-        type: postgres
-        path: "${DATABASE_URL}"
-        caching: true
+    # config:
+    #   storage:
+    #     type: postgres
+    #     path: "${DATABASE_URL}"
+    #     caching: true
 
       endpoints:
         # --- External Services ---
