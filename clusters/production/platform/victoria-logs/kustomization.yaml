@@ -13,3 +13,6 @@ configMapGenerator:
 generatorOptions:
   labels:
     grafana_dashboard: "1"
+
+patches:
+  - path: victoria-logs-patch.yaml

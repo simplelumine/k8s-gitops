@@ -72,3 +72,15 @@ spec:
           secretKeyRef:
             name: open-webui-secret
             key: qdrant-api-key
+
+    # Schedule near the Postgres primary (Leader) for lowest latency
+    affinity:
+      podAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  cnpg.io/cluster: postgres
+                  cnpg.io/instanceRole: primary
+              topologyKey: kubernetes.io/hostname
