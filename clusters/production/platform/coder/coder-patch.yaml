@@ -15,9 +15,9 @@ spec:
         - name: CODER_OAUTH2_GITHUB_DEFAULT_PROVIDER_ENABLE
           value: "false"
         - name: CODER_ACCESS_URL
-          value: "https://code.simplelumine.com"
+          value: "https://code.simplelumine.dev"
         - name: CODER_WILDCARD_ACCESS_URL
-          value: "*.code.simplelumine.com"
+          value: "*.code.simplelumine.dev"
         # GitHub OAuth
         - name: CODER_OAUTH2_GITHUB_ALLOW_SIGNUPS
           value: "true"
@@ -60,7 +60,7 @@ spec:
         - name: CODER_DERP_SERVER_REGION_NAME
           value: "Coder Embedded Relay"
         - name: CODER_DERP_SERVER_RELAY_URL
-          value: "https://code.simplelumine.com"
+          value: "https://code.simplelumine.dev"
         # Experimental Features
         - name: CODER_EXPERIMENTS
           value: "*"
@@ -69,7 +69,7 @@ spec:
         className: traefik
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
-        host: code.simplelumine.com
+        host: code.simplelumine.dev
         tls:
           enable: true
           secretName: coder-tls

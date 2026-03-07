@@ -16,11 +16,11 @@ spec:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       hosts:
-        - status.simplelumine.com
+        - status.simplelumine.dev
       tls:
         - secretName: gatus-tls
           hosts:
-            - status.simplelumine.com
+            - status.simplelumine.dev
 
     # env:
     #   DATABASE_URL:
@@ -39,7 +39,7 @@ spec:
         # --- External Services ---
         - name: grafana
           group: external-services
-          url: "https://monitor.simplelumine.com"
+          url: "https://monitor.simplelumine.dev"
           interval: 2m
           ui:
             hide-hostname: true
@@ -48,7 +48,7 @@ spec:
 
         - name: open-webui
           group: external-services
-          url: "https://chat.simplelumine.com"
+          url: "https://chat.simplelumine.dev"
           interval: 2m
           ui:
             hide-hostname: true
@@ -57,7 +57,7 @@ spec:
 
         - name: gatus
           group: external-services
-          url: "https://status.simplelumine.com"
+          url: "https://status.simplelumine.dev"
           interval: 2m
           ui:
             hide-hostname: true
@@ -66,7 +66,7 @@ spec:
 
         - name: quartz
           group: external-services
-          url: "https://simplelumine.com"
+          url: "https://simplelumine.dev"
           interval: 2m
           ui:
             hide-hostname: true
@@ -75,7 +75,7 @@ spec:
 
         - name: litellm
           group: external-services
-          url: "https://api.simplelumine.com"
+          url: "https://api.simplelumine.dev"
           interval: 2m
           ui:
             hide-hostname: true
@@ -84,7 +84,7 @@ spec:
 
         - name: coder
           group: external-services
-          url: "https://code.simplelumine.com"
+          url: "https://code.simplelumine.dev"
           interval: 2m
           ui:
             hide-hostname: true

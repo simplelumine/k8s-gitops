@@ -48,11 +48,11 @@ spec:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       hosts:
-        - host: api.simplelumine.com
+        - host: api.simplelumine.dev
           paths:
             - path: /
               pathType: ImplementationSpecific
       tls:
         - secretName: litellm-tls
           hosts:
-            - api.simplelumine.com
+            - api.simplelumine.dev

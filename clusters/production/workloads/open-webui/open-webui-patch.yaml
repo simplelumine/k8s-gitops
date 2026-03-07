@@ -34,7 +34,7 @@ spec:
       class: traefik
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-      host: chat.simplelumine.com
+      host: chat.simplelumine.dev
       tls: true
       existingSecret: open-webui-tls
 

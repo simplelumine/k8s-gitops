@@ -32,16 +32,3 @@ spec:
     # --- Ingress ---
     ingress:
       enabled: false
-      ingressClassName: "traefik"
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-      hosts:
-        - host: vector.simplelumine.com
-          paths:
-            - path: /
-              pathType: Prefix
-              servicePort: 6333
-      tls:
-        - secretName: qdrant-tls
-          hosts:
-            - vector.simplelumine.com
