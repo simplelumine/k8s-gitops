@@ -59,8 +59,7 @@ spec:
           value: "true"
         - name: CODER_DERP_SERVER_REGION_NAME
           value: "Coder Embedded Relay"
-        - name: CODER_DERP_SERVER_RELAY_URL
-          value: "https://code.simplelumine.dev"
+
         # Experimental Features
         - name: CODER_EXPERIMENTS
           value: "*"
