@@ -9,7 +9,7 @@
       "gridPos": { "h": 3, "w": 24, "x": 0, "y": 0 },
       "id": 1,
       "options": {
-        "content": "# 🔍 Global Distributed Tracing (Tempo)\nReal-time trace overview across **All Services** in the cluster. New services instrumented with OpenTelemetry will automatically appear here. Click a Trace ID to open the detailed gantt chart in Explore.",
+        "content": "# 🔍 Global Distributed Tracing (Tempo)\nReal-time trace overview across **All Services** in the cluster. Click a Trace ID to open the detailed gantt chart in Explore.",
         "mode": "markdown"
       },
       "transparent": true,
@@ -23,10 +23,8 @@
         {
           "datasource": { "type": "tempo", "uid": "tempo-datasource" },
           "limit": 30,
-          "queryType": "traceql",
-          "refId": "A",
-          "query": "{}",
-          "tableType": "traces"
+          "queryType": "traceqlSearch",
+          "refId": "A"
         }
       ],
       "title": "🌐 Recent Traces (All Services)",
@@ -42,8 +40,7 @@
           "limit": 20,
           "queryType": "traceql",
           "refId": "A",
-          "query": "{ status = error }",
-          "tableType": "traces"
+          "query": "{ status = error }"
         }
       ],
       "title": "⚠️ Error Traces (Cluster-wide)",
@@ -59,8 +56,7 @@
           "limit": 20,
           "queryType": "traceql",
           "refId": "A",
-          "query": "{ duration > 2s }",
-          "tableType": "traces"
+          "query": "{ trace.duration > 2s }"
         }
       ],
       "title": "🐢 Slow Traces > 2s (Cluster-wide)",
@@ -69,12 +65,10 @@
   ],
   "schemaVersion": 39,
   "tags": ["tempo", "tracing", "observability", "global"],
-  "templating": {
-    "list": []
-  },
+  "templating": { "list": [] },
   "time": { "from": "now-1h", "to": "now" },
   "timezone": "browser",
   "title": "Global Traces Overview",
   "uid": "tempo-traces-global",
-  "version": 4
+  "version": 5
 }
