@@ -10,6 +10,7 @@ data:
     # =====================================================
     litellm_settings:
       drop_params: True
+      callbacks: ["otel"]
       cache: True
       cache_params:
         type: redis

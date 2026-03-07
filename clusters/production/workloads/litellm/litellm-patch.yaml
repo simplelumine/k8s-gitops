@@ -35,6 +35,11 @@ spec:
         value: "redis-master.redis.svc.cluster.local"
       - name: REDIS_PORT
         value: "6379"
+      # --- OpenTelemetry Tracing (-> Grafana Tempo) ---
+      - name: OTEL_EXPORTER
+        value: "otlp_http"
+      - name: OTEL_ENDPOINT
+        value: "http://grafana-tempo.monitoring.svc:4318"
 
     service:
       annotations:
