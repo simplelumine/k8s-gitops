@@ -14,7 +14,7 @@ data:
       cache: True
       cache_params:
         type: redis
-        ttl: 0
+        ttl: 1
 
     # =====================================================
     # Model List
