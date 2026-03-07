@@ -46,13 +46,10 @@ spec:
 
   # Pod distribution - spread across nodes (High Availability)
   affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchLabels:
-              # IMPORTANT: Must match the current cluster name 'postgres'
-              postgresql.cnpg.io/cluster: postgres
-          topologyKey: kubernetes.io/hostname
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: preferred
+
 
   # # Monitoring
   # monitoring:

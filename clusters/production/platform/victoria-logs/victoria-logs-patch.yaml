@@ -1,0 +1,35 @@
+apiVersion: operator.victoriametrics.com/v1
+kind: VLSingle
+metadata:
+  name: victoria-logs-single
+  namespace: monitoring
+spec:
+  # Prefer lite tier nodes for log storage
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+            - key: node-role.kubernetes.io/tier
+              operator: In
+              values:
+                - lite
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-logs-collector
+  namespace: monitoring
+spec:
+  values:
+    # Prefer lite tier nodes for log collector
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: node-role.kubernetes.io/tier
+                  operator: In
+                  values:
+                    - lite
