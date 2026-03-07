@@ -1,0 +1,7 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../../platform/grafana-tempo
+
+patches:
+  - path: grafana-tempo-patch.yaml
