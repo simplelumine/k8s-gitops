@@ -32,3 +32,16 @@ spec:
     # --- Ingress ---
     ingress:
       enabled: false
+
+    # Prefer pro/ultra tier nodes for Qdrant (vector DB for RAG)
+    affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 80
+            preference:
+              matchExpressions:
+                - key: node-role.kubernetes.io/tier
+                  operator: In
+                  values:
+                    - pro
+                    - ultra

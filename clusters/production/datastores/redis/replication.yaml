@@ -36,3 +36,16 @@ spec:
         resources:
           requests:
             storage: 1Gi
+
+  # Prefer pro/ultra tier nodes for Redis (core cache layer)
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 80
+          preference:
+            matchExpressions:
+              - key: node-role.kubernetes.io/tier
+                operator: In
+                values:
+                  - pro
+                  - ultra
