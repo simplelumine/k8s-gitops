@@ -11,10 +11,10 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - "*.code.simplelumine.com"
+        - "*.code.simplelumine.dev"
       secretName: coder-apps-tls
   rules:
-    - host: "*.code.simplelumine.com"
+    - host: "*.code.simplelumine.dev"
       http:
         paths:
           - path: /

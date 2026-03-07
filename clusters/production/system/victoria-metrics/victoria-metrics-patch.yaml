@@ -14,11 +14,11 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
         hosts:
-          - monitor.simplelumine.com
+          - monitor.simplelumine.dev
         tls:
           - secretName: grafana-tls
             hosts:
-              - monitor.simplelumine.com
+              - monitor.simplelumine.dev
 
       plugins:
         - victoriametrics-logs-datasource
@@ -34,8 +34,8 @@ spec:
       # Configure Grafana.ini to use Env Vars
       grafana.ini:
         server:
-          domain: monitor.simplelumine.com
-          root_url: https://monitor.simplelumine.com
+          domain: monitor.simplelumine.dev
+          root_url: https://monitor.simplelumine.dev
           serve_from_sub_path: false
 
         auth.github:

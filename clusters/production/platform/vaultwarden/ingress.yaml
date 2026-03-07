@@ -10,10 +10,10 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - vault.simplelumine.com
+        - vault.simplelumine.dev
       secretName: vaultwarden-tls
   rules:
-    - host: vault.simplelumine.com
+    - host: vault.simplelumine.dev
       http:
         paths:
           - path: /
