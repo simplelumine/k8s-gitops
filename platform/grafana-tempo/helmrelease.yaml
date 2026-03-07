@@ -8,23 +8,27 @@ spec:
   chart:
     spec:
       chart: tempo
-      version: "1.24.x"
+      version: "2.0.x"
       sourceRef:
         kind: HelmRepository
-        name: grafana
+        name: grafana-community
         namespace: monitoring
   values:
     tempo:
-      # Retention period for traces
       retention: 72h
-
-      # Resource requests
       resources:
         requests:
           cpu: 100m
           memory: 256Mi
+      # Only keep OTLP receivers (gRPC :4317 → Open WebUI, HTTP :4318 → LiteLLM)
+      receivers:
+        otlp:
+          protocols:
+            grpc:
+              endpoint: "0.0.0.0:4317"
+            http:
+              endpoint: "0.0.0.0:4318"
 
-    # Disabled persistence to allow Tempo to freely float across nodes
-    # Traces are ephemeral; stateless deployment ensures high availability
+    # Stateless deployment — traces are ephemeral, allows floating across nodes
     persistence:
       enabled: false
