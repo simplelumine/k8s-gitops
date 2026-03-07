@@ -22,7 +22,6 @@ spec:
 
       plugins:
         - victoriametrics-logs-datasource
-        - victoriametrics-datasource
 
       # service:
       #   annotations:
@@ -53,18 +52,6 @@ spec:
           allowed_organizations: lumine-duality
           # Map GitHub Teams to Grafana Roles
           role_attribute_path: "contains(groups[*], '@lumine-duality/admins') && 'Admin' || 'Viewer'"
-
-      # Avoid lite tier nodes for Grafana (keep it on higher-tier nodes)
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              preference:
-                matchExpressions:
-                  - key: node-role.kubernetes.io/tier
-                    operator: NotIn
-                    values:
-                      - lite
 
     # Prefer lite tier nodes for monitoring components
     vmsingle:
