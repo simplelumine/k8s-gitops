@@ -72,6 +72,15 @@ spec:
           secretKeyRef:
             name: open-webui-secret
             key: qdrant-api-key
+      # --- OpenTelemetry Tracing (-> Grafana Tempo) ---
+      - name: ENABLE_OTEL
+        value: "true"
+      - name: OTEL_SERVICE_NAME
+        value: "open-webui"
+      - name: OTEL_EXPORTER_OTLP_ENDPOINT
+        value: "http://grafana-tempo.monitoring.svc:4317"
+      - name: OTEL_EXPORTER_OTLP_PROTOCOL
+        value: "grpc"
 
     # Schedule near the Postgres primary (Leader) for lowest latency
     affinity:
