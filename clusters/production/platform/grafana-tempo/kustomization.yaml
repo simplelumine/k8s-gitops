@@ -3,5 +3,15 @@ kind: Kustomization
 resources:
   - ../../../../platform/grafana-tempo
 
+configMapGenerator:
+  - name: tempo-dashboard
+    namespace: monitoring
+    files:
+      - dashboards/tempo-services.json
+
+generatorOptions:
+  labels:
+    grafana_dashboard: "1"
+
 patches:
   - path: grafana-tempo-patch.yaml
