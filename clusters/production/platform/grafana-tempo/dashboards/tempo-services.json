@@ -1,0 +1,62 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "tempo",
+        "uid": "tempo-datasource"
+      },
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 0 },
+      "id": 1,
+      "options": {
+        "content": "# 🔍 Distributed Tracing (Tempo)\n\nUse the **Explore** page (compass icon in sidebar) → select **Tempo** datasource to search individual traces.\n\nThis dashboard provides a quick overview of trace search. Use the panels below to find and inspect traces.",
+        "mode": "markdown"
+      },
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "tempo",
+        "uid": "tempo-datasource"
+      },
+      "gridPos": { "h": 18, "w": 24, "x": 0, "y": 4 },
+      "id": 2,
+      "options": {
+        "query": "",
+        "serviceMap": {
+          "datasourceUid": "prometheus"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "tempo",
+            "uid": "tempo-datasource"
+          },
+          "limit": 20,
+          "queryType": "traceqlSearch",
+          "refId": "A",
+          "tableType": "traces"
+        }
+      ],
+      "title": "Recent Traces",
+      "type": "traces"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["tempo", "tracing", "observability"],
+  "templating": { "list": [] },
+  "time": { "from": "now-1h", "to": "now" },
+  "timezone": "browser",
+  "title": "Distributed Tracing",
+  "uid": "tempo-traces-overview",
+  "version": 1
+}
