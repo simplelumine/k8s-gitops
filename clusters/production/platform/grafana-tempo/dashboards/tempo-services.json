@@ -1,7 +1,5 @@
 {
-  "annotations": {
-    "list": []
-  },
+  "annotations": { "list": [] },
   "editable": false,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -11,270 +9,72 @@
       "gridPos": { "h": 3, "w": 24, "x": 0, "y": 0 },
       "id": 1,
       "options": {
-        "content": "# 🔍 Distributed Tracing (Tempo)\nSearch and inspect traces from **LiteLLM** and **Open WebUI**. Use the filters below or go to **Explore** (sidebar compass icon) → **Tempo** for advanced TraceQL queries.",
+        "content": "# 🔍 Global Distributed Tracing (Tempo)\nReal-time trace overview across **All Services** in the cluster. New services instrumented with OpenTelemetry will automatically appear here. Click a Trace ID to open the detailed gantt chart in Explore.",
         "mode": "markdown"
       },
-      "title": "",
       "transparent": true,
       "type": "text"
     },
     {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo-datasource"
-      },
-      "gridPos": { "h": 5, "w": 8, "x": 0, "y": 3 },
-      "id": 10,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["count"],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.6.0",
+      "datasource": { "type": "tempo", "uid": "tempo-datasource" },
+      "gridPos": { "h": 16, "w": 24, "x": 0, "y": 3 },
+      "id": 2,
       "targets": [
         {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo-datasource"
-          },
-          "limit": 1000,
-          "queryType": "traceqlSearch",
+          "datasource": { "type": "tempo", "uid": "tempo-datasource" },
+          "limit": 30,
+          "queryType": "traceql",
           "refId": "A",
-          "tableType": "traces",
-          "filters": [
-            {
-              "id": "service-name",
-              "scope": "resource",
-              "tag": "service.name",
-              "operator": "=",
-              "value": ["litellm"],
-              "valueType": "string"
-            }
-          ]
-        }
-      ],
-      "title": "LiteLLM Traces",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo-datasource"
-      },
-      "gridPos": { "h": 5, "w": 8, "x": 8, "y": 3 },
-      "id": 11,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["count"],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo-datasource"
-          },
-          "limit": 1000,
-          "queryType": "traceqlSearch",
-          "refId": "A",
-          "tableType": "traces",
-          "filters": [
-            {
-              "id": "service-name",
-              "scope": "resource",
-              "tag": "service.name",
-              "operator": "=",
-              "value": ["open-webui"],
-              "valueType": "string"
-            }
-          ]
-        }
-      ],
-      "title": "Open WebUI Traces",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo-datasource"
-      },
-      "gridPos": { "h": 5, "w": 8, "x": 16, "y": 3 },
-      "id": 12,
-      "options": {
-        "colorMode": "background_solid",
-        "graphMode": "none",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": ["count"],
-          "fields": "",
-          "values": false
-        },
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo-datasource"
-          },
-          "limit": 1000,
-          "queryType": "traceqlSearch",
-          "refId": "A",
+          "query": "{}",
           "tableType": "traces"
         }
       ],
-      "title": "Total Traces",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo-datasource"
-      },
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 8 },
-      "id": 2,
-      "options": {},
-      "targets": [
-        {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo-datasource"
-          },
-          "limit": 20,
-          "queryType": "traceqlSearch",
-          "refId": "A",
-          "tableType": "traces",
-          "filters": [
-            {
-              "id": "service-name-filter",
-              "scope": "resource",
-              "tag": "service.name",
-              "operator": "=",
-              "value": ["${service:raw}"],
-              "valueType": "string"
-            }
-          ]
-        }
-      ],
-      "title": "Recent Traces — ${service}",
+      "title": "🌐 Recent Traces (All Services)",
       "type": "traces"
     },
     {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo-datasource"
-      },
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 18 },
+      "datasource": { "type": "tempo", "uid": "tempo-datasource" },
+      "gridPos": { "h": 14, "w": 24, "x": 0, "y": 19 },
       "id": 3,
       "targets": [
         {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo-datasource"
-          },
+          "datasource": { "type": "tempo", "uid": "tempo-datasource" },
           "limit": 20,
-          "queryType": "traceqlSearch",
+          "queryType": "traceql",
           "refId": "A",
-          "tableType": "traces",
-          "filters": [
-            {
-              "id": "status-error",
-              "scope": "span",
-              "tag": "status",
-              "operator": "=",
-              "value": ["error"],
-              "valueType": "string"
-            }
-          ]
+          "query": "{ status = error }",
+          "tableType": "traces"
         }
       ],
-      "title": "⚠️ Error Traces",
+      "title": "⚠️ Error Traces (Cluster-wide)",
       "type": "traces"
     },
     {
-      "datasource": {
-        "type": "tempo",
-        "uid": "tempo-datasource"
-      },
-      "gridPos": { "h": 10, "w": 24, "x": 0, "y": 28 },
+      "datasource": { "type": "tempo", "uid": "tempo-datasource" },
+      "gridPos": { "h": 14, "w": 24, "x": 0, "y": 33 },
       "id": 4,
-      "options": {},
       "targets": [
         {
-          "datasource": {
-            "type": "tempo",
-            "uid": "tempo-datasource"
-          },
+          "datasource": { "type": "tempo", "uid": "tempo-datasource" },
           "limit": 20,
-          "queryType": "traceqlSearch",
+          "queryType": "traceql",
           "refId": "A",
-          "tableType": "traces",
-          "filters": [
-            {
-              "id": "min-duration",
-              "scope": "span",
-              "tag": "duration",
-              "operator": ">",
-              "value": ["2s"],
-              "valueType": "duration"
-            }
-          ]
+          "query": "{ duration > 2s }",
+          "tableType": "traces"
         }
       ],
-      "title": "🐢 Slow Traces (> 2s)",
+      "title": "🐢 Slow Traces > 2s (Cluster-wide)",
       "type": "traces"
     }
   ],
   "schemaVersion": 39,
-  "tags": ["tempo", "tracing", "observability"],
+  "tags": ["tempo", "tracing", "observability", "global"],
   "templating": {
-    "list": [
-      {
-        "current": {
-          "selected": false,
-          "text": "All",
-          "value": "$__all"
-        },
-        "hide": 0,
-        "includeAll": true,
-        "label": "Service",
-        "multi": false,
-        "name": "service",
-        "options": [
-          { "selected": true, "text": "All", "value": "$__all" },
-          { "selected": false, "text": "litellm", "value": "litellm" },
-          { "selected": false, "text": "open-webui", "value": "open-webui" }
-        ],
-        "query": "litellm,open-webui",
-        "queryValue": "",
-        "skipUrlSync": false,
-        "type": "custom"
-      }
-    ]
+    "list": []
   },
   "time": { "from": "now-1h", "to": "now" },
   "timezone": "browser",
-  "title": "Distributed Tracing",
-  "uid": "tempo-traces-overview",
-  "version": 2
+  "title": "Global Traces Overview",
+  "uid": "tempo-traces-global",
+  "version": 4
 }
