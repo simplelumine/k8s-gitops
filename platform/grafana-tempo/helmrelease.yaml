@@ -1,0 +1,30 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grafana-tempo
+  namespace: monitoring
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: tempo
+      version: "1.24.x"
+      sourceRef:
+        kind: HelmRepository
+        name: grafana
+        namespace: monitoring
+  values:
+    tempo:
+      # Retention period for traces
+      retention: 72h
+
+      # Resource requests
+      resources:
+        requests:
+          cpu: 100m
+          memory: 256Mi
+
+    # Disabled persistence to allow Tempo to freely float across nodes
+    # Traces are ephemeral; stateless deployment ensures high availability
+    persistence:
+      enabled: false

@@ -5,15 +5,16 @@ metadata:
   namespace: monitoring
 spec:
   # Prefer lite tier nodes for log storage
-  nodeAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        preference:
-          matchExpressions:
-            - key: node-role.kubernetes.io/tier
-              operator: In
-              values:
-                - lite
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: node-role.kubernetes.io/tier
+                operator: In
+                values:
+                  - lite
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
