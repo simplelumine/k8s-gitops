@@ -27,10 +27,18 @@ spec:
     affinity:
       nodeAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
+          - weight: 80
             preference:
               matchExpressions:
                 - key: node-role.kubernetes.io/tier
                   operator: In
                   values:
                     - lite
+
+          - weight: 20
+            preference:
+              matchExpressions:
+                - key: node-role.kubernetes.io/tier
+                  operator: In
+                  values:
+                    - flash

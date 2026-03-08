@@ -63,7 +63,17 @@ spec:
             - api.simplelumine.dev
 
     # Schedule near the Postgres primary (Leader) for lowest latency
+    # and prefer pro tier nodes
     affinity:
+      nodeAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 50
+            preference:
+              matchExpressions:
+                - key: node-role.kubernetes.io/tier
+                  operator: In
+                  values:
+                    - pro
       podAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
