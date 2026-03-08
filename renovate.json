@@ -9,18 +9,13 @@
 
   "ignorePaths": [
     "**/node_modules/**",
-    "**/.git/**",
-    "_archive/**",
-    "drafts/**"
+    "**/.git/**"
   ],
 
   "flux": {
     "fileMatch": [
-      "^clusters/.+/(helmrelease|repository)\\.yaml$",
-      "^workloads/.+/(helmrelease|repository)\\.yaml$",
-      "^system/.+/(helmrelease|repository)\\.yaml$",
-      "^platform/.+/(helmrelease|repository)\\.yaml$",
-      "^datastores/.+/(helmrelease|repository)\\.yaml$"
+      "(^|/)helmrelease.*\\.yaml$",
+      "(^|/)repository\\.yaml$"
     ]
   },
 
