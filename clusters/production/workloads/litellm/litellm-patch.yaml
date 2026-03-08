@@ -82,4 +82,4 @@ spec:
                 matchLabels:
                   cnpg.io/cluster: postgres
                   cnpg.io/instanceRole: primary
-              topologyKey: kubernetes.io/hostname
+              topologyKey: topology.kubernetes.io/region
