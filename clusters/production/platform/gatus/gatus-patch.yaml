@@ -40,7 +40,7 @@ spec:
         - name: grafana
           group: external-services
           url: "https://monitor.simplelumine.dev"
-          interval: 2m
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
@@ -49,7 +49,7 @@ spec:
         - name: open-webui
           group: external-services
           url: "https://chat.simplelumine.dev"
-          interval: 2m
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
@@ -58,7 +58,7 @@ spec:
         - name: gatus
           group: external-services
           url: "https://status.simplelumine.dev"
-          interval: 2m
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
@@ -67,7 +67,7 @@ spec:
         - name: quartz
           group: external-services
           url: "https://simplelumine.dev"
-          interval: 2m
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
@@ -76,7 +76,7 @@ spec:
         - name: litellm
           group: external-services
           url: "https://api.simplelumine.dev"
-          interval: 2m
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
@@ -85,7 +85,16 @@ spec:
         - name: coder
           group: external-services
           url: "https://code.simplelumine.dev"
-          interval: 2m
+          interval: 30s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: vaultwarden
+          group: external-services
+          url: "https://vault.simplelumine.dev"
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
@@ -95,7 +104,7 @@ spec:
         - name: sillytavern
           group: textverse-services
           url: "https://st.textverse.top"
-          interval: 2m
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
@@ -104,7 +113,7 @@ spec:
         - name: sillytavern-unitedstates
           group: textverse-services
           url: "https://st-us.textverse.top"
-          interval: 2m
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
@@ -113,7 +122,7 @@ spec:
         - name: sillytavern-hongkong
           group: textverse-services
           url: "https://st-hk.textverse.top"
-          interval: 2m
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
@@ -122,7 +131,7 @@ spec:
         - name: sillytavern-japan
           group: textverse-services
           url: "https://st-jp.textverse.top"
-          interval: 2m
+          interval: 30s
           ui:
             hide-hostname: true
           conditions:
