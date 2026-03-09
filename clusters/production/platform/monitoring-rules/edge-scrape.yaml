@@ -22,11 +22,3 @@ spec:
         hostname: "hkg-eg-01"
         instance: "hkg-eg-01"
         region: "hong-kong"
-
-    - targets:
-        - "100.67.192.13:9100"
-      interval: "30s"
-      labels:
-        hostname: "tyo-eg-01"
-        instance: "tyo-eg-01"
-        region: "tokyo"
