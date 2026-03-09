@@ -3,12 +3,27 @@ kind: ClusterRole
 metadata:
   name: coder-workspace-provisioner
 rules:
+  # Namespace lifecycle management
   - apiGroups: [""]
     resources: ["namespaces"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  - apiGroups: ["", "apps", "networking.k8s.io", "rbac.authorization.k8s.io", "batch"]
-    resources: ["*"]
-    verbs: ["*"]
+  # Core resources needed for workspace pods, PVCs, Helm secrets, vcluster services
+  - apiGroups: [""]
+    resources: ["pods", "pods/log", "pods/exec", "services", "secrets", "configmaps",
+                "persistentvolumeclaims", "events", "serviceaccounts"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Workload controllers for workspace deployments and vcluster statefulsets
+  - apiGroups: ["apps"]
+    resources: ["deployments", "statefulsets", "replicasets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Network resources for vcluster ingress/services
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["ingresses", "networkpolicies"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Roles needed by vcluster to set up internal RBAC within its namespace
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["roles", "rolebindings"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
