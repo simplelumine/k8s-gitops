@@ -5,6 +5,6 @@ resources:
   - coder-eso.yaml
   - coder-auth.sops.yaml
   - coder-apps-ingress.yaml
-
+  - coder-rbac.yaml
 patches:
   - path: coder-patch.yaml
