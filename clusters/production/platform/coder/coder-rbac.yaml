@@ -1,34 +1,6 @@
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: coder-workspace-provisioner
-rules:
-  # Namespace lifecycle management
-  - apiGroups: [""]
-    resources: ["namespaces"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  # Core resources needed for workspace pods, PVCs, Helm secrets, vcluster services
-  - apiGroups: [""]
-    resources: ["pods", "pods/log", "pods/exec", "services", "secrets", "configmaps",
-                "persistentvolumeclaims", "events", "serviceaccounts"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  # Workload controllers for workspace deployments and vcluster statefulsets
-  - apiGroups: ["apps"]
-    resources: ["deployments", "statefulsets", "replicasets"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  # Network resources for vcluster ingress/services
-  - apiGroups: ["networking.k8s.io"]
-    resources: ["ingresses", "networkpolicies"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  # Namespace-scoped RBAC for vcluster internal setup
-  - apiGroups: ["rbac.authorization.k8s.io"]
-    resources: ["roles", "rolebindings"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  # Cluster-scoped RBAC required by vcluster (it creates ClusterRoles for its virtual API server)
-  - apiGroups: ["rbac.authorization.k8s.io"]
-    resources: ["clusterroles", "clusterrolebindings"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
----
+# Platform administrators (e.g. Coder Provisioner) require cluster-admin privileges
+# to dynamically provision namespaces, deploy complex isolated resources like vcluster,
+# and manage the lifecycle of sandboxed environments.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -36,8 +8,8 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: coder
-    namespace: coder
+    namespace: coder # The namespace where Coder is installed
 roleRef:
   kind: ClusterRole
-  name: coder-workspace-provisioner
+  name: cluster-admin
   apiGroup: rbac.authorization.k8s.io
