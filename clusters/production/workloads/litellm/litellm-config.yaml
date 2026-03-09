@@ -212,6 +212,103 @@ data:
           vertex_location: os.environ/VERTEX_LOCATION
           vertex_credentials: os.environ/VERTEX_CREDENTIALS
 
+    # -----YesCode-----
+      - model_name: yescode:gemini-3.1-pro-preview
+        litellm_params:
+          model: gemini/gemini-3.1-pro-preview
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3.1-pro-preview
+
+      - model_name: yescode:gemini-3.1-pro-preview-customtools
+        litellm_params:
+          model: gemini/gemini-3.1-pro-preview-customtools
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3.1-pro-preview-customtools
+
+      - model_name: yescode:gemini-3-pro-preview
+        litellm_params:
+          model: gemini/gemini-3-pro-preview
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-pro-preview
+
+      - model_name: yescode:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3-flash-preview
+
+      - model_name: yescode:gemini-2.5-pro
+        litellm_params:
+          model: gemini/gemini-2.5-pro
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-2.5-pro
+
+      - model_name: yescode:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-2.5-flash
+
+      - model_name: yescode:gemini-2.5-flash-lite
+        litellm_params:
+          model: gemini/gemini-2.5-flash-lite
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-2.5-flash-lite
+
+      - model_name: yescode:gpt-5.4
+        litellm_params:
+          model: openai/gpt-5.4
+          api_base: "https://co.yes.vg/v1"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: yescode:gpt-5.3-codex
+        litellm_params:
+          model: openai/gpt-5.3-codex
+          api_base: "https://co.yes.vg/v1"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+
+      - model_name: yescode:gpt-5.3-codex-spark
+        litellm_params:
+          model: openai/gpt-5.3-codex-spark
+          api_base: "https://co.yes.vg/v1"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: openai/gpt-5.3-codex
+
 
     # -----Gemini CLI-----
       - model_name: geminicli:gemini-3.1-pro-preview
@@ -444,104 +541,6 @@ data:
           api_version: os.environ/AZURE_API_VERSION
 
 
-    # -----YesCode-----
-      - model_name: yescode:gemini-3.1-pro-preview
-        litellm_params:
-          model: gemini/gemini-3.1-pro-preview
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-        model_info:
-          base_model: vertex_ai/gemini-3.1-pro-preview
-
-      - model_name: yescode:gemini-3.1-pro-preview-customtools
-        litellm_params:
-          model: gemini/gemini-3.1-pro-preview-customtools
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-        model_info:
-          base_model: vertex_ai/gemini-3.1-pro-preview-customtools
-
-      - model_name: yescode:gemini-3-pro-preview
-        litellm_params:
-          model: gemini/gemini-3-pro-preview
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-        model_info:
-          base_model: vertex_ai/gemini-3-pro-preview
-
-      - model_name: yescode:gemini-3-flash-preview
-        litellm_params:
-          model: gemini/gemini-3-flash-preview
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-        model_info:
-          base_model: vertex_ai/gemini-3-flash-preview
-
-      - model_name: yescode:gemini-2.5-pro
-        litellm_params:
-          model: gemini/gemini-2.5-pro
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-        model_info:
-          base_model: vertex_ai/gemini-2.5-pro
-
-      - model_name: yescode:gemini-2.5-flash
-        litellm_params:
-          model: gemini/gemini-2.5-flash
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-        model_info:
-          base_model: vertex_ai/gemini-2.5-flash
-
-      - model_name: yescode:gemini-2.5-flash-lite
-        litellm_params:
-          model: gemini/gemini-2.5-flash-lite
-          api_base: "https://co.yes.vg/gemini/v1beta"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-        model_info:
-          base_model: vertex_ai/gemini-2.5-flash-lite
-
-      - model_name: yescode:gpt-5.4
-        litellm_params:
-          model: openai/gpt-5.4
-          api_base: "https://co.yes.vg/v1"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: yescode:gpt-5.3-codex
-        litellm_params:
-          model: openai/gpt-5.3-codex
-          api_base: "https://co.yes.vg/v1"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: yescode:gpt-5.3-codex-spark
-        litellm_params:
-          model: openai/gpt-5.3-codex-spark
-          api_base: "https://co.yes.vg/v1"
-          api_key: os.environ/YESCODE_KEY
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-        model_info:
-          base_model: openai/gpt-5.3-codex
-
-
     # -----DeepSeek-----
       - model_name: deepseek:deepseek-chat
         litellm_params:
@@ -586,89 +585,3 @@ data:
         litellm_params:
           model: xiaomi_mimo/mimo-v2-flash
           api_key: os.environ/XIAOMI_MIMO_KEY
-
-
-    # -----AI Studio-----
-      - model_name: aistudio:gemini-3-flash-preview
-        litellm_params:
-          model: gemini/gemini-3-flash-preview
-          api_key: os.environ/AISTUDIO_FREE_KEY1
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash
-        litellm_params:
-          model: gemini/gemini-2.5-flash
-          api_key: os.environ/AISTUDIO_FREE_KEY1
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash-lite
-        litellm_params:
-          model: gemini/gemini-2.5-flash-lite
-          api_key: os.environ/AISTUDIO_FREE_KEY1
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-embedding-001
-        litellm_params:
-          model: gemini/gemini-embedding-001
-          api_key: os.environ/AISTUDIO_FREE_KEY1
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-3-flash-preview
-        litellm_params:
-          model: gemini/gemini-3-flash-preview
-          api_key: os.environ/AISTUDIO_FREE_KEY2
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash
-        litellm_params:
-          model: gemini/gemini-2.5-flash
-          api_key: os.environ/AISTUDIO_FREE_KEY2
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash-lite
-        litellm_params:
-          model: gemini/gemini-2.5-flash-lite
-          api_key: os.environ/AISTUDIO_FREE_KEY2
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-embedding-001
-        litellm_params:
-          model: gemini/gemini-embedding-001
-          api_key: os.environ/AISTUDIO_FREE_KEY2
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-3-flash-preview
-        litellm_params:
-          model: gemini/gemini-3-flash-preview
-          api_key: os.environ/AISTUDIO_FREE_KEY3
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash
-        litellm_params:
-          model: gemini/gemini-2.5-flash
-          api_key: os.environ/AISTUDIO_FREE_KEY3
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-2.5-flash-lite
-        litellm_params:
-          model: gemini/gemini-2.5-flash-lite
-          api_key: os.environ/AISTUDIO_FREE_KEY3
-          input_cost_per_token: 0
-          output_cost_per_token: 0
-
-      - model_name: aistudio:gemini-embedding-001
-        litellm_params:
-          model: gemini/gemini-embedding-001
-          api_key: os.environ/AISTUDIO_FREE_KEY3
-          input_cost_per_token: 0
-          output_cost_per_token: 0
