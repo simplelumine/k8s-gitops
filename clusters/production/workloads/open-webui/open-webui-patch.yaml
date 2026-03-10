@@ -18,8 +18,7 @@ spec:
     tika:
       enabled: true
     persistence:
-      enabled: true
-      provider: s3
+      enabled: false
 
     service:
       annotations:
@@ -54,7 +53,9 @@ spec:
         value: "true"
 
     extraEnvVars:
-      # S3 Configuration from external secret
+      # S3 Storage Configuration (all via extraEnvVars to avoid merge conflicts with chart-generated env)
+      - name: STORAGE_PROVIDER
+        value: "s3"
       - name: S3_ENDPOINT_URL
         valueFrom:
           secretKeyRef:
