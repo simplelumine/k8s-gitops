@@ -91,6 +91,11 @@ data:
           model: gemini/gemini-embedding-001
           api_key: os.environ/AISTUDIO_KEY
 
+      - model_name: aistudio:gemini-embedding-2-preview
+        litellm_params:
+          model: gemini/gemini-embedding-2-preview
+          api_key: os.environ/AISTUDIO_KEY
+
       - model_name: aistudio:imagen-4.0-generate-001
         litellm_params:
           model: gemini/imagen-4.0-generate-001
@@ -248,6 +253,16 @@ data:
         model_info:
           base_model: vertex_ai/gemini-3.1-pro-preview
 
+      - model_name: yescode:gemini-3.1-flash-lite-preview
+        litellm_params:
+          model: gemini/gemini-3.1-flash-lite-preview
+          api_base: "https://co.yes.vg/gemini/v1beta"
+          api_key: os.environ/YESCODE_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3.1-flash-lite-preview
+
       - model_name: yescode:gemini-3.1-pro-preview-customtools
         litellm_params:
           model: gemini/gemini-3.1-pro-preview-customtools
@@ -355,6 +370,16 @@ data:
           output_cost_per_token: 0
         model_info:
           base_model: vertex_ai/gemini-3.1-pro-preview
+
+      - model_name: geminicli:gemini-3.1-flash-lite-preview
+        litellm_params:
+          model: gemini/gemini-3.1-flash-lite-preview
+          api_base: os.environ/GEMINI_CLI_BASE
+          api_key: os.environ/GEMINI_CLI_KEY
+          input_cost_per_token: 0
+          output_cost_per_token: 0
+        model_info:
+          base_model: vertex_ai/gemini-3.1-flash-lite-preview
 
       - model_name: geminicli:gemini-3-pro-preview
         litellm_params:
