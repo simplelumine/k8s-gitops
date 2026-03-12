@@ -24,119 +24,119 @@ data:
       - model_name: aistudio:gemini-3.1-pro-preview
         litellm_params:
           model: gemini/gemini-3.1-pro-preview
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
         model_info:
           base_model: vertex_ai/gemini-3.1-pro-preview
 
       - model_name: aistudio:gemini-3.1-pro-preview-customtools
         litellm_params:
           model: gemini/gemini-3.1-pro-preview-customtools
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-3.1-flash-image-preview
         litellm_params:
           model: gemini/gemini-3.1-flash-image-preview
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-3.1-flash-lite-preview
         litellm_params:
           model: gemini/gemini-3.1-flash-lite-preview
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-3-pro-preview
         litellm_params:
           model: gemini/gemini-3-pro-preview
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-3-pro-image-preview
         litellm_params:
           model: gemini/gemini-3-pro-image-preview
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-3-flash-preview
         litellm_params:
           model: gemini/gemini-3-flash-preview
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-2.5-pro
         litellm_params:
           model: gemini/gemini-2.5-pro
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-2.5-pro-preview-tts
         litellm_params:
           model: gemini/gemini-2.5-pro-preview-tts
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-2.5-flash
         litellm_params:
           model: gemini/gemini-2.5-flash
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-2.5-flash-image
         litellm_params:
           model: gemini/gemini-2.5-flash-image
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-2.5-flash-preview-tts
         litellm_params:
           model: gemini/gemini-2.5-flash-preview-tts
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-2.5-flash-lite
         litellm_params:
           model: gemini/gemini-2.5-flash-lite
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-embedding-001
         litellm_params:
           model: gemini/gemini-embedding-001
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-embedding-2-preview
         litellm_params:
           model: gemini/gemini-embedding-2-preview
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:imagen-4.0-generate-001
         litellm_params:
           model: gemini/imagen-4.0-generate-001
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:imagen-4.0-ultra-generate-001
         litellm_params:
           model: gemini/imagen-4.0-ultra-generate-001
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:imagen-4.0-fast-generate-001
         litellm_params:
           model: gemini/imagen-4.0-fast-generate-001
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-1.5-pro
         litellm_params:
           model: gemini/gemini-1.5-pro
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-exp-1206
         litellm_params:
           model: gemini/gemini-exp-1206
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-2.0-flash-thinking-exp-0121
         litellm_params:
           model: gemini/gemini-2.0-flash-thinking-exp-0121
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-2.5-pro-exp-0325
         litellm_params:
           model: gemini/gemini-2.5-pro-exp-0325
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
       - model_name: aistudio:gemini-2.5-pro
         litellm_params:
           model: gemini/gemini-2.5-pro
-          api_key: os.environ/AISTUDIO_KEY
+          api_key: os.environ/AISTUDIO_KEY1
 
     # # -----Vertex AI-----
     #   - model_name: vertexai:gemini-3.1-pro-preview
@@ -637,3 +637,97 @@ data:
         litellm_params:
           model: xiaomi_mimo/mimo-v2-flash
           api_key: os.environ/XIAOMI_MIMO_KEY
+
+
+    # -----AI Studio 2-----
+      - model_name: aistudio:gemini-3.1-pro-preview
+        litellm_params:
+          model: gemini/gemini-3.1-pro-preview
+          api_key: os.environ/AISTUDIO_KEY2
+        model_info:
+          base_model: vertex_ai/gemini-3.1-pro-preview
+
+      - model_name: aistudio:gemini-3.1-pro-preview-customtools
+        litellm_params:
+          model: gemini/gemini-3.1-pro-preview-customtools
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-3.1-flash-image-preview
+        litellm_params:
+          model: gemini/gemini-3.1-flash-image-preview
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-3.1-flash-lite-preview
+        litellm_params:
+          model: gemini/gemini-3.1-flash-lite-preview
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-3-pro-preview
+        litellm_params:
+          model: gemini/gemini-3-pro-preview
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-3-pro-image-preview
+        litellm_params:
+          model: gemini/gemini-3-pro-image-preview
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-3-flash-preview
+        litellm_params:
+          model: gemini/gemini-3-flash-preview
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-2.5-pro
+        litellm_params:
+          model: gemini/gemini-2.5-pro
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-2.5-pro-preview-tts
+        litellm_params:
+          model: gemini/gemini-2.5-pro-preview-tts
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-2.5-flash
+        litellm_params:
+          model: gemini/gemini-2.5-flash
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-2.5-flash-image
+        litellm_params:
+          model: gemini/gemini-2.5-flash-image
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-2.5-flash-preview-tts
+        litellm_params:
+          model: gemini/gemini-2.5-flash-preview-tts
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-2.5-flash-lite
+        litellm_params:
+          model: gemini/gemini-2.5-flash-lite
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-embedding-001
+        litellm_params:
+          model: gemini/gemini-embedding-001
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:gemini-embedding-2-preview
+        litellm_params:
+          model: gemini/gemini-embedding-2-preview
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:imagen-4.0-generate-001
+        litellm_params:
+          model: gemini/imagen-4.0-generate-001
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:imagen-4.0-ultra-generate-001
+        litellm_params:
+          model: gemini/imagen-4.0-ultra-generate-001
+          api_key: os.environ/AISTUDIO_KEY2
+
+      - model_name: aistudio:imagen-4.0-fast-generate-001
+        litellm_params:
+          model: gemini/imagen-4.0-fast-generate-001
+          api_key: os.environ/AISTUDIO_KEY2

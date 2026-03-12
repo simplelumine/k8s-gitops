@@ -90,6 +90,8 @@ spec:
           secretKeyRef:
             name: open-webui-secret
             key: qdrant-api-key
+      - name: ENABLE_QDRANT_MULTITENANCY_MODE
+        value: "true"
       # --- OpenTelemetry Tracing (-> Grafana Tempo) ---
       - name: ENABLE_OTEL
         value: "true"
