@@ -25,6 +25,8 @@ data:
         litellm_params:
           model: gemini/gemini-3.1-pro-preview
           api_key: os.environ/AISTUDIO_KEY
+        model_info:
+          base_model: vertex_ai/gemini-3.1-pro-preview
 
       - model_name: aistudio:gemini-3.1-pro-preview-customtools
         litellm_params:
