@@ -14,7 +14,7 @@ spec:
       redis:
         enabled: false
     pipelines:
-      enabled: false
+      enabled: true
     tika:
       enabled: true
     persistence:
