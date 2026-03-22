@@ -1,0 +1,69 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: open-terminal-stateful-workspace
+  namespace: open-webui
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: open-terminal-stateful
+  namespace: open-webui
+  labels:
+    app: open-terminal-stateful
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: open-terminal-stateful
+  template:
+    metadata:
+      labels:
+        app: open-terminal-stateful
+    spec:
+      containers:
+        - name: open-terminal
+          image: ghcr.io/open-webui/open-terminal
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: OPEN_TERMINAL_MULTI_USER
+              value: "true"
+            - name: OPEN_TERMINAL_API_KEY
+              value: "open-terminal-internal"
+          volumeMounts:
+            - name: workspace-data
+              mountPath: /home
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+      volumes:
+        - name: workspace-data
+          persistentVolumeClaim:
+            claimName: open-terminal-stateful-workspace
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: open-terminal-stateful-service
+  namespace: open-webui
+spec:
+  type: ClusterIP
+  selector:
+    app: open-terminal-stateful
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      protocol: TCP

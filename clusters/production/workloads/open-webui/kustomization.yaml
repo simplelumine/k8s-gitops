@@ -4,6 +4,8 @@ resources:
   - ../../../../workloads/open-webui
   - open-webui-eso.yaml
   - open-webui-secret.sops.yaml
+  - open-terminal-ephemeral.yaml
+  - open-terminal-stateful.yaml
 
 patches:
   - path: open-webui-patch.yaml
