@@ -103,7 +103,7 @@ spec:
         # --- Textverse Services ---
         - name: sillytavern
           group: textverse-services
-          url: "https://st.textverse.top"
+          url: "https://st.textverse.space"
           interval: 30s
           ui:
             hide-hostname: true
@@ -112,25 +112,7 @@ spec:
 
         - name: sillytavern-unitedstates
           group: textverse-services
-          url: "https://st-us.textverse.top"
-          interval: 30s
-          ui:
-            hide-hostname: true
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: sillytavern-hongkong
-          group: textverse-services
-          url: "https://st-hk.textverse.top"
-          interval: 30s
-          ui:
-            hide-hostname: true
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: sillytavern-japan
-          group: textverse-services
-          url: "https://st-jp.textverse.top"
+          url: "https://st-us.textverse.space"
           interval: 30s
           ui:
             hide-hostname: true
