@@ -33,7 +33,7 @@ spec:
     ingress:
       enabled: false
 
-    # Prefer pro/ultra tier nodes for Qdrant (vector DB for RAG)
+    # Prefer pro tier nodes for Qdrant (vector DB for RAG)
     affinity:
       nodeAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
@@ -44,4 +44,3 @@ spec:
                   operator: In
                   values:
                     - pro
-                    - ultra

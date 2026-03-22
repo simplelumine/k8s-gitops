@@ -37,7 +37,7 @@ spec:
           requests:
             storage: 1Gi
 
-  # Prefer pro/ultra tier nodes for Redis (core cache layer)
+  # Prefer pro tier nodes for Redis (core cache layer)
   affinity:
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
@@ -48,7 +48,6 @@ spec:
                 operator: In
                 values:
                   - pro
-                  - ultra
         - weight: 20
           preference:
             matchExpressions:

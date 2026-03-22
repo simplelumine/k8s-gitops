@@ -54,7 +54,7 @@ spec:
     # Prefer high-performance tier nodes, with extra preference for sfo region
     nodeAffinity:
       preferredDuringSchedulingIgnoredDuringExecution:
-        # Strong preference: schedule on pro or ultra tier nodes
+        # Strong preference: schedule on pro tier nodes
         - weight: 80
           preference:
             matchExpressions:
@@ -62,7 +62,6 @@ spec:
                 operator: In
                 values:
                   - pro
-                  - ultra
         # Extra preference: favor sfo region for primary locality
         - weight: 20
           preference:
