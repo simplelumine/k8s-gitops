@@ -10,10 +10,10 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - st.textverse.top
-      secretName: sillytavern-tls
+        - st.textverse.space
+      secretName: sillytavern-tls-1
   rules:
-    - host: st.textverse.top
+    - host: st.textverse.space
       http:
         paths:
           - path: /

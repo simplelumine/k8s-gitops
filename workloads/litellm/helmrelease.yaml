@@ -16,7 +16,7 @@ spec:
       interval: 1h
   values:
     image:
-      tag: main-latest
+      tag: v1.82.1
     resources:
       requests:
         cpu: 100m

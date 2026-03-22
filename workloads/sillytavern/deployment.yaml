@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: sillytavern-container
-          image: ghcr.io/sillytavern/sillytavern:latest
+          image: ghcr.io/sillytavern/sillytavern:1.16.0
           ports:
             - containerPort: 8000
           resources:
