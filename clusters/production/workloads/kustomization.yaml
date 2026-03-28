@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - open-webui
-  # - litellm  # DISABLED: supply chain attack in v1.82.7+, re-enable after official all-clear
+  - litellm
   - quartz
 
   - ../../../workloads/gpi

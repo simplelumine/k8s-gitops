@@ -16,7 +16,7 @@ spec:
       interval: 1h
   values:
     image:
-      tag: v1.82.6  # PINNED: supply chain attack in v1.82.7+, do NOT upgrade until official all-clear
+      tag: main-stable
     resources:
       requests:
         cpu: 100m
