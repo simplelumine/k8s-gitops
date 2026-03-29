@@ -15,8 +15,6 @@ spec:
         namespace: litellm
       interval: 1h
   values:
-    image:
-      tag: main-stable
     resources:
       requests:
         cpu: 100m
