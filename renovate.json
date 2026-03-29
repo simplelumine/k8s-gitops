@@ -24,8 +24,7 @@
   "prConcurrentLimit": 5,
 
   "kubernetes": {
-    "managerFilePatterns": [
-      "/\.yaml$/"
+      "/\\.yaml$/"
     ]
   },
 
