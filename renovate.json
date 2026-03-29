@@ -30,34 +30,33 @@
     ]
   },
 
+  "labels": ["dependencies"],
+
   "packageRules": [
     {
       "description": "Auto-merge Patch updates safely across the entire cluster",
       "matchUpdateTypes": ["patch"],
       "automerge": true,
-      "automergeType": "pr",
-      "labels": ["dependencies", "helm", "patch-update", "auto-merge"]
+      "automergeType": "pr"
     },
     {
       "description": "Auto-merge Minor updates ONLY for Workloads and Platform apps (Stateless/Safe)",
       "matchFileNames": ["workloads/**", "platform/**"],
       "matchUpdateTypes": ["minor"],
       "automerge": true,
-      "automergeType": "pr",
-      "labels": ["dependencies", "helm", "minor-update", "auto-merge"]
+      "automergeType": "pr"
     },
     {
       "description": "Manual review required for System and Datastores Minor updates (Critical Infra)",
       "matchFileNames": ["system/**", "datastores/**", "clusters/**"],
       "matchUpdateTypes": ["minor"],
-      "automerge": false,
-      "labels": ["dependencies", "helm", "minor-update", "review-required"]
+      "automerge": false
     },
     {
       "description": "Major updates always require manual review and warn of breaking changes",
       "matchUpdateTypes": ["major"],
       "automerge": false,
-      "labels": ["dependencies", "helm", "major-update", "⚠️ breaking"]
+      "labels": ["dependencies", "⚠️ breaking"]
     }
   ],
 
