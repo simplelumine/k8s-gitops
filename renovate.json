@@ -9,12 +9,14 @@
 
   "ignorePaths": [
     "**/node_modules/**",
-    "**/.git/**"
+    "**/.git/**",
+    "**/flux-system/**"
   ],
 
   "flux": {
     "fileMatch": [
       "(^|/)helmrelease.*\\.yaml$",
+      "(^|/)helmrepository.*\\.yaml$",
       "(^|/)repository\\.yaml$"
     ]
   },
@@ -24,7 +26,7 @@
 
   "kubernetes": {
     "fileMatch": [
-      "(^|/)\\.yaml$"
+      "\\.yaml$"
     ]
   },
 
@@ -58,8 +60,6 @@
       "labels": ["dependencies", "helm", "major-update", "⚠️ breaking"]
     }
   ],
-
-  "schedule": ["every weekend"],
 
   "timezone": "Asia/Shanghai",
 
