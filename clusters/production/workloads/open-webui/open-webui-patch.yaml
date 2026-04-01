@@ -106,10 +106,9 @@ spec:
     # and prefer pro tier nodes
     affinity:
       nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 50
-            preference:
-              matchExpressions:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
                 - key: node-role.kubernetes.io/tier
                   operator: In
                   values:

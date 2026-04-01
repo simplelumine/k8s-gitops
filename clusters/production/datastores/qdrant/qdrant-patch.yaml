@@ -36,10 +36,9 @@ spec:
     # Prefer pro tier nodes for Qdrant (vector DB for RAG)
     affinity:
       nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 80
-            preference:
-              matchExpressions:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
                 - key: node-role.kubernetes.io/tier
                   operator: In
                   values:

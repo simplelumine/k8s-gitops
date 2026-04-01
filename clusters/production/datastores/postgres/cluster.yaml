@@ -53,23 +53,14 @@ spec:
 
     # Prefer high-performance tier nodes, with extra preference for sfo region
     nodeAffinity:
-      preferredDuringSchedulingIgnoredDuringExecution:
-        # Strong preference: schedule on pro tier nodes
-        - weight: 80
-          preference:
-            matchExpressions:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
               - key: node-role.kubernetes.io/tier
                 operator: In
                 values:
                   - pro
-        # Extra preference: favor sfo region for primary locality
-        - weight: 20
-          preference:
-            matchExpressions:
-              - key: topology.kubernetes.io/region
-                operator: In
-                values:
-                  - sfo
+
 
   # Backup Configuration (Cloudflare R2)
   backup:

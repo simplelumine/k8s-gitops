@@ -79,6 +79,14 @@ spec:
         #   tailscale.com/hostname: "coder"
       # Schedule near the Postgres primary (Leader) for lowest latency
       affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/tier
+                    operator: In
+                    values:
+                      - pro
         podAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100

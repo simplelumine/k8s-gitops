@@ -8,11 +8,10 @@ spec:
     # Prefer lite tier nodes for trace storage
     affinity:
       nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            preference:
-              matchExpressions:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
                 - key: node-role.kubernetes.io/tier
                   operator: In
                   values:
-                    - lite
+                    - flash
