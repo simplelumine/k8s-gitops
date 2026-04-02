@@ -77,6 +77,7 @@ spec:
         # annotations:
         #   tailscale.com/expose: "true"
         #   tailscale.com/hostname: "coder"
+      priorityClassName: high
       # Schedule near the Postgres primary (Leader) for lowest latency
       affinity:
         nodeAffinity:
@@ -95,7 +96,7 @@ spec:
                   matchLabels:
                     cnpg.io/cluster: postgres
                     cnpg.io/instanceRole: primary
-                topologyKey: kubernetes.io/hostname
+                topologyKey: topology.kubernetes.io/zone
 
     postgres:
       enabled: false

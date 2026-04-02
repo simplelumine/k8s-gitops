@@ -6,4 +6,4 @@ resources:
   - quartz
 
   - ../../../workloads/gpi
-  - ../../../workloads/sillytavern
+  - sillytavern

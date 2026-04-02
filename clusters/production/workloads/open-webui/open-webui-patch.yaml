@@ -102,6 +102,12 @@ spec:
       - name: OTEL_EXPORTER_OTLP_PROTOCOL
         value: "grpc"
 
+    priorityClassName: high
+
+    resources:
+      requests:
+        memory: "1.2Gi"
+
     # Schedule near the Postgres primary (Leader) for lowest latency
     # and prefer pro tier nodes
     affinity:
