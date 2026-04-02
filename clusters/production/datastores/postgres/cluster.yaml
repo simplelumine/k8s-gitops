@@ -44,6 +44,8 @@ spec:
   # HA & Failover settings
   primaryUpdateStrategy: unsupervised
 
+  priorityClassName: high
+
   # Scheduling & Affinity Configuration
   affinity:
     # Spread Postgres instances across different nodes (HA best practice)

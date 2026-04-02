@@ -7,3 +7,4 @@ resources:
   - platform.yaml
   - system.yaml
   - workloads.yaml
+  - cluster-config.yaml

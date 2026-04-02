@@ -5,6 +5,7 @@ metadata:
   namespace: redis
 spec:
   clusterSize: 2 # 1 master + 1 replica
+  priorityClassName: high
   podSecurityContext:
     runAsUser: 1000
     fsGroup: 1000

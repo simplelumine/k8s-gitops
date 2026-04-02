@@ -8,6 +8,8 @@ spec:
     # --- HA Configuration ---
     replicaCount: 2
 
+    priorityClassName: high
+
     config:
       cluster:
         enabled: true
