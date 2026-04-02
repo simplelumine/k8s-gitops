@@ -8,3 +8,6 @@ resources:
   - victoria-metrics
   - connectivity
   - redis-operator
+
+patches:
+  - path: descheduler-patch.yaml
