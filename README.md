@@ -128,9 +128,9 @@ Low-level cluster interaction.
 
 ```powershell
 # --- View Resources ---
-kubectl get all -n litellm
-kubectl get helmrelease -n litellm
-kubectl get pod -o wide -n litellm
+kubectl get all -n <namespace>
+kubectl get helmrelease -n <namespace>
+kubectl get pod -o wide -n <namespace>
 
 # --- Inspect Details ---
 # Why is my pod pending?
