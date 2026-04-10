@@ -54,6 +54,8 @@ spec:
           value: "https://github.com/fluidicon.png"
         - name: CODER_EXTERNAL_AUTH_0_SCOPES
           value: "repo,workflow,read:user,admin:public_key"
+        - name: CODER_EXTERNAL_AUTH_0_REGEX
+          value: "github\\.com/lumine-duality/.*"
         # Built-in DERP Server Configuration
         - name: CODER_DERP_SERVER_ENABLE
           value: "true"
