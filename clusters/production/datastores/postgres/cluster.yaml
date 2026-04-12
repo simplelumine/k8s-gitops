@@ -6,8 +6,14 @@ metadata:
 spec:
   # Pin PostgreSQL image version to prevent unexpected upgrades
   # imageName: ghcr.io/cloudnative-pg/postgresql:18.1-system-trixie
-  # HA Configuration: 3 instances (1 primary + 2 standby)
-  instances: 3
+  # HA Configuration: 2 instances (1 primary + 1 standby)
+  instances: 2
+
+  # Resource requests and limits
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
 
   # Storage Configuration
   storage:
