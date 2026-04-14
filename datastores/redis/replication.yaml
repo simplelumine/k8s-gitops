@@ -21,7 +21,7 @@ spec:
     image: quay.io/opstree/redis-exporter:v1.82.0
 
   kubernetesConfig:
-    image: quay.io/opstree/redis:v8.4.0
+    image: quay.io/opstree/redis:v8.6.2
     imagePullPolicy: IfNotPresent
     resources:
       requests:
