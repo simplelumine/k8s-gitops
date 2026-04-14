@@ -15,9 +15,9 @@
 
   "flux": {
     "managerFilePatterns": [
-      "/(^|/)helmrelease.*\.yaml$/",
-      "/(^|/)helmrepository.*\.yaml$/",
-      "/(^|/)repository\.yaml$/"
+      "/(^|/)helmrelease.*\\.yaml$/",
+      "/(^|/)helmrepository.*\\.yaml$/",
+      "/(^|/)repository\\.yaml$/"
     ]
   },
 
@@ -26,7 +26,7 @@
 
   "kubernetes": {
     "managerFilePatterns": [
-      "/\.yaml$/"
+      "/\\.yaml$/"
     ]
   },
 
