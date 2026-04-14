@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: coder
-      version: "2.31.x"
+      version: "2.32.x"
       sourceRef:
         kind: HelmRepository
         name: coder
