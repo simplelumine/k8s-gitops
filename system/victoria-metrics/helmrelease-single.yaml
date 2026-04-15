@@ -18,9 +18,9 @@ spec:
     global:
       clusterLabel: cluster
 
-    # Disable hostNetwork for node-exporter to avoid host port 9100 binding
+    # Enable hostNetwork to ensure node-exporter inherits the real node hostname for Grafana dashboards
     prometheus-node-exporter:
-      hostNetwork: false
+      hostNetwork: true
 
     # Enable Single-node mode for resource efficiency
     vmsingle:
