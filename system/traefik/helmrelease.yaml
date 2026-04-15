@@ -19,16 +19,14 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
-    logs:
-      access:
-        enabled: true
     ports:
       web:
-        redirections:
-          entryPoint:
-            to: websecure
-            scheme: https
-            permanent: true
+        http:
+          redirections:
+            entryPoint:
+              to: websecure
+              scheme: https
+              permanent: true
       websecure:
         http3:
           enabled: true

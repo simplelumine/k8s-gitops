@@ -6,6 +6,7 @@ metadata:
 spec:
   dependsOn:
     - name: datastores
+    - name: system
   interval: 10m
   path: ./clusters/production/platform
   prune: true
