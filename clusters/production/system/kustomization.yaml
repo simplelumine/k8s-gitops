@@ -4,6 +4,7 @@ resources:
   - ../../../system/cloudnative-pg
   - ../../../system/external-secrets
   - ../../../system/reloader
+  - traefik
   - victoria-metrics
   - connectivity
   - redis-operator

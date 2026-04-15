@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: "39.0.7" # Traefik v3.x latest
+      version: "39.0.7"
       sourceRef:
         kind: HelmRepository
         name: traefik
@@ -19,53 +19,16 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
-    hostNetwork: true
-    dnsPolicy: ClusterFirstWithHostNet
-    deployment:
-      replicas: 2
-    # Prefer scheduling on control-plane node
-    affinity:
-      nodeAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            preference:
-              matchExpressions:
-                - key: node-role.kubernetes.io/control-plane
-                  operator: Exists
     logs:
       access:
         enabled: true
-    service:
-      type: ClusterIP
-    # Security Context: Grant NET_BIND_SERVICE capability to bind ports 80/443
-    podSecurityContext:
-      runAsGroup: 65532
-      runAsNonRoot: true
-      runAsUser: 65532
-      fsGroup: 65532
-    securityContext:
-      allowPrivilegeEscalation: false
-      readOnlyRootFilesystem: true
-      capabilities:
-        drop: [ALL]
-        add: [NET_BIND_SERVICE]
     ports:
-      metrics:
-        port: 9200
-        expose:
-          default: false
       web:
-        port: 80
-        expose:
-          default: true
         redirections:
           entryPoint:
             to: websecure
             scheme: https
             permanent: true
       websecure:
-        port: 443
-        expose:
-          default: true
         http3:
           enabled: true
