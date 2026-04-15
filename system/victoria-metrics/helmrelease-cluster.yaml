@@ -18,6 +18,10 @@ spec:
     global:
       clusterLabel: cluster
 
+    # Disable hostNetwork for node-exporter to avoid host port 9100 binding
+    prometheus-node-exporter:
+      hostNetwork: false
+
     # Disable single-node to use cluster mode
     vmsingle:
       enabled: false
