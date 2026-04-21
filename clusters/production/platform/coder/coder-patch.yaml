@@ -64,7 +64,7 @@ spec:
 
         # Experimental Features
         - name: CODER_EXPERIMENTS
-          value: "*"
+          value: "*,agents"
       ingress:
         enable: true
         className: traefik
