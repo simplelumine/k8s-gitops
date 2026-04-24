@@ -21,6 +21,10 @@ spec:
       className: "traefik"
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+        traefik.ingress.kubernetes.io/service.sticky.cookie.name: "gpi-affinity"
+        traefik.ingress.kubernetes.io/service.sticky.cookie.secure: "true"
+        traefik.ingress.kubernetes.io/service.sticky.cookie.httponly: "true"
       hosts:
         - host: gpi.simplelumine.dev
           paths:
