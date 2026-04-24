@@ -5,6 +5,4 @@ resources:
   - litellm
   - quartz
   - simple-gemini
-
-  - ../../../workloads/gpi
   - sillytavern

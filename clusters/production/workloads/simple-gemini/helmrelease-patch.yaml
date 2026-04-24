@@ -22,14 +22,14 @@ spec:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       hosts:
-        - host: gemini.simplelumine.dev
+        - host: gpi.simplelumine.dev
           paths:
             - path: /
               pathType: ImplementationSpecific
       tls:
         - secretName: simple-gemini-tls
           hosts:
-            - gemini.simplelumine.dev
+            - gpi.simplelumine.dev
 
     # --- Infrastructure Configuration ---
     redis:
