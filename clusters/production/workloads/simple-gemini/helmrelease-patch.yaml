@@ -1,0 +1,45 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: simple-gemini
+  namespace: simple-gemini
+spec:
+  values:
+    image:
+      tag: "latest"
+
+    imagePullSecrets:
+      - name: ghcr-secret
+
+    service:
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/hostname: "simple-gemini"
+
+    ingress:
+      enabled: true
+      className: "traefik"
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      hosts:
+        - host: gemini.simplelumine.dev
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - secretName: simple-gemini-tls
+          hosts:
+            - gemini.simplelumine.dev
+
+    # --- Infrastructure Configuration ---
+    redis:
+      addr: "redis-master.redis.svc.cluster.local:6379"
+      existingSecret: "simple-gemini-secrets"
+      existingSecretPasswordKey: "REDIS_PASSWORD"
+    storage:
+      s3:
+        existingSecret: "simple-gemini-secrets"
+        existingSecretEndpointKey: "S3_ENDPOINT"
+        existingSecretBucketKey: "S3_BUCKET"
+        existingSecretAccessKey: "S3_ACCESS_KEY_ID"
+        existingSecretSecretKey: "S3_SECRET_ACCESS_KEY"

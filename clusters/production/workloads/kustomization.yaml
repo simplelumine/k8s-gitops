@@ -4,6 +4,7 @@ resources:
   - open-webui
   - litellm
   - quartz
+  - simple-gemini
 
   - ../../../workloads/gpi
   - sillytavern
