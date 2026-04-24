@@ -8,3 +8,5 @@ spec:
   url: https://github.com/simplelumine/simple-gemini.git
   ref:
     branch: main
+  secretRef:
+    name: simple-gemini-git-auth
