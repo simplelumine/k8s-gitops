@@ -7,7 +7,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: ./simple-gemini-chart
+      chart: ./charts
       sourceRef:
         kind: GitRepository
         name: simple-gemini-repo
