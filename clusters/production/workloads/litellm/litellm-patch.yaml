@@ -34,7 +34,7 @@ spec:
     command:
       - "/bin/sh"
       - "-c"
-      - "unset HTTP_PROXY HTTPS_PROXY ALL_PROXY && pip install socksio && exec litellm --config /app/proxy_config.yaml --port 4000"
+      - "unset HTTP_PROXY HTTPS_PROXY ALL_PROXY && pip install socksio && exec litellm --config /etc/litellm/config.yaml --port 4000"
 
     extraEnvVars:
       - name: REDIS_HOST
