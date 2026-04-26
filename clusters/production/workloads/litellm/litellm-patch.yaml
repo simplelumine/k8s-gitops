@@ -30,6 +30,12 @@ spec:
     environmentSecrets:
       - litellm-secret
 
+    # --- Install socksio for SOCKS5 proxy support ---
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "pip install socksio && exec litellm --config /app/proxy_config.yaml --port 4000"
+
     extraEnvVars:
       - name: REDIS_HOST
         value: "redis-master.redis.svc.cluster.local"
