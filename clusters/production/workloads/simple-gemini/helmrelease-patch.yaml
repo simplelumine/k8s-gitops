@@ -33,7 +33,10 @@ spec:
 
     # --- Infrastructure Configuration ---
     redis:
-      addr: "redis-master.redis.svc.cluster.local:6379"
+      addr: "" # Not used in Sentinel mode
+      sentinel:
+        addrs: "redis-s-hl.redis.svc.cluster.local:26379"
+        masterName: "mymaster"
       existingSecret: "simple-gemini-secrets"
       existingSecretPasswordKey: "REDIS_PASSWORD"
     storage:
