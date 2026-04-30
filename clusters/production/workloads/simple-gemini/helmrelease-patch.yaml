@@ -11,6 +11,16 @@ spec:
     imagePullSecrets:
       - name: ghcr-secret
 
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: tier
+                  operator: In
+                  values:
+                    - pro
+
     service:
       annotations:
         tailscale.com/expose: "true"
