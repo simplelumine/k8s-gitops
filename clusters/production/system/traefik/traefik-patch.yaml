@@ -6,7 +6,7 @@ metadata:
 spec:
   values:
     deployment:
-      replicas: 3
+      replicas: 2
 
     topologySpreadConstraints:
       - maxSkew: 1
@@ -19,12 +19,8 @@ spec:
     nodeSelector:
       svccontroller.k3s.cattle.io/enablelb: "true"
 
-    tolerations:
-      - key: "node-role.kubernetes.io/control-plane"
-        operator: "Exists"
-        effect: "NoSchedule"
-      - key: "CriticalAddonsOnly"
-        operator: "Exists"
+    # CP node removed from traffic path - Traefik only runs on pro nodes
+    # tolerations for control-plane intentionally omitted
 
     service:
       type: LoadBalancer

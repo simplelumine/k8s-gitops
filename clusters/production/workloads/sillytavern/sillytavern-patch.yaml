@@ -13,4 +13,4 @@ spec:
             requests:
               memory: "1.5Gi"
             limits:
-              memory: "4Gi"
+              memory: "3Gi"
