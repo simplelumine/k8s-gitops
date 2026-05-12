@@ -20,10 +20,10 @@ spec:
     persistence:
       enabled: false
 
-    # service:
-    #   annotations:
-    #     tailscale.com/expose: "true"
-    #     tailscale.com/hostname: "open-webui"
+    service:
+      annotations:
+        tailscale.com/expose: "true"
+        tailscale.com/hostname: "open-webui"
 
     ingress:
       enabled: true
