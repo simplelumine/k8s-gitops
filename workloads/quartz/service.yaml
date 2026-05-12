@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: quartz
   namespace: quartz
-  annotations:
-    tailscale.com/expose: "true"
-    tailscale.com/hostname: "quartz"
+  # annotations:
+  #   tailscale.com/expose: "true"
+  #   tailscale.com/hostname: "quartz"
 spec:
   selector:
     app: quartz

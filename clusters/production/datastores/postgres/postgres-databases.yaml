@@ -21,18 +21,6 @@ spec:
   name: litellm
   owner: litellm
 
----
-
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: coder-db
-  namespace: postgres
-spec:
-  cluster:
-    name: postgres
-  name: coder
-  owner: coder
 
 ---
 apiVersion: postgresql.cnpg.io/v1

@@ -47,10 +47,10 @@ spec:
       - name: OTEL_ENDPOINT
         value: "http://grafana-tempo.monitoring.svc:4318"
 
-    service:
-      annotations:
-        tailscale.com/expose: "true"
-        tailscale.com/hostname: "litellm"
+    # service:
+    #   annotations:
+    #     tailscale.com/expose: "true"
+    #     tailscale.com/hostname: "litellm"
 
     # --- Ingress ---
     ingress:

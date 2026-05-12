@@ -6,11 +6,6 @@ metadata:
 spec:
   managed:
     roles:
-      - name: coder
-        ensure: present
-        login: true
-        passwordSecret:
-          name: coder-db-secret
       - name: open-webui
         ensure: present
         login: true

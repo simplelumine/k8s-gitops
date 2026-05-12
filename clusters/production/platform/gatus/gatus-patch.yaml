@@ -82,15 +82,6 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
-        - name: coder
-          group: external-services
-          url: "https://code.simplelumine.dev"
-          interval: 30s
-          ui:
-            hide-hostname: true
-          conditions:
-            - "[STATUS] == 200"
-
         - name: vaultwarden
           group: external-services
           url: "https://vault.simplelumine.dev"
