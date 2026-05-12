@@ -20,7 +20,10 @@ spec:
                   operator: In
                   values:
                     - pro
-
+    flowWorker:
+      replicaCount: 2
+      image:
+        tag: "latest"
     service:
       annotations:
         tailscale.com/expose: "true"
