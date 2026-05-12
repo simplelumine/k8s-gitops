@@ -6,5 +6,4 @@ resources:
   - monitoring-rules
   - victoria-logs
   - gatus
-  - coder
   - vaultwarden
