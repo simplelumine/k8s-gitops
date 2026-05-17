@@ -5,18 +5,37 @@ metadata:
   namespace: qdrant
 spec:
   values:
-    # --- HA Configuration ---
-    replicaCount: 2
+    # --- Single Node Configuration ---
+    # Single node with S3 backup is the most pragmatic setup for homelab.
+    # If HA is needed later, use the Qdrant Migration Tool to move to a cluster.
+    replicaCount: 1
 
     priorityClassName: high
 
     config:
       cluster:
-        enabled: true
+        enabled: false
+      storage:
+        snapshots_config:
+          snapshots_storage: s3
+          s3_config:
+            bucket: prod-qd-backups
+            region: auto
+            endpoint_url: ${R2_ENDPOINT_URL}
 
-    podDisruptionBudget:
-      enabled: true
-      maxUnavailable: 1
+    # --- S3 Credentials via Environment Variables ---
+    # Qdrant supports QDRANT__ prefixed env vars to override config values
+    env:
+      - name: QDRANT__STORAGE__SNAPSHOTS_CONFIG__S3_CONFIG__ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: qdrant-secret
+            key: r2-access-key-id
+      - name: QDRANT__STORAGE__SNAPSHOTS_CONFIG__S3_CONFIG__SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: qdrant-secret
+            key: r2-secret-access-key
 
     # --- Security ---
     apiKey:
