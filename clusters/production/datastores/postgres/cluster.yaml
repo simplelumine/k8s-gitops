@@ -12,8 +12,11 @@ spec:
   # Resource requests and limits
   resources:
     requests:
-      cpu: "250m"
+      cpu: "100m"
       memory: "512Mi"
+    limits:
+      cpu: "1"
+      memory: "1Gi"
 
   # Storage Configuration
   storage:
