@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moe-atelier
+  namespace: moe-atelier
+  labels:
+    app: moe-atelier
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: moe-atelier
+  template:
+    metadata:
+      labels:
+        app: moe-atelier
+    spec:
+      containers:
+        - name: moe-atelier
+          image: ghcr.io/spartan114514/moe-atelier:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5173
+              name: http
+          env:
+            - name: TZ
+              value: "Asia/Shanghai"
+            - name: BACKEND_PASSWORD
+              value: "123456"
+          volumeMounts:
+            - name: data-volume
+              mountPath: /app/server-data
+              subPath: server-data
+            - name: data-volume
+              mountPath: /app/saved-images
+              subPath: saved-images
+      volumes:
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: moe-atelier-data

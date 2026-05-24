@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: new-api-ingress
-  namespace: new-api
+  name: moe-atelier-ingress
+  namespace: moe-atelier
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
@@ -10,16 +10,16 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - api.genshinnb.textverse.space
-      secretName: new-api-tls
+        - moe.genshinnb.textverse.space
+      secretName: moe-atelier-tls
   rules:
-    - host: api.genshinnb.textverse.space
+    - host: moe.genshinnb.textverse.space
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: new-api
+                name: moe-atelier
                 port:
-                  number: 3000
+                  number: 5173
