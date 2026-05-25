@@ -6,3 +6,8 @@ resources:
   - deployment.yaml
   - service.yaml
   - ingress.yaml
+
+images:
+  - name: ghcr.io/spartan114514/moe-atelier
+    newName: ghcr.io/FSHebe233/moe-atelier
+    newTag: sha-6feaeda
