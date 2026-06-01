@@ -115,17 +115,6 @@ spec:
       requests:
         memory: "1.2Gi"
 
-    # Schedule near the Postgres primary (Leader) for lowest latency
-    # and prefer pro tier nodes
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: tier
-                  operator: In
-                  values:
-                    - pro
       podAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100

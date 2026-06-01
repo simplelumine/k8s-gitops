@@ -54,13 +54,4 @@ spec:
     ingress:
       enabled: false
 
-    # Prefer pro tier nodes for Qdrant (vector DB for RAG)
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: tier
-                  operator: In
-                  values:
-                    - pro
+

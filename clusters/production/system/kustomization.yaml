@@ -5,6 +5,6 @@ resources:
   - ../../../system/external-secrets
   - ../../../system/reloader
   - traefik
-  - victoria-metrics
+  # - victoria-metrics
   - connectivity
   - redis-operator

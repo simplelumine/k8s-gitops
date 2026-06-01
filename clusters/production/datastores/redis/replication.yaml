@@ -38,13 +38,3 @@ spec:
           requests:
             storage: 1Gi
 
-  # Prefer pro tier nodes for Redis (core cache layer)
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: tier
-                operator: In
-                values:
-                  - pro

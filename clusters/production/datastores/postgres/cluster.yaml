@@ -62,16 +62,6 @@ spec:
     topologyKey: kubernetes.io/hostname
     podAntiAffinityType: preferred
 
-    # Prefer high-performance tier nodes, with extra preference for sfo region
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: tier
-                operator: In
-                values:
-                  - pro
-
 
   # Backup Configuration (Cloudflare R2)
   backup:

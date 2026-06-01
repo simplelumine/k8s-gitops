@@ -37,15 +37,6 @@ spec:
 
       endpoints:
         # --- External Services ---
-        - name: grafana
-          group: external-services
-          url: "https://monitor.simplelumine.dev"
-          interval: 30s
-          ui:
-            hide-hostname: true
-          conditions:
-            - "[STATUS] == 200"
-
         - name: open-webui
           group: external-services
           url: "https://chat.simplelumine.dev"
@@ -76,25 +67,6 @@ spec:
         - name: vaultwarden
           group: external-services
           url: "https://vault.simplelumine.dev"
-          interval: 30s
-          ui:
-            hide-hostname: true
-          conditions:
-            - "[STATUS] == 200"
-
-        # --- Textverse Services ---
-        - name: sillytavern
-          group: textverse-services
-          url: "https://st.textverse.space"
-          interval: 30s
-          ui:
-            hide-hostname: true
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: sillytavern-unitedstates
-          group: textverse-services
-          url: "https://st-us.textverse.space"
           interval: 30s
           ui:
             hide-hostname: true
