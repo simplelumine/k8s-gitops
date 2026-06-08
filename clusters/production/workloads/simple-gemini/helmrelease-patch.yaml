@@ -11,8 +11,8 @@ spec:
     imagePullSecrets:
       - name: ghcr-secret
 
-    flowWorker:
-      replicaCount: 2
+    browser:
+      replicaCount: 1
       image:
         tag: "latest"
     service:
