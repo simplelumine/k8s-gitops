@@ -5,6 +5,9 @@ metadata:
   namespace: simple-gemini
 spec:
   values:
+    replicaCount: 2
+    ha:
+      spreadPolicy: preferred
     image:
       tag: "latest"
 
