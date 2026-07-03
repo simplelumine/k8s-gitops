@@ -102,6 +102,10 @@ flux reconcile helmrelease victoria-metrics -n monitoring --force
 flux get helmreleases -A
 flux get kustomizations -A
 
+flux suspend helmrelease <name> -n <ns>
+kubectl delete helmrelease <name> -n <ns>
+flux reconcile kustomization workloads --with-source
+
 # Check for specific reconciliation errors
 flux logs --level=error
 ```
