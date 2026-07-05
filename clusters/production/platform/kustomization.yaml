@@ -4,6 +4,5 @@ resources:
   - cert-issuer
   # - grafana-tempo
   # - monitoring-rules
-  # - victoria-logs
-  - gatus
+  - victoria-logs
   - vaultwarden

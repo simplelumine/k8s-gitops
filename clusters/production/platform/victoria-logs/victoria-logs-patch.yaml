@@ -4,16 +4,9 @@ metadata:
   name: victoria-logs-single
   namespace: monitoring
 spec:
-  # Prefer lite tier nodes for log storage
-  affinity:
-    nodeAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-        nodeSelectorTerms:
-          - matchExpressions:
-              - key: tier
-                operator: In
-                values:
-                  - flash
+  # Pin log storage to lax-wk-01 (c2m8g100 - most memory and storage)
+  nodeSelector:
+    kubernetes.io/hostname: lax-wk-01
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
