@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - open-webui
   - simple-gemini
-  - sillytavern
+  # - sillytavern

@@ -24,7 +24,7 @@ spec:
         tailscale.com/hostname: "simple-gemini"
 
     ingress:
-      enabled: true
+      enabled: false
       className: "traefik"
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod

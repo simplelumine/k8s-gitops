@@ -14,7 +14,7 @@ spec:
       redis:
         enabled: false
     pipelines:
-      enabled: true
+      enabled: false
     tika:
       enabled: true
       resources:
@@ -113,7 +113,7 @@ spec:
 
     resources:
       requests:
-        memory: "1.2Gi"
+        memory: "1Gi"
 
       podAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
