@@ -78,6 +78,15 @@ spec:
               sed -i -E 's/^#?PermitRootLogin.*/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config && \
               sed -i -E 's/^#?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config && \
               exec /usr/sbin/sshd -D
+          env:
+            - name: HTTP_PROXY
+              value: "http://xray-sfo-wk-01.xray-client.svc:1081"
+            - name: HTTPS_PROXY
+              value: "http://xray-sfo-wk-01.xray-client.svc:1081"
+            - name: ALL_PROXY
+              value: "socks5://xray-sfo-wk-01.xray-client.svc:1080"
+            - name: NO_PROXY
+              value: "10.0.0.0/8,192.168.0.0/16,100.64.0.0/10,localhost,127.0.0.1,.svc,.cluster.local"
           volumeMounts:
             - name: home
               mountPath: /root
