@@ -34,7 +34,7 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
-                      - lax-wk-02
+                      - lax-wk-01
       hostname: k8s-dev-test
       containers:
         - name: dev
@@ -44,7 +44,25 @@ spec:
             - -c
             - |
               apt-get update && \
-              apt-get install -y openssh-server curl wget git vim htop && \
+              apt-get install -y openssh-server curl wget git vim htop ansible age ca-certificates gnupg jq && \
+              curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+              apt-get install -y nodejs && \
+              curl -fsSL -o /usr/share/keyrings/githubcli-archive-keyring.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg && \
+              chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg && \
+              echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null && \
+              apt-get update && \
+              apt-get install -y gh && \
+              curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+              chmod +x kubectl && mv kubectl /usr/local/bin/ && \
+              curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-4 | bash && \
+              curl -L -o /tmp/k9s.tar.gz https://github.com/derailed/k9s/releases/latest/download/k9s_Linux_amd64.tar.gz && \
+              tar -xzf /tmp/k9s.tar.gz -C /usr/local/bin k9s && \
+              rm /tmp/k9s.tar.gz && \
+              curl -s https://fluxcd.io/install.sh | bash && \
+              SOPS_VER=$(curl -s https://api.github.com/repos/getsops/sops/releases/latest | grep tag_name | cut -d '"' -f 4) && \
+              [ -z "$SOPS_VER" ] && SOPS_VER="v3.9.0"; \
+              curl -sLo /usr/local/bin/sops "https://github.com/getsops/sops/releases/download/${SOPS_VER}/sops-${SOPS_VER}.linux.amd64" && \
+              chmod +x /usr/local/bin/sops && \
               chmod 700 /root && \
               mkdir -p /run/sshd /root/.ssh /root/.ssh-host-keys && \
               cp /tmp/ssh/authorized_keys /root/.ssh/authorized_keys && \
@@ -56,8 +74,9 @@ spec:
               fi && \
               cp /root/.ssh-host-keys/ssh_host_*_key* /etc/ssh/ && \
               chmod 600 /etc/ssh/ssh_host_*_key && \
-              sed -i 's/#PermitRootLogin.*/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config && \
-              sed -i 's/#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config && \
+              chmod 644 /etc/ssh/ssh_host_*_key.pub && \
+              sed -i -E 's/^#?PermitRootLogin.*/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config && \
+              sed -i -E 's/^#?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config && \
               exec /usr/sbin/sshd -D
           volumeMounts:
             - name: home
