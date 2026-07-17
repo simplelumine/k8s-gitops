@@ -44,7 +44,8 @@ spec:
             - -c
             - |
               apt-get update && \
-              apt-get install -y openssh-server curl wget git vim htop ansible age ca-certificates gnupg jq && \
+              apt-get install -y openssh-server curl wget git vim htop ansible age ca-certificates gnupg jq iputils-ping dnsutils iproute2 locales && \
+              echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 && \
               curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
               apt-get install -y nodejs && \
               curl -fsSL -o /usr/share/keyrings/githubcli-archive-keyring.gpg https://cli.github.com/packages/githubcli-archive-keyring.gpg && \
@@ -79,6 +80,10 @@ spec:
               sed -i -E 's/^#?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config && \
               exec /usr/sbin/sshd -D
           env:
+            - name: LANG
+              value: "en_US.UTF-8"
+            - name: LC_ALL
+              value: "en_US.UTF-8"
             - name: HTTP_PROXY
               value: "http://xray-sfo-wk-01.xray-client.svc:1081"
             - name: HTTPS_PROXY
