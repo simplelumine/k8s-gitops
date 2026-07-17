@@ -1,0 +1,94 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: k8s-dev-01-home
+  namespace: dev
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-dev-01
+  namespace: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-dev-01
+  template:
+    metadata:
+      labels:
+        app: k8s-dev-01
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - lax-wk-02
+      hostname: k8s-dev-01
+      containers:
+        - name: dev
+          image: debian:latest
+          command:
+            - /bin/bash
+            - -c
+            - |
+              apt-get update && \
+              apt-get install -y openssh-server curl wget git vim htop && \
+              chmod 700 /root && \
+              mkdir -p /run/sshd /root/.ssh /root/.ssh-host-keys && \
+              cp /tmp/ssh/authorized_keys /root/.ssh/authorized_keys && \
+              chmod 700 /root/.ssh && \
+              chmod 600 /root/.ssh/authorized_keys && \
+              if [ ! -f /root/.ssh-host-keys/ssh_host_ed25519_key ]; then \
+                ssh-keygen -A && \
+                cp /etc/ssh/ssh_host_*_key* /root/.ssh-host-keys/; \
+              fi && \
+              cp /root/.ssh-host-keys/ssh_host_*_key* /etc/ssh/ && \
+              chmod 600 /etc/ssh/ssh_host_*_key && \
+              sed -i 's/#PermitRootLogin.*/PermitRootLogin prohibit-password/' /etc/ssh/sshd_config && \
+              sed -i 's/#PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config && \
+              exec /usr/sbin/sshd -D
+          volumeMounts:
+            - name: home
+              mountPath: /root
+            - name: ssh-key
+              mountPath: /tmp/ssh
+              readOnly: true
+          resources:
+            requests:
+              memory: "512Mi"
+            limits:
+              memory: "4Gi"
+      volumes:
+        - name: home
+          persistentVolumeClaim:
+            claimName: k8s-dev-01-home
+        - name: ssh-key
+          configMap:
+            name: dev-ssh-key
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-dev-01-ssh
+  namespace: dev
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "k8s-dev-01"
+spec:
+  selector:
+    app: k8s-dev-01
+  ports:
+    - port: 22
+      targetPort: 22
