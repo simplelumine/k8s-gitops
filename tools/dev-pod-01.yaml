@@ -64,6 +64,10 @@ spec:
               [ -z "$SOPS_VER" ] && SOPS_VER="v3.9.0"; \
               curl -sLo /usr/local/bin/sops "https://github.com/getsops/sops/releases/download/${SOPS_VER}/sops-${SOPS_VER}.linux.amd64" && \
               chmod +x /usr/local/bin/sops && \
+              curl -s -L "https://github.com/loft-sh/devspace/releases/latest/download/devspace-linux-amd64" -o /usr/local/bin/devspace && \
+              chmod +x /usr/local/bin/devspace && \
+              curl -s -L "https://github.com/loft-sh/vcluster/releases/latest/download/vcluster-linux-amd64" -o /usr/local/bin/vcluster && \
+              chmod +x /usr/local/bin/vcluster && \
               chmod 700 /root && \
               mkdir -p /run/sshd /root/.ssh /root/.ssh-host-keys && \
               cp /tmp/ssh/authorized_keys /root/.ssh/authorized_keys && \
