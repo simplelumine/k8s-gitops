@@ -70,9 +70,15 @@ spec:
               chmod +x /usr/local/bin/vcluster && \
               GO_VER=$(curl -s https://go.dev/VERSION?m=text | head -1) && \
               curl -sL "https://dl.google.com/go/${GO_VER}.linux-amd64.tar.gz" -o /tmp/go.tar.gz && \
+              rm -rf /usr/local/go && \
               tar -C /usr/local -xzf /tmp/go.tar.gz && rm /tmp/go.tar.gz && \
               ln -sf /usr/local/go/bin/go /usr/local/bin/go && \
               ln -sf /usr/local/go/bin/gofmt /usr/local/bin/gofmt && \
+              PREV_GO_VER=$(cat /root/.go_version 2>/dev/null); \
+              if [ "$PREV_GO_VER" != "$GO_VER" ]; then \
+                /usr/local/go/bin/go clean -cache 2>/dev/null; \
+              fi; \
+              echo "$GO_VER" > /root/.go_version && \
               chmod 700 /root && \
               mkdir -p /run/sshd /root/.ssh /root/.ssh-host-keys && \
               cp /tmp/ssh/authorized_keys /root/.ssh/authorized_keys && \
