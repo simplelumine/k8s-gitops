@@ -24,10 +24,11 @@ spec:
         tailscale.com/hostname: "simple-gemini"
 
     ingress:
-      enabled: false
+      enabled: true
       className: "traefik"
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.middlewares: authelia-authelia@kubernetescrd
       hosts:
         - host: gpi.simplelumine.dev
           paths:

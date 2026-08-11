@@ -9,6 +9,13 @@ spec:
       existingSecret: "authelia-secret"
     configMap:
       theme: "dark"
+      access_control:
+        default_policy: bypass
+        rules:
+          - domain: "gpi.simplelumine.dev"
+            resources:
+              - "^/ui.*"
+            policy: two_factor
       session:
         cookies:
           - domain: "simplelumine.dev"
