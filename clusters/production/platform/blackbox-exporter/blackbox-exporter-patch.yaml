@@ -1,0 +1,13 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prometheus-blackbox-exporter
+  namespace: monitoring
+spec:
+  values:
+    nodeSelector:
+      node-role.kubernetes.io/monitoring: "true"
+    tolerations:
+      - key: "node-role.kubernetes.io/monitoring"
+        operator: "Exists"
+        effect: "NoSchedule"

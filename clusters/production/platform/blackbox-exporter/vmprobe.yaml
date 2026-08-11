@@ -1,0 +1,19 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMProbe
+metadata:
+  name: website-health-check
+  namespace: monitoring
+spec:
+  jobName: "blackbox-http"
+  bps:
+    targets:
+      - "prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115"
+  vmProbesSpec:
+    module: http_2xx
+    interval: "60s"
+    targets:
+      staticConfig:
+        targets:
+          - "https://monitor.simplelumine.dev"
+          - "https://vault.simplelumine.dev"
+          - "https://chat.simplelumine.dev"
