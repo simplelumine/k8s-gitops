@@ -7,13 +7,6 @@ spec:
   values:
     secret:
       existingSecret: "authelia-secret"
-    pod:
-      env:
-        - name: AUTHELIA_STORAGE_POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: authelia-db-secret
-              key: AUTHELIA_STORAGE_POSTGRES_PASSWORD
     configMap:
       theme: "dark"
       session:
