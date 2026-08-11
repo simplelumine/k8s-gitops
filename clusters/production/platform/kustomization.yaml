@@ -2,7 +2,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - cert-issuer
-  # - grafana-tempo
-  # - monitoring-rules
+  - grafana-tempo
+  - monitoring-rules
   - victoria-logs
   - vaultwarden

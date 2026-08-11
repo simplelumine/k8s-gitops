@@ -4,21 +4,23 @@ metadata:
   name: external-node-exporter
   namespace: monitoring
 spec:
-  jobName: "edge-nodes"
+  jobName: "node-exporter"
 
   targetEndpoints:
     - targets:
         - "100.118.201.99:9100"
       interval: "30s"
       labels:
-        hostname: "lax-eg-01"
         instance: "lax-eg-01"
+        node: "lax-eg-01"
         region: "los-angeles"
+        node_type: "edge"
 
     - targets:
         - "100.67.192.13:9100"
       interval: "30s"
       labels:
-        hostname: "tyo-eg-01"
         instance: "tyo-eg-01"
+        node: "tyo-eg-01"
         region: "tokyo"
+        node_type: "edge"

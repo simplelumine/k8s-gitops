@@ -87,3 +87,12 @@ spec:
           - key: "node-role.kubernetes.io/monitoring"
             operator: "Exists"
             effect: "NoSchedule"
+
+    vmalertmanager:
+      spec:
+        nodeSelector:
+          node-role.kubernetes.io/monitoring: "true"
+        tolerations:
+          - key: "node-role.kubernetes.io/monitoring"
+            operator: "Exists"
+            effect: "NoSchedule"

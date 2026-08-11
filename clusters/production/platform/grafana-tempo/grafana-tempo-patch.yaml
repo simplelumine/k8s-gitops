@@ -5,13 +5,9 @@ metadata:
   namespace: monitoring
 spec:
   values:
-    # Prefer lite tier nodes for trace storage
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: tier
-                  operator: In
-                  values:
-                    - flash
+    nodeSelector:
+      node-role.kubernetes.io/monitoring: "true"
+    tolerations:
+      - key: "node-role.kubernetes.io/monitoring"
+        operator: "Exists"
+        effect: "NoSchedule"
