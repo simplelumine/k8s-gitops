@@ -33,8 +33,6 @@ spec:
           address: "tcp://postgres-rw.postgres.svc.cluster.local:5432"
           database: "authelia"
           username: "authelia"
-          password:
-            disabled: true
       authentication_backend:
         ldap:
           enabled: true
