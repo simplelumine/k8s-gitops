@@ -20,3 +20,27 @@ spec:
     name: postgres
   name: vaultwarden
   owner: vaultwarden
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: lldap-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres
+  name: lldap
+  owner: lldap
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: authelia-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres
+  name: authelia
+  owner: authelia

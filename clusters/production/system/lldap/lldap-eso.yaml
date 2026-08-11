@@ -1,0 +1,25 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: lldap-db-secret-sync
+  namespace: lldap
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: postgres-store
+    kind: ClusterSecretStore
+  target:
+    name: lldap-db-secret
+    template:
+      engineVersion: v2
+      data:
+        LLDAP_DATABASE_URL: "postgres://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/lldap"
+  data:
+    - secretKey: username
+      remoteRef:
+        key: lldap-db-secret
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: lldap-db-secret
+        property: password

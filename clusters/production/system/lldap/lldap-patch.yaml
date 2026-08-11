@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lldap
+  namespace: lldap
+spec:
+  template:
+    spec:
+      containers:
+        - name: lldap
+          envFrom:
+            - secretRef:
+                name: lldap-secrets
+          env:
+            - name: LLDAP_DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-db-secret
+                  key: LLDAP_DATABASE_URL
