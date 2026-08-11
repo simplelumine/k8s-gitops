@@ -27,6 +27,8 @@ spec:
           enabled: true
           host: "redis.redis.svc.cluster.local"
           port: 6379
+          password:
+            disabled: true
       storage:
         postgres:
           enabled: true
