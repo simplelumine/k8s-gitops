@@ -8,6 +8,12 @@ spec:
     fullnameOverride: "victoria-metrics"
 
     grafana:
+      nodeSelector:
+        node-role.kubernetes.io/monitoring: "true"
+      tolerations:
+        - key: "node-role.kubernetes.io/monitoring"
+          operator: "Exists"
+          effect: "NoSchedule"
       ingress:
         enabled: true
         ingressClassName: traefik
@@ -53,9 +59,30 @@ spec:
           # Map GitHub Teams to Grafana Roles
           role_attribute_path: "contains(groups[*], '@lumine-duality/admins') && 'Admin' || 'Viewer'"
 
-    # Pin storage engine to lax-wk-01 (c2m8g100 - most memory)
-    # vmagent and vmalert are stateless and lightweight, no need to pin
+    # Pin all monitoring components to the dedicated monitoring node
     vmsingle:
       spec:
         nodeSelector:
-          kubernetes.io/hostname: lax-wk-01
+          node-role.kubernetes.io/monitoring: "true"
+        tolerations:
+          - key: "node-role.kubernetes.io/monitoring"
+            operator: "Exists"
+            effect: "NoSchedule"
+
+    vmagent:
+      spec:
+        nodeSelector:
+          node-role.kubernetes.io/monitoring: "true"
+        tolerations:
+          - key: "node-role.kubernetes.io/monitoring"
+            operator: "Exists"
+            effect: "NoSchedule"
+
+    vmalert:
+      spec:
+        nodeSelector:
+          node-role.kubernetes.io/monitoring: "true"
+        tolerations:
+          - key: "node-role.kubernetes.io/monitoring"
+            operator: "Exists"
+            effect: "NoSchedule"

@@ -4,9 +4,13 @@ metadata:
   name: victoria-logs-single
   namespace: monitoring
 spec:
-  # Pin log storage to lax-wk-01 (c2m8g100 - most memory and storage)
+  # Pin log storage to dedicated monitoring node
   nodeSelector:
-    kubernetes.io/hostname: lax-wk-01
+    node-role.kubernetes.io/monitoring: "true"
+  tolerations:
+    - key: "node-role.kubernetes.io/monitoring"
+      operator: "Exists"
+      effect: "NoSchedule"
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
