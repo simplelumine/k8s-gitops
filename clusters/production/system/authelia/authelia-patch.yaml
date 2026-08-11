@@ -5,11 +5,10 @@ metadata:
   namespace: authelia
 spec:
   values:
-    domain: "simplelumine.dev"
     secret:
       existingSecret: "authelia-secret"
     pod:
-      extraEnv:
+      env:
         - name: AUTHELIA_STORAGE_POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -17,16 +16,20 @@ spec:
               key: AUTHELIA_STORAGE_POSTGRES_PASSWORD
     configMap:
       theme: "dark"
-      default_redirection_url: "https://auth.simplelumine.dev"
       session:
-        domain: "simplelumine.dev"
-        expiration: 3600
-        inactivity: 300
+        cookies:
+          - domain: "simplelumine.dev"
+            subdomain: "auth"
+            default_redirection_url: "https://auth.simplelumine.dev"
+        expiration: "1 hour"
+        inactivity: "5 minutes"
         redis:
+          enabled: true
           host: "redis.redis.svc.cluster.local"
           port: 6379
       storage:
         postgres:
+          enabled: true
           address: "tcp://postgres-rw.postgres.svc.cluster.local:5432"
           database: "authelia"
           username: "authelia"
@@ -34,18 +37,18 @@ spec:
             path: "storage.postgres.password"
       authentication_backend:
         ldap:
-          implementation: lldap
+          enabled: true
+          implementation: "lldap"
           address: "ldap://lldap.lldap.svc.cluster.local:3890"
           base_dn: "dc=simplelumine,dc=dev"
           user: "cn=admin,ou=people,dc=simplelumine,dc=dev"
           password:
-            path: "authentication.backend.ldap.password"
+            path: "authentication.ldap.password.txt"
       notifier:
         smtp:
           enabled: true
-          host: "smtp.resend.com"
-          port: 465
+          address: "submissions://smtp.resend.com:465"
           username: "resend"
           sender: "Authelia <auth@simplelumine.dev>"
           password:
-            path: "notifier.smtp.password"
+            path: "notifier.smtp.password.txt"
