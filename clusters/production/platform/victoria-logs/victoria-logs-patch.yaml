@@ -4,6 +4,9 @@ metadata:
   name: victoria-logs-single
   namespace: monitoring
 spec:
+  # Reduce retention to save space on small 15GB disk
+  retentionPeriod: "7d"
+  
   # Pin log storage to dedicated monitoring node
   nodeSelector:
     node-role.kubernetes.io/monitoring: "true"
