@@ -34,7 +34,7 @@ spec:
           database: "authelia"
           username: "authelia"
           password:
-            path: "storage.postgres.password"
+            disabled: true
       authentication_backend:
         ldap:
           enabled: true
