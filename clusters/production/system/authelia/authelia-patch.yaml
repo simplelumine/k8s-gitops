@@ -20,7 +20,7 @@ spec:
         cookies:
           - domain: "simplelumine.dev"
             subdomain: "auth"
-            default_redirection_url: "https://auth.simplelumine.dev"
+            default_redirection_url: "https://ldap.simplelumine.dev"
         expiration: "1 hour"
         inactivity: "5 minutes"
         redis:
