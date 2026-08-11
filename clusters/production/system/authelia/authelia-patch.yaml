@@ -12,7 +12,7 @@ spec:
       access_control:
         default_policy: bypass
         rules:
-          - domain: "gpi.simplelumine.dev"
+          - domain: "gemini.simplelumine.dev"
             resources:
               - "^/ui.*"
             policy: two_factor
