@@ -17,3 +17,12 @@ spec:
                 secretKeyRef:
                   name: lldap-db-secret
                   key: LLDAP_DATABASE_URL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lldap
+  namespace: lldap
+  annotations:
+    tailscale.com/expose: "true"
+    tailscale.com/hostname: "lldap"
