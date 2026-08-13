@@ -15,6 +15,7 @@ spec:
           - domain: "gemini.simplelumine.dev"
             resources:
               - "^/ui.*"
+              - "^/api.*"
             policy: two_factor
       session:
         cookies:

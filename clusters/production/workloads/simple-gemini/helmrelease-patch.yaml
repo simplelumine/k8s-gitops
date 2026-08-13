@@ -32,8 +32,15 @@ spec:
       hosts:
         - host: gemini.simplelumine.dev
           paths:
+            - path: /ui
+              pathType: Prefix
+              serviceName: simple-gemini-controller
+            - path: /api
+              pathType: Prefix
+              serviceName: simple-gemini-controller
             - path: /
-              pathType: ImplementationSpecific
+              pathType: Prefix
+              serviceName: simple-gemini-worker
       tls:
         - secretName: simple-gemini-tls
           hosts:
