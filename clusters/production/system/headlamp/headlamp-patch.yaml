@@ -38,14 +38,6 @@ spec:
           - name: plugins-dir
             mountPath: /headlamp/plugins
 
-      - name: fetch-ai-assistant-plugin
-        image: ghcr.io/headlamp-k8s/headlamp-plugin-ai-assistant:latest
-        imagePullPolicy: IfNotPresent
-        command: ["/bin/sh", "-c"]
-        args: ["mkdir -p /headlamp/plugins && cp -r /plugins/* /headlamp/plugins/ 2>/dev/null || true"]
-        volumeMounts:
-          - name: plugins-dir
-            mountPath: /headlamp/plugins
 
     volumeMounts:
       - name: plugins-dir
