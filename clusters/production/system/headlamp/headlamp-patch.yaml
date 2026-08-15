@@ -14,6 +14,7 @@ spec:
 
     config:
       inCluster: true
+      unsafeUseServiceAccountToken: true
 
     ingress:
       enabled: true
