@@ -17,6 +17,12 @@ spec:
               - "^/ui.*"
               - "^/api.*"
             policy: two_factor
+            subject:
+              - "group:admin"
+          - domain: "k8s.simplelumine.dev"
+            policy: two_factor
+            subject:
+              - "group:admin"
       session:
         cookies:
           - domain: "simplelumine.dev"
