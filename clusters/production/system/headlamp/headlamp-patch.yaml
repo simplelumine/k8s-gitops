@@ -24,10 +24,10 @@ spec:
       resources:
         requests:
           cpu: 10m
-          memory: 32Mi
+          memory: 64Mi
         limits:
-          cpu: 200m
-          memory: 128Mi
+          cpu: 500m
+          memory: 512Mi
       configContent: |
         plugins:
           - name: flux
