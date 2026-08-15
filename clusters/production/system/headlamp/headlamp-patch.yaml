@@ -12,30 +12,48 @@ spec:
         operator: "Exists"
         effect: "NoSchedule"
 
-    enableHelm: true
-
     config:
       inCluster: true
       unsafeUseServiceAccountToken: true
+      enableHelm: true
       watchPlugins: true
+      pluginsDir: "/headlamp/plugins"
 
-    pluginsManager:
-      enabled: true
-      resources:
-        requests:
-          cpu: 10m
-          memory: 64Mi
-        limits:
-          cpu: 500m
-          memory: 512Mi
-      configContent: |
-        plugins:
-          - name: flux
-            source: https://artifacthub.io/packages/headlamp/headlamp-plugins/flux
-          - name: cert-manager
-            source: https://artifacthub.io/packages/headlamp/headlamp-plugins/cert-manager
-          - name: ai-assistant
-            source: https://artifacthub.io/packages/headlamp/headlamp-plugins/headlamp_ai_assistant
+    initContainers:
+      - name: fetch-flux-plugin
+        image: ghcr.io/headlamp-k8s/headlamp-plugin-flux:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c"]
+        args: ["mkdir -p /headlamp/plugins && cp -r /plugins/* /headlamp/plugins/ 2>/dev/null || true"]
+        volumeMounts:
+          - name: plugins-dir
+            mountPath: /headlamp/plugins
+
+      - name: fetch-cert-manager-plugin
+        image: ghcr.io/headlamp-k8s/headlamp-plugin-cert-manager:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c"]
+        args: ["mkdir -p /headlamp/plugins && cp -r /plugins/* /headlamp/plugins/ 2>/dev/null || true"]
+        volumeMounts:
+          - name: plugins-dir
+            mountPath: /headlamp/plugins
+
+      - name: fetch-ai-assistant-plugin
+        image: ghcr.io/headlamp-k8s/headlamp-plugin-ai-assistant:latest
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh", "-c"]
+        args: ["mkdir -p /headlamp/plugins && cp -r /plugins/* /headlamp/plugins/ 2>/dev/null || true"]
+        volumeMounts:
+          - name: plugins-dir
+            mountPath: /headlamp/plugins
+
+    volumeMounts:
+      - name: plugins-dir
+        mountPath: /headlamp/plugins
+
+    volumes:
+      - name: plugins-dir
+        emptyDir: {}
 
     ingress:
       enabled: true
