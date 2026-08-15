@@ -27,7 +27,7 @@ spec:
         - host: k8s.simplelumine.dev
           paths:
             - path: /
-              pathType: Prefix
+              type: Prefix
       tls:
         - secretName: headlamp-tls
           hosts:
