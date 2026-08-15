@@ -12,9 +12,30 @@ spec:
         operator: "Exists"
         effect: "NoSchedule"
 
+    enableHelm: true
+
     config:
       inCluster: true
       unsafeUseServiceAccountToken: true
+      watchPlugins: true
+
+    pluginsManager:
+      enabled: true
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          cpu: 200m
+          memory: 128Mi
+      configContent: |
+        plugins:
+          - name: flux
+            source: https://artifacthub.io/packages/headlamp/headlamp-plugins/flux
+          - name: cert-manager
+            source: https://artifacthub.io/packages/headlamp/headlamp-plugins/cert-manager
+          - name: ai-assistant
+            source: https://artifacthub.io/packages/headlamp/headlamp-plugins/headlamp_ai_assistant
 
     ingress:
       enabled: true
