@@ -10,3 +10,4 @@ resources:
   - victoria-metrics
   - connectivity
   - redis-operator
+  - headlamp
