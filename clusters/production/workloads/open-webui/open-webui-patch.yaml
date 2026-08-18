@@ -13,6 +13,8 @@ spec:
       url: redis://redis-master.redis.svc.cluster.local:6379/0
       redis:
         enabled: false
+    ollama:
+      enabled: false
     pipelines:
       enabled: false
     tika:
@@ -46,8 +48,6 @@ spec:
         value: "true"
       - name: ENABLE_OPENAI_API
         value: "true"
-      - name: ENABLE_OLLAMA_API
-        value: "false"
       - name: ENABLE_ADMIN_EXPORT
         value: "false"
       - name: ENABLE_ADMIN_CHAT_ACCESS
