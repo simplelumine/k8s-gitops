@@ -34,6 +34,7 @@ gha-creds-*.json
 values.yaml
 .test/
 config.yaml
+temp/
 
 # xray proxy pool (contains credentials)
 tools/xray-*.yaml

@@ -33,3 +33,14 @@ spec:
                 secretKeyRef:
                   name: ghostfolio-secret
                   key: JWT_SECRET_KEY
+            - name: ENABLE_FEATURE_AUTH_OIDC
+              value: "true"
+            - name: OIDC_ISSUER
+              value: "https://auth.simplelumine.dev"
+            - name: OIDC_CLIENT_ID
+              value: "ghostfolio"
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: ghostfolio-secret
+                  key: OIDC_CLIENT_SECRET

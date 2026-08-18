@@ -57,3 +57,38 @@ spec:
           sender: "Authelia <auth@simplelumine.dev>"
           password:
             path: "notifier.smtp.password.txt"
+      identity_providers:
+        oidc:
+          hmac_secret:
+            path: "identity_providers.oidc.hmac.key"
+          jwks:
+            - key_id: "default"
+              algorithm: "RS256"
+              use: "sig"
+              key:
+                path: "identity_providers.oidc.jwks.key.rsa.2048.1.key"
+          cors:
+            endpoints:
+              - "authorization"
+              - "token"
+              - "userinfo"
+            allowed_origins_from_client_redirect_uris: true
+          clients:
+            - client_id: "ghostfolio"
+              client_name: "Ghostfolio"
+              client_secret:
+                path: "identity_providers.oidc.clients.ghostfolio.client_secret.txt"
+              public: false
+              authorization_policy: "two_factor"
+              redirect_uris:
+                - "https://invest.simplelumine.dev/api/auth/oidc/callback"
+              scopes:
+                - "openid"
+                - "profile"
+                - "email"
+              response_types:
+                - "code"
+              grant_types:
+                - "authorization_code"
+              userinfo_signed_response_alg: "none"
+              token_endpoint_auth_method: "client_secret_post"
