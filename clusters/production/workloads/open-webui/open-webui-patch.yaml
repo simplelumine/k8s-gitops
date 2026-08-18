@@ -128,6 +128,10 @@ spec:
         value: "true"
       - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
         value: "true"
+      - name: OAUTH_UPDATE_EMAIL_ON_LOGIN
+        value: "true"
+      - name: OAUTH_UPDATE_NAME_ON_LOGIN
+        value: "true"
 
     priorityClassName: high
 
