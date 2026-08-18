@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghostfolio
+  namespace: ghostfolio
+spec:
+  template:
+    metadata:
+      annotations:
+        reloader.stakater.com/auto: "true"
+    spec:
+      containers:
+        - name: ghostfolio
+          env:
+            - name: REDIS_HOST
+              value: "redis-master.redis.svc.cluster.local"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: ROOT_URL
+              value: "https://invest.simplelumine.dev"
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: ghostfolio-db-secret
+                  key: DATABASE_URL
+            - name: ACCESS_TOKEN_SALT
+              valueFrom:
+                secretKeyRef:
+                  name: ghostfolio-secret
+                  key: ACCESS_TOKEN_SALT
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ghostfolio-secret
+                  key: JWT_SECRET_KEY

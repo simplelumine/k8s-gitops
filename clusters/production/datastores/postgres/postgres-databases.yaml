@@ -44,3 +44,16 @@ spec:
     name: postgres
   name: authelia
   owner: authelia
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: ghostfolio-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres
+  name: ghostfolio
+  owner: ghostfolio
+

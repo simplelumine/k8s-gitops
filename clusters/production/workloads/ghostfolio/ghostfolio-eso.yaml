@@ -1,0 +1,27 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: ghostfolio-db-secret-sync
+  namespace: ghostfolio
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: postgres-store
+    kind: ClusterSecretStore
+  target:
+    name: ghostfolio-db-secret
+    template:
+      engineVersion: v2
+      data:
+        DATABASE_URL: "postgresql://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/ghostfolio"
+        username: "{{ .username }}"
+        password: "{{ .password }}"
+  data:
+    - secretKey: username
+      remoteRef:
+        key: ghostfolio-db-secret
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: ghostfolio-db-secret
+        property: password
