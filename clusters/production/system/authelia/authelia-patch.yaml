@@ -7,6 +7,9 @@ spec:
   values:
     secret:
       existingSecret: "authelia-secret"
+      additionalSecrets:
+        authelia-secret:
+          path: "custom"
     configMap:
       theme: "dark"
       access_control:
@@ -67,7 +70,7 @@ spec:
               algorithm: "RS256"
               use: "sig"
               key:
-                path: "/secrets/internal/identity_providers.oidc.jwks.key.rsa.2048.1.key"
+                path: "/secrets/custom/identity_providers.oidc.jwks.key.rsa.2048.1.key"
           cors:
             endpoints:
               - "authorization"
@@ -78,7 +81,7 @@ spec:
             - client_id: "ghostfolio"
               client_name: "Ghostfolio"
               client_secret:
-                path: "/secrets/internal/identity_providers.oidc.clients.ghostfolio.client_secret.txt"
+                path: "/secrets/custom/identity_providers.oidc.clients.ghostfolio.client_secret.txt"
               public: false
               authorization_policy: "two_factor"
               redirect_uris:
