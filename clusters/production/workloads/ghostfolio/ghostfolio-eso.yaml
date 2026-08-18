@@ -13,7 +13,7 @@ spec:
     template:
       engineVersion: v2
       data:
-        DATABASE_URL: "postgresql://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/ghostfolio"
+        DATABASE_URL: "postgresql://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/ghostfolio?sslmode=disable"
         username: "{{ .username }}"
         password: "{{ .password }}"
   data:

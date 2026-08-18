@@ -59,6 +59,7 @@ spec:
             path: "notifier.smtp.password.txt"
       identity_providers:
         oidc:
+          enabled: true
           hmac_secret:
             path: "identity_providers.oidc.hmac.key"
           jwks:
