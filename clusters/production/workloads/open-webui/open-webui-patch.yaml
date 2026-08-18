@@ -109,10 +109,8 @@ spec:
       - name: OTEL_EXPORTER_OTLP_PROTOCOL
         value: "grpc"
       # --- OIDC Single Sign-On (-> Authelia) ---
-      - name: ENABLE_OAUTH_SIGNUP
-        value: "true"
-      - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
-        value: "true"
+      - name: OPENID_PROVIDER_URL
+        value: "https://auth.simplelumine.dev/.well-known/openid-configuration"
       - name: OAUTH_CLIENT_ID
         value: "open-webui"
       - name: OAUTH_CLIENT_SECRET
@@ -120,12 +118,16 @@ spec:
           secretKeyRef:
             name: open-webui-secret
             key: oauth-client-secret
-      - name: OPENID_PROVIDER_URL
-        value: "https://auth.simplelumine.dev/.well-known/openid-configuration"
+      - name: OPENID_REDIRECT_URI
+        value: "https://chat.simplelumine.dev/oauth/oidc/callback"
       - name: OAUTH_PROVIDER_NAME
         value: "Authelia"
       - name: OAUTH_SCOPES
         value: "openid email profile"
+      - name: ENABLE_OAUTH_SIGNUP
+        value: "true"
+      - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
+        value: "true"
 
     priorityClassName: high
 
