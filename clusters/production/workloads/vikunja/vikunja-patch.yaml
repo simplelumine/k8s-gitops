@@ -89,3 +89,17 @@ spec:
             secretKeyRef:
               name: vikunja-secret
               key: oauth-client-secret
+        # Mailer (Resend SMTP)
+        VIKUNJA_MAILER_ENABLED: "true"
+        VIKUNJA_MAILER_HOST: "smtp.resend.com"
+        VIKUNJA_MAILER_PORT: "465"
+        VIKUNJA_MAILER_AUTHTYPE: "plain"
+        VIKUNJA_MAILER_USERNAME: "resend"
+        VIKUNJA_MAILER_PASSWORD:
+          valueFrom:
+            secretKeyRef:
+              name: vikunja-secret
+              key: smtp-password
+        VIKUNJA_MAILER_SKIPTLSVERIFY: "false"
+        VIKUNJA_MAILER_FROMEMAIL: "tasks@simplelumine.dev"
+        VIKUNJA_MAILER_FORCESSL: "true"
