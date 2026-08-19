@@ -11,13 +11,11 @@ spec:
         tag: "2.5.0"
       persistence:
         data:
-          enabled: false
-        database:
-          enabled: false
-        tmp:
           enabled: true
           type: emptyDir
-          mountPath: /tmp
+          mountPath: /app/vikunja/files
+        database:
+          enabled: false
       ingress:
         main:
           enabled: true
