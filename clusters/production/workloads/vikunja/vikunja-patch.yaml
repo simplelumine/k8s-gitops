@@ -14,6 +14,10 @@ spec:
           enabled: false
         database:
           enabled: false
+        tmp:
+          enabled: true
+          type: emptyDir
+          mountPath: /tmp
       ingress:
         main:
           enabled: true
