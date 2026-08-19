@@ -36,6 +36,8 @@ spec:
         VIKUNJA_SERVICE_PUBLICURL: "https://tasks.simplelumine.dev/"
         VIKUNJA_SERVICE_ENABLEREGISTRATION: "false"
         VIKUNJA_AUTH_LOCAL_ENABLED: "false"
+        # File storage basepath redirected to writable /tmp
+        VIKUNJA_FILES_BASEPATH: "/tmp/files"
         # PostgreSQL Backend (CloudNativePG)
         VIKUNJA_DATABASE_TYPE: "postgres"
         VIKUNJA_DATABASE_HOST: "postgres-rw.postgres.svc.cluster.local:5432"
