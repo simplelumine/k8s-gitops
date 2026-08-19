@@ -142,7 +142,7 @@ spec:
       - name: OAUTH_ROLES_CLAIM
         value: "groups"
       - name: OAUTH_ADMIN_ROLES
-        value: "admin"
+        value: "admins"
       - name: OAUTH_ALLOWED_ROLES
         value: "*"
 
@@ -150,7 +150,7 @@ spec:
 
     resources:
       requests:
-        memory: "1Gi"
+        memory: "768Mi"
 
       podAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
