@@ -21,11 +21,11 @@ spec:
               - "^/api.*"
             policy: two_factor
             subject:
-              - "group:admin"
+              - "group:admins"
           - domain: "k8s.simplelumine.dev"
             policy: two_factor
             subject:
-              - "group:admin"
+              - "group:admins"
       session:
         cookies:
           - domain: "simplelumine.dev"
