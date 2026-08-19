@@ -9,7 +9,9 @@ spec:
     vikunja:
       persistence:
         data:
-          enabled: false
+          enabled: true
+          type: emptyDir
+          mountPath: /app/vikunja/files
         database:
           enabled: false
       ingress:
