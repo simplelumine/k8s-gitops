@@ -77,6 +77,14 @@ spec:
               - "token"
               - "userinfo"
             allowed_origins_from_client_redirect_uris: true
+          claims_policies:
+            grafana:
+              id_token:
+                - "email"
+                - "email_verified"
+                - "groups"
+                - "preferred_username"
+                - "name"
           clients:
             - client_id: "ghostfolio"
               client_name: "Ghostfolio"
@@ -137,6 +145,7 @@ spec:
               token_endpoint_auth_method: "client_secret_basic"
             - client_id: "grafana"
               client_name: "Grafana"
+              claims_policy: "grafana"
               client_secret:
                 path: "/secrets/custom/identity_providers.oidc.clients.grafana.client_secret.txt"
               public: false
