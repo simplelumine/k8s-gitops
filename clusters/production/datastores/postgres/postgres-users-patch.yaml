@@ -31,4 +31,9 @@ spec:
         login: true
         passwordSecret:
           name: ghostfolio-db-secret
+      - name: vikunja
+        ensure: present
+        login: true
+        passwordSecret:
+          name: vikunja-db-secret
 

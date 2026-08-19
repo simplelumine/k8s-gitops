@@ -1,0 +1,83 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vikunja
+  namespace: vikunja
+spec:
+  interval: 1h
+  values:
+    vikunja:
+      persistence:
+        data:
+          enabled: false
+        database:
+          enabled: false
+      ingress:
+        main:
+          enabled: true
+          ingressClassName: traefik
+          annotations:
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          hosts:
+            - host: tasks.simplelumine.dev
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - secretName: vikunja-tls
+              hosts:
+                - tasks.simplelumine.dev
+      configMaps:
+        config:
+          enabled: true
+          data:
+            config.yml: "{}"
+      env:
+        VIKUNJA_SERVICE_PUBLICURL: "https://tasks.simplelumine.dev/"
+        VIKUNJA_SERVICE_ENABLEREGISTRATION: "false"
+        VIKUNJA_AUTH_LOCAL_ENABLED: "false"
+        # PostgreSQL Backend (CloudNativePG)
+        VIKUNJA_DATABASE_TYPE: "postgres"
+        VIKUNJA_DATABASE_HOST: "postgres-rw.postgres.svc.cluster.local:5432"
+        VIKUNJA_DATABASE_DATABASE: "vikunja"
+        VIKUNJA_DATABASE_USER:
+          valueFrom:
+            secretKeyRef:
+              name: vikunja-db-secret
+              key: username
+        VIKUNJA_DATABASE_PASSWORD:
+          valueFrom:
+            secretKeyRef:
+              name: vikunja-db-secret
+              key: password
+        # S3 Object Storage (Cloudflare R2)
+        VIKUNJA_FILES_S3_ENABLED: "true"
+        VIKUNJA_FILES_S3_ENDPOINT:
+          valueFrom:
+            secretKeyRef:
+              name: vikunja-secret
+              key: s3-endpoint-url
+        VIKUNJA_FILES_S3_BUCKET: "vikunja-data"
+        VIKUNJA_FILES_S3_ACCESSKEYID:
+          valueFrom:
+            secretKeyRef:
+              name: vikunja-secret
+              key: s3-access-key-id
+        VIKUNJA_FILES_S3_SECRETACCESSKEY:
+          valueFrom:
+            secretKeyRef:
+              name: vikunja-secret
+              key: s3-secret-access-key
+        VIKUNJA_FILES_S3_REGION: "auto"
+        VIKUNJA_FILES_S3_SSL: "true"
+        # OIDC Authentication (Authelia)
+        VIKUNJA_AUTH_OPENID_ENABLED: "true"
+        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_NAME: "Authelia"
+        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_AUTHURL: "https://auth.simplelumine.dev"
+        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_CLIENTID: "vikunja"
+        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_SCOPE: "openid profile email"
+        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_CLIENTSECRET:
+          valueFrom:
+            secretKeyRef:
+              name: vikunja-secret
+              key: oauth-client-secret

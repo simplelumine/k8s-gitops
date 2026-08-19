@@ -117,3 +117,22 @@ spec:
                 - "authorization_code"
               userinfo_signed_response_alg: "none"
               token_endpoint_auth_method: "client_secret_basic"
+            - client_id: "vikunja"
+              client_name: "Vikunja"
+              client_secret:
+                path: "/secrets/custom/identity_providers.oidc.clients.vikunja.client_secret.txt"
+              public: false
+              authorization_policy: "two_factor"
+              redirect_uris:
+                - "https://tasks.simplelumine.dev/auth/openid/authelia"
+              scopes:
+                - "openid"
+                - "profile"
+                - "email"
+              response_types:
+                - "code"
+              grant_types:
+                - "authorization_code"
+              userinfo_signed_response_alg: "none"
+              token_endpoint_auth_method: "client_secret_basic"
+
