@@ -70,6 +70,7 @@ spec:
               key: s3-secret-access-key
         VIKUNJA_FILES_S3_REGION: "auto"
         VIKUNJA_FILES_S3_USEPATHSTYLE: "true"
+        VIKUNJA_FILES_S3_DISABLESIGNING: "true"
         # Redis Cache & PubSub
         VIKUNJA_REDIS_ENABLED: "true"
         VIKUNJA_REDIS_HOST: "redis-master.redis.svc.cluster.local:6379"
