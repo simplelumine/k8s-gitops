@@ -7,11 +7,11 @@ spec:
   interval: 1h
   values:
     vikunja:
+      image:
+        tag: "2.5.0"
       persistence:
         data:
-          enabled: true
-          type: emptyDir
-          mountPath: /app/vikunja/files
+          enabled: false
         database:
           enabled: false
       ingress:
