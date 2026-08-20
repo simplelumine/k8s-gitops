@@ -94,8 +94,6 @@ spec:
           group: Cluster
           url: "https://invest.simplelumine.dev"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
