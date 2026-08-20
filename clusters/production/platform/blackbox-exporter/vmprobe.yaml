@@ -5,13 +5,23 @@ metadata:
   namespace: monitoring
 spec:
   jobName: "blackbox-http"
-  module: "http_2xx"
+  module: "http_non_5xx"
   interval: "60s"
   vmProberSpec:
     url: "prometheus-blackbox-exporter.monitoring.svc.cluster.local:9115"
   targets:
     staticConfig:
       targets:
+        # Cluster
+        - "https://auth.simplelumine.dev"
         - "https://monitor.simplelumine.dev"
+        - "https://k8s.simplelumine.dev"
+        - "https://status.simplelumine.dev"
         - "https://vault.simplelumine.dev"
         - "https://chat.simplelumine.dev"
+        - "https://gemini.simplelumine.dev"
+        - "https://tasks.simplelumine.dev"
+        - "https://invest.simplelumine.dev"
+        # Textverse
+        - "https://st1.textverse.space"
+        - "https://sc-assets.textverse.space"

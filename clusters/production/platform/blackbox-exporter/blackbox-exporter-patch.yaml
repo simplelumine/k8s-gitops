@@ -11,3 +11,21 @@ spec:
       - key: "node-role.kubernetes.io/monitoring"
         operator: "Exists"
         effect: "NoSchedule"
+    config:
+      modules:
+        http_2xx:
+          prober: http
+          timeout: 10s
+          http:
+            preferred_ip_protocol: "ip4"
+            ip_protocol_fallback: false
+            follow_redirects: true
+        http_non_5xx:
+          prober: http
+          timeout: 10s
+          http:
+            preferred_ip_protocol: "ip4"
+            ip_protocol_fallback: false
+            follow_redirects: true
+            valid_status_codes: [200, 201, 202, 204, 301, 302, 307, 308, 401, 403, 404]
+
