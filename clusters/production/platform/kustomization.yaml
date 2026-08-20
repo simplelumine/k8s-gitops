@@ -7,3 +7,4 @@ resources:
   - monitoring-rules
   - victoria-logs
   - vaultwarden
+  - gatus

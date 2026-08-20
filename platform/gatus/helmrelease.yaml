@@ -13,14 +13,4 @@ spec:
         kind: HelmRepository
         name: gatus
         namespace: gatus
-  values:
-    service:
-      type: ClusterIP
-    persistence:
-      enabled: false
-    serviceMonitor:
-      enabled: false
-    resources:
-      requests:
-        cpu: 50m
-        memory: 32Mi
+  values: {}

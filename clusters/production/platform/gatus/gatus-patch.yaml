@@ -1,0 +1,135 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gatus
+  namespace: gatus
+spec:
+  values:
+    service:
+      type: ClusterIP
+    persistence:
+      enabled: false
+    serviceMonitor:
+      enabled: false
+    resources:
+      requests:
+        cpu: 50m
+        memory: 32Mi
+
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      hosts:
+        - status.simplelumine.dev
+      tls:
+        - secretName: gatus-tls
+          hosts:
+            - status.simplelumine.dev
+
+    config:
+      endpoints:
+        # --- Core System ---
+        - name: Authelia
+          group: Cluster
+          url: "https://auth.simplelumine.dev"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Grafana
+          group: Cluster
+          url: "https://monitor.simplelumine.dev"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Headlamp
+          group: Cluster
+          url: "https://k8s.simplelumine.dev"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        # --- Platform Services ---
+        - name: Gatus
+          group: Cluster
+          url: "https://status.simplelumine.dev"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Vaultwarden
+          group: Cluster
+          url: "https://vault.simplelumine.dev"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        # --- Applications ---
+        - name: Open WebUI
+          group: Cluster
+          url: "https://chat.simplelumine.dev"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Simple Gemini
+          group: Cluster
+          url: "https://gemini.simplelumine.dev"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Vikunja
+          group: Cluster
+          url: "https://tasks.simplelumine.dev"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Ghostfolio
+          group: Cluster
+          url: "https://invest.simplelumine.dev"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        # --- Textverse ---
+        - name: SillyTavern
+          group: Textverse
+          url: "https://st1.textverse.space"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Space Card
+          group: Textverse
+          url: "https://sc-assets.textverse.space"
+          interval: 60s
+          ui:
+            hide-hostname: true
+          conditions:
+            - "[STATUS] == 200"
