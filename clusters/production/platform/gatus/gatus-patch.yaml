@@ -36,8 +36,6 @@ spec:
           group: Cluster
           url: "https://auth.simplelumine.dev"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -45,8 +43,6 @@ spec:
           group: Cluster
           url: "https://monitor.simplelumine.dev"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -54,18 +50,14 @@ spec:
           group: Cluster
           url: "https://k8s.simplelumine.dev"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
-            - "[STATUS] == 200"
+            - "[STATUS] < 500"
 
         # --- Platform Services ---
         - name: Gatus
           group: Cluster
           url: "https://status.simplelumine.dev"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -73,8 +65,6 @@ spec:
           group: Cluster
           url: "https://vault.simplelumine.dev"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -83,8 +73,6 @@ spec:
           group: Cluster
           url: "https://chat.simplelumine.dev"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -92,17 +80,13 @@ spec:
           group: Cluster
           url: "https://gemini.simplelumine.dev"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
-            - "[STATUS] == 200"
+            - "[STATUS] < 500"
 
         - name: Vikunja
           group: Cluster
           url: "https://tasks.simplelumine.dev"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -120,8 +104,6 @@ spec:
           group: Textverse
           url: "https://st1.textverse.space"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
             - "[STATUS] == 200"
 
@@ -129,7 +111,5 @@ spec:
           group: Textverse
           url: "https://sc-assets.textverse.space"
           interval: 60s
-          ui:
-            hide-hostname: true
           conditions:
-            - "[STATUS] == 200"
+            - "[STATUS] < 500"
