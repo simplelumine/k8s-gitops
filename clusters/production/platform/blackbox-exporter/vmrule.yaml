@@ -1,0 +1,35 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: blackbox-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: blackbox.rules
+      rules:
+        - alert: BlackboxProbeFailed
+          expr: probe_success == 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Blackbox probe failed (instance {{ $labels.instance }})"
+            description: "Target {{ $labels.instance }} probe failed for more than 2 minutes."
+
+        - alert: BlackboxSslCertificateWillExpireSoon
+          expr: probe_ssl_earliest_cert_expiry - time() < 86400 * 14
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "SSL certificate expiring soon (instance {{ $labels.instance }})"
+            description: "SSL certificate for {{ $labels.instance }} expires in less than 14 days."
+
+        - alert: BlackboxSlowProbe
+          expr: avg_over_time(probe_duration_seconds[2m]) > 5
+          for: 3m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Blackbox slow probe (instance {{ $labels.instance }})"
+            description: "Blackbox probe for {{ $labels.instance }} took more than 5s to complete."

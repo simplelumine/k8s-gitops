@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../../../../platform/blackbox-exporter
   - vmprobe.yaml
+  - vmrule.yaml
 
 configMapGenerator:
   - name: blackbox-dashboard
