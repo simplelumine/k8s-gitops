@@ -101,7 +101,9 @@ spec:
 
     alertmanager:
       spec:
-        configSecret: alertmanager-discord
+        configSecret: alertmanager-config
+        secrets:
+          - discord-webhook
         nodeSelector:
           node-role.kubernetes.io/monitoring: "true"
         tolerations:

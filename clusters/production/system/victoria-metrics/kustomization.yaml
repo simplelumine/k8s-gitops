@@ -3,7 +3,8 @@ kind: Kustomization
 resources:
   - ../../../../system/victoria-metrics
   - victoria-metrics-auth.sops.yaml
-  - alertmanager-discord.sops.yaml
+  - discord-webhook.sops.yaml
+  - alertmanager-config.yaml
 
 patches:
   - path: victoria-metrics-patch.yaml
