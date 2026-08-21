@@ -93,6 +93,7 @@ spec:
 
     vmalertmanager:
       spec:
+        configSecret: vmalertmanager-discord
         nodeSelector:
           node-role.kubernetes.io/monitoring: "true"
         tolerations:
