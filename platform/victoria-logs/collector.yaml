@@ -18,8 +18,13 @@ spec:
       - url: "http://vlsingle-victoria-logs-single.monitoring.svc:9428"
     resources:
       requests:
-        cpu: 50m
-        memory: 64Mi
+        cpu: 10m
+        memory: 32Mi
       limits:
-        cpu: 200m
+        cpu: 100m
         memory: 128Mi
+    tolerations:
+      - operator: "Exists"
+        effect: "NoSchedule"
+      - operator: "Exists"
+        effect: "NoExecute"

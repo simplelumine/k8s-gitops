@@ -7,6 +7,14 @@ spec:
   values:
     fullnameOverride: "victoria-metrics"
 
+    # Disable unexposed control-plane scrapers for k3s
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
+    kubeEtcd:
+      enabled: false
+
     grafana:
       nodeSelector:
         node-role.kubernetes.io/monitoring: "true"
@@ -91,9 +99,9 @@ spec:
             operator: "Exists"
             effect: "NoSchedule"
 
-    vmalertmanager:
+    alertmanager:
       spec:
-        configSecret: vmalertmanager-discord
+        configSecret: alertmanager-discord
         nodeSelector:
           node-role.kubernetes.io/monitoring: "true"
         tolerations:
