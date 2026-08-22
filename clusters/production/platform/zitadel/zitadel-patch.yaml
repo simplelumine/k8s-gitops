@@ -92,11 +92,6 @@ spec:
           secretKeyRef:
             name: zitadel-secrets
             key: adminLastName
-      - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: zitadel-secrets
-            key: smtpPassword
 
     zitadel:
       masterkeySecretName: zitadel-secrets
@@ -115,15 +110,6 @@ spec:
         DefaultInstance:
           LoginPolicy:
             AllowRegister: false
-          DomainPolicy:
-            SMTPSenderAddressMatchesInstanceDomain: false
-          SMTPConfiguration:
-            SMTP:
-              Host: "smtp.resend.com:465"
-              User: "resend"
-            TLS: true
-            From: "auth@simplelumine.dev"
-            FromName: "ZITADEL"
 
     setupJob:
       resources:
