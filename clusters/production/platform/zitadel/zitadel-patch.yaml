@@ -99,3 +99,6 @@ spec:
       requests:
         cpu: 100m
         memory: 256Mi
+
+    nodeSelector:
+      kubernetes.io/hostname: "lax-wk-01"
