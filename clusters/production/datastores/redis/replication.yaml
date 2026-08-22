@@ -11,7 +11,7 @@ spec:
     fsGroup: 1000
   sentinel:
     size: 3
-    image: quay.io/opstree/redis-sentinel:v8.6.2
+    image: quay.io/opstree/redis-sentinel:v8.10.1
     imagePullPolicy: IfNotPresent
     resources:
       requests:
@@ -19,10 +19,10 @@ spec:
         memory: 16Mi
   redisExporter:
     enabled: true
-    image: quay.io/opstree/redis-exporter:v1.84.0
+    image: quay.io/opstree/redis-exporter:v1.89.0
 
   kubernetesConfig:
-    image: quay.io/opstree/redis:v8.6.2
+    image: quay.io/opstree/redis:v8.10.1
     imagePullPolicy: IfNotPresent
     resources:
       requests:
