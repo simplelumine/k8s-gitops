@@ -108,13 +108,13 @@ spec:
         value: "http://grafana-tempo.monitoring.svc:4317"
       - name: OTEL_EXPORTER_OTLP_PROTOCOL
         value: "grpc"
-      # --- OIDC Single Sign-On (-> Authelia) ---
+      # --- OIDC Single Sign-On (-> ZITADEL) ---
       - name: WEBUI_URL
         value: "https://chat.simplelumine.dev"
       - name: OPENID_PROVIDER_URL
         value: "https://auth.simplelumine.dev/.well-known/openid-configuration"
       - name: OAUTH_CLIENT_ID
-        value: "open-webui"
+        value: "387406520549114141"
       - name: OAUTH_CLIENT_SECRET
         valueFrom:
           secretKeyRef:
@@ -123,9 +123,9 @@ spec:
       - name: OPENID_REDIRECT_URI
         value: "https://chat.simplelumine.dev/oauth/oidc/callback"
       - name: OAUTH_PROVIDER_NAME
-        value: "Authelia"
+        value: "SimpleLumine SSO"
       - name: OAUTH_SCOPES
-        value: "openid email profile groups"
+        value: "openid email profile"
       - name: OAUTH_CODE_CHALLENGE_METHOD
         value: "S256"
       - name: ENABLE_OAUTH_SIGNUP
@@ -136,15 +136,6 @@ spec:
         value: "true"
       - name: OAUTH_UPDATE_NAME_ON_LOGIN
         value: "true"
-      # --- OIDC Role Management ---
-      - name: ENABLE_OAUTH_ROLE_MANAGEMENT
-        value: "true"
-      - name: OAUTH_ROLES_CLAIM
-        value: "groups"
-      - name: OAUTH_ADMIN_ROLES
-        value: "admins"
-      - name: OAUTH_ALLOWED_ROLES
-        value: "*"
 
     priorityClassName: high
 
