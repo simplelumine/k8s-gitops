@@ -5,6 +5,10 @@ metadata:
   namespace: zitadel
 spec:
   values:
+    image:
+      repository: ghcr.io/zitadel/zitadel
+      tag: "v4.17.1"
+
     postgresql:
       enabled: false
 
@@ -56,11 +60,6 @@ spec:
           secretKeyRef:
             name: zitadel-secrets
             key: adminLastName
-      - name: ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: zitadel-secrets
-            key: adminPassword
       - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
         valueFrom:
           secretKeyRef:
@@ -91,8 +90,6 @@ spec:
             FromName: "ZITADEL"
 
     setupJob:
-      additionalArgs:
-        - "--init-projections=false"
       resources:
         requests:
           cpu: 500m
