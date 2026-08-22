@@ -25,6 +25,8 @@ spec:
   errors:
     status:
       - "401"
+    statusRewrites:
+      "401": 302
     service:
       name: oauth2-proxy
       port: 4180

@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../../../../workloads/simple-gemini
   - app-secrets.sops.yaml
+  - ingress.yaml
 
 patches:
   - path: helmrelease-patch.yaml
