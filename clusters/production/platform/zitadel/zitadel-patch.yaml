@@ -91,6 +91,8 @@ spec:
             FromName: "ZITADEL"
 
     setupJob:
+      additionalArgs:
+        - "--init-projections=false"
       resources:
         requests:
           cpu: 500m
