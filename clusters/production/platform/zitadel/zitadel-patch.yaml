@@ -46,6 +46,20 @@ spec:
           - secretName: auth-simplelumine-dev-tls
             hosts:
               - auth.simplelumine.dev
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      affinity:
+        podAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    cnpg.io/cluster: postgres
+                    cnpg.io/instanceRole: primary
+                topologyKey: topology.kubernetes.io/zone
 
     env:
       - name: ZITADEL_DATABASE_POSTGRES_DSN
@@ -115,12 +129,20 @@ spec:
       resources:
         requests:
           cpu: 100m
-          memory: 256Mi
+          memory: 128Mi
 
     resources:
       requests:
         cpu: 100m
-        memory: 256Mi
+        memory: 128Mi
 
-    nodeSelector:
-      kubernetes.io/hostname: "lax-wk-01"
+    affinity:
+      podAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  cnpg.io/cluster: postgres
+                  cnpg.io/instanceRole: primary
+              topologyKey: topology.kubernetes.io/zone
