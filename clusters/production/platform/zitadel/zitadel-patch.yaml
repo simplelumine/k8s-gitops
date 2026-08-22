@@ -29,6 +29,24 @@ spec:
           hosts:
             - auth-test.simplelumine.dev
 
+    login:
+      ingress:
+        enabled: true
+        className: traefik
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.tls: "true"
+        hosts:
+          - host: auth-test.simplelumine.dev
+            paths:
+              - path: /ui/v2/login
+                pathType: Prefix
+        tls:
+          - secretName: auth-test-simplelumine-dev-tls
+            hosts:
+              - auth-test.simplelumine.dev
+
     env:
       - name: ZITADEL_DATABASE_POSTGRES_DSN
         valueFrom:
