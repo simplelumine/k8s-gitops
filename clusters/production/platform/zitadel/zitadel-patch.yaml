@@ -103,6 +103,7 @@ spec:
           Enabled: false
         FirstInstance:
           Org:
+            Name: "SimpleLumine"
             Human:
               PasswordChangeRequired: false
             LoginPolicy:

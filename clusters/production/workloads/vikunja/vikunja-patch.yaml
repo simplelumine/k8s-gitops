@@ -78,13 +78,13 @@ spec:
         # Redis Cache & PubSub
         VIKUNJA_REDIS_ENABLED: "true"
         VIKUNJA_REDIS_HOST: "redis-master.redis.svc.cluster.local:6379"
-        # OIDC Authentication (Authelia)
+        # OIDC Authentication (ZITADEL)
         VIKUNJA_AUTH_OPENID_ENABLED: "true"
-        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_NAME: "Authelia"
-        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_AUTHURL: "https://auth.simplelumine.dev"
-        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_CLIENTID: "vikunja"
-        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_SCOPE: "openid profile email"
-        VIKUNJA_AUTH_OPENID_PROVIDERS_AUTHELIA_CLIENTSECRET:
+        VIKUNJA_AUTH_OPENID_PROVIDERS_ZITADEL_NAME: "SimpleLumine SSO"
+        VIKUNJA_AUTH_OPENID_PROVIDERS_ZITADEL_AUTHURL: "https://auth.simplelumine.dev"
+        VIKUNJA_AUTH_OPENID_PROVIDERS_ZITADEL_CLIENTID: "387403292126217302"
+        VIKUNJA_AUTH_OPENID_PROVIDERS_ZITADEL_SCOPE: "openid profile email"
+        VIKUNJA_AUTH_OPENID_PROVIDERS_ZITADEL_CLIENTSECRET:
           valueFrom:
             secretKeyRef:
               name: vikunja-secret

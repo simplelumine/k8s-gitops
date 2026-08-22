@@ -32,22 +32,22 @@ spec:
     config:
       endpoints:
         # --- Core System ---
-        - name: Authelia
-          group: Cluster
+        - name: ZITADEL
+          group: SimpleLumine
           url: "https://auth.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Grafana
-          group: Cluster
+          group: SimpleLumine
           url: "https://monitor.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Headlamp
-          group: Cluster
+          group: SimpleLumine
           url: "https://k8s.simplelumine.dev"
           interval: 60s
           conditions:
@@ -55,14 +55,14 @@ spec:
 
         # --- Platform Services ---
         - name: Gatus
-          group: Cluster
+          group: SimpleLumine
           url: "https://status.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Vaultwarden
-          group: Cluster
+          group: SimpleLumine
           url: "https://vault.simplelumine.dev"
           interval: 60s
           conditions:
@@ -70,28 +70,28 @@ spec:
 
         # --- Applications ---
         - name: Open WebUI
-          group: Cluster
+          group: SimpleLumine
           url: "https://chat.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Simple Gemini
-          group: Cluster
+          group: SimpleLumine
           url: "https://gemini.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] < 500"
 
         - name: Vikunja
-          group: Cluster
+          group: SimpleLumine
           url: "https://tasks.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Ghostfolio
-          group: Cluster
+          group: SimpleLumine
           url: "https://invest.simplelumine.dev"
           interval: 60s
           conditions:
