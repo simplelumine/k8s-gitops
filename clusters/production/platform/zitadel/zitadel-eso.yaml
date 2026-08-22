@@ -1,0 +1,25 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: zitadel-db-secret-sync
+  namespace: zitadel
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: postgres-store
+    kind: ClusterSecretStore
+  target:
+    name: zitadel-db-credentials
+    template:
+      engineVersion: v2
+      data:
+        dsn: "postgresql://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/zitadel?sslmode=disable"
+  data:
+    - secretKey: username
+      remoteRef:
+        key: zitadel-db-secret
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: zitadel-db-secret
+        property: password

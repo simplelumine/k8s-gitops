@@ -36,4 +36,9 @@ spec:
         login: true
         passwordSecret:
           name: vikunja-db-secret
+      - name: zitadel
+        ensure: present
+        login: true
+        passwordSecret:
+          name: zitadel-db-secret
 

@@ -1,0 +1,95 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: zitadel
+  namespace: zitadel
+spec:
+  values:
+    postgresql:
+      enabled: false
+
+    ingress:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
+      hosts:
+        - host: auth-test.simplelumine.dev
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: auth-test-simplelumine-dev-tls
+          hosts:
+            - auth-test.simplelumine.dev
+
+    env:
+      - name: ZITADEL_DATABASE_POSTGRES_DSN
+        valueFrom:
+          secretKeyRef:
+            name: zitadel-db-credentials
+            key: dsn
+      - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_USERNAME
+        valueFrom:
+          secretKeyRef:
+            name: zitadel-secrets
+            key: adminUsername
+      - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: zitadel-secrets
+            key: adminPassword
+      - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_EMAIL
+        valueFrom:
+          secretKeyRef:
+            name: zitadel-secrets
+            key: adminEmail
+      - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_FIRSTNAME
+        valueFrom:
+          secretKeyRef:
+            name: zitadel-secrets
+            key: adminFirstName
+      - name: ZITADEL_FIRSTINSTANCE_ORG_HUMAN_LASTNAME
+        valueFrom:
+          secretKeyRef:
+            name: zitadel-secrets
+            key: adminLastName
+      - name: ZITADEL_DEFAULTINSTANCE_ORG_HUMAN_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: zitadel-secrets
+            key: adminPassword
+      - name: ZITADEL_DEFAULTINSTANCE_SMTPCONFIGURATION_SMTP_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: zitadel-secrets
+            key: smtpPassword
+
+    zitadel:
+      masterkeySecretName: zitadel-secrets
+      configmapConfig:
+        ExternalDomain: "auth-test.simplelumine.dev"
+        ExternalPort: 443
+        ExternalSecure: true
+        TLS:
+          Enabled: false
+        FirstInstance:
+          Org:
+            Human:
+              PasswordChangeRequired: false
+        SMTP:
+          Host: "smtp.resend.com:465"
+          User: "resend"
+          From: "auth@simplelumine.dev"
+          FromName: "ZITADEL"
+          Tls: true
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        cpu: 1000m
+        memory: 1Gi
