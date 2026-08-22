@@ -92,6 +92,8 @@ spec:
           secretKeyRef:
             name: zitadel-secrets
             key: adminLastName
+      - name: ZITADEL_SYSTEMDEFAULTS_MULTIFACTORS_OTP_ISSUER
+        value: "SimpleLumine"
 
     zitadel:
       masterkeySecretName: zitadel-secrets
