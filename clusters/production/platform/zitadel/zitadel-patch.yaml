@@ -79,12 +79,16 @@ spec:
           Org:
             Human:
               PasswordChangeRequired: false
-        SMTP:
-          Host: "smtp.resend.com:465"
-          User: "resend"
-          From: "auth@simplelumine.dev"
-          FromName: "ZITADEL"
-          Tls: true
+        DefaultInstance:
+          DomainPolicy:
+            SMTPSenderAddressMatchesInstanceDomain: false
+          SMTPConfiguration:
+            SMTP:
+              Host: "smtp.resend.com:465"
+              User: "resend"
+              TLS: true
+            From: "auth@simplelumine.dev"
+            FromName: "ZITADEL"
 
     resources:
       requests:
