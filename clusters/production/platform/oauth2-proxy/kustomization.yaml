@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../../../platform/oauth2-proxy
+  - oauth2-proxy-secrets.sops.yaml
+  - middleware.yaml
+patches:
+  - path: oauth2-proxy-patch.yaml
+    target:
+      kind: HelmRelease
+      name: oauth2-proxy

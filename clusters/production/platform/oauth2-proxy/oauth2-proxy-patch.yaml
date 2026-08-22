@@ -1,0 +1,61 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: oauth2-proxy
+  namespace: oauth2-proxy
+spec:
+  values:
+    replicaCount: 2
+
+    service:
+      portNumber: 4180
+
+    config:
+      existingSecret: oauth2-proxy-secrets
+      configFile: |-
+        provider = "oidc"
+        oidc_issuer_url = "https://auth.simplelumine.dev"
+        redirect_url = "https://auth-proxy.simplelumine.dev/oauth2/callback"
+
+        reverse_proxy = true
+        scope = "openid profile email"
+
+        upstreams = [ "static://202" ]
+
+        cookie_name = "_oauth2_proxy"
+        cookie_domains = [ ".simplelumine.dev" ]
+        whitelist_domains = [ ".simplelumine.dev" ]
+        cookie_secure = true
+        cookie_httponly = true
+        cookie_samesite = "lax"
+        cookie_expire = "168h"
+        cookie_refresh = "1h"
+
+        email_domains = [ "*" ]
+
+        set_xauthrequest = true
+        pass_user_headers = true
+        set_authorization_header = true
+        pass_access_token = true
+
+    ingress:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
+      hosts:
+        - auth-proxy.simplelumine.dev
+      tls:
+        - secretName: auth-proxy-tls
+          hosts:
+            - auth-proxy.simplelumine.dev
+
+    resources:
+      requests:
+        cpu: 20m
+        memory: 64Mi
+      limits:
+        cpu: 100m
+        memory: 128Mi

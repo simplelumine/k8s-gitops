@@ -9,3 +9,4 @@ resources:
   - vaultwarden
   - gatus
   - zitadel
+  - oauth2-proxy

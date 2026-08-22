@@ -28,7 +28,7 @@ spec:
       className: "traefik"
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
-        traefik.ingress.kubernetes.io/router.middlewares: authelia-authelia-auth@kubernetescrd
+        traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-oauth2-proxy-errors@kubernetescrd,oauth2-proxy-oauth2-proxy-auth@kubernetescrd
       hosts:
         - host: gemini.simplelumine.dev
           paths:
