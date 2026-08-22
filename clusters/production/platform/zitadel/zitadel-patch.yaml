@@ -121,7 +121,7 @@ spec:
             SMTP:
               Host: "smtp.resend.com:465"
               User: "resend"
-              TLS: true
+            TLS: true
             From: "auth@simplelumine.dev"
             FromName: "ZITADEL"
 
