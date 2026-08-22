@@ -33,6 +33,8 @@ spec:
                 secretKeyRef:
                   name: ghostfolio-secret
                   key: JWT_SECRET_KEY
+            - name: ENABLE_FEATURE_AUTH_TOKEN
+              value: "false"
             - name: ENABLE_FEATURE_AUTH_OIDC
               value: "true"
             - name: OIDC_ISSUER
