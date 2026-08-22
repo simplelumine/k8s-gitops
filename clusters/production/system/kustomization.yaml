@@ -4,8 +4,6 @@ resources:
   - ../../../system/cloudnative-pg
   - ../../../system/external-secrets
   - ../../../system/reloader
-  - authelia
-  - lldap
   - traefik
   - victoria-metrics
   - connectivity

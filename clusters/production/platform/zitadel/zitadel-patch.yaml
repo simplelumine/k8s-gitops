@@ -20,14 +20,14 @@ spec:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         traefik.ingress.kubernetes.io/router.tls: "true"
       hosts:
-        - host: auth-test.simplelumine.dev
+        - host: auth.simplelumine.dev
           paths:
             - path: /
               pathType: Prefix
       tls:
-        - secretName: auth-test-simplelumine-dev-tls
+        - secretName: auth-simplelumine-dev-tls
           hosts:
-            - auth-test.simplelumine.dev
+            - auth.simplelumine.dev
 
     login:
       ingress:
@@ -38,14 +38,14 @@ spec:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           traefik.ingress.kubernetes.io/router.tls: "true"
         hosts:
-          - host: auth-test.simplelumine.dev
+          - host: auth.simplelumine.dev
             paths:
               - path: /ui/v2/login
                 pathType: Prefix
         tls:
-          - secretName: auth-test-simplelumine-dev-tls
+          - secretName: auth-simplelumine-dev-tls
             hosts:
-              - auth-test.simplelumine.dev
+              - auth.simplelumine.dev
 
     env:
       - name: ZITADEL_DATABASE_POSTGRES_DSN
@@ -87,7 +87,7 @@ spec:
     zitadel:
       masterkeySecretName: zitadel-secrets
       configmapConfig:
-        ExternalDomain: "auth-test.simplelumine.dev"
+        ExternalDomain: "auth.simplelumine.dev"
         ExternalPort: 443
         ExternalSecure: true
         TLS:
@@ -96,7 +96,11 @@ spec:
           Org:
             Human:
               PasswordChangeRequired: false
+            LoginPolicy:
+              AllowRegister: false
         DefaultInstance:
+          LoginPolicy:
+            AllowRegister: false
           DomainPolicy:
             SMTPSenderAddressMatchesInstanceDomain: false
           SMTPConfiguration:
