@@ -132,6 +132,15 @@ spec:
         value: "true"
       - name: OAUTH_UPDATE_NAME_ON_LOGIN
         value: "true"
+      # --- Disable Native Login & Enable Pure SSO ---
+      - name: ENABLE_LOGIN_FORM
+        value: "false"
+      - name: ENABLE_SIGNUP
+        value: "false"
+      - name: ENABLE_PASSWORD_AUTH
+        value: "false"
+      - name: ENABLE_PASSWORD_CHANGE_FORM
+        value: "false"
 
     priorityClassName: high
 
