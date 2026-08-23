@@ -37,3 +37,23 @@ spec:
               value: "true"
             - name: SSO_AUDIENCE_TRUSTED
               value: ".*"
+            # SMTP Configuration (Resend)
+            - name: SMTP_HOST
+              value: "smtp.resend.com"
+            - name: SMTP_PORT
+              value: "465"
+            - name: SMTP_SECURITY
+              value: "force_tls"
+            - name: SMTP_FROM
+              value: "vault@simplelumine.dev"
+            - name: SMTP_FROM_NAME
+              value: "SimpleLumine"
+            - name: SMTP_USERNAME
+              value: "resend"
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-secrets
+                  key: SMTP_PASSWORD
+            - name: SMTP_AUTH_MECHANISM
+              value: "Plain"
