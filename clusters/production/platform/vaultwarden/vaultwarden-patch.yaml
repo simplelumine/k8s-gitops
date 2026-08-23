@@ -36,4 +36,4 @@ spec:
             - name: SSO_PKCE
               value: "true"
             - name: SSO_AUDIENCE_TRUSTED
-              value: "^387402921836282966$"
+              value: ".*"
