@@ -109,8 +109,6 @@ spec:
       - name: OTEL_EXPORTER_OTLP_PROTOCOL
         value: "grpc"
       # --- OIDC Single Sign-On (-> ZITADEL) ---
-      - name: WEBUI_URL
-        value: "https://chat.simplelumine.dev"
       - name: OPENID_PROVIDER_URL
         value: "https://auth.simplelumine.dev/.well-known/openid-configuration"
       - name: OAUTH_CLIENT_ID
@@ -120,8 +118,6 @@ spec:
           secretKeyRef:
             name: open-webui-secret
             key: oauth-client-secret
-      - name: OPENID_REDIRECT_URI
-        value: "https://chat.simplelumine.dev/oauth/oidc/callback"
       - name: OAUTH_PROVIDER_NAME
         value: "SimpleLumine SSO"
       - name: OAUTH_SCOPES
