@@ -16,3 +16,22 @@ spec:
                   key: DATABASE_URL
             - name: DOMAIN
               value: "https://vault.simplelumine.dev"
+            - name: SSO_ENABLED
+              value: "true"
+            - name: SSO_ONLY
+              value: "true"
+            - name: SIGNUPS_ALLOWED
+              value: "true"
+            - name: SSO_AUTHORITY
+              value: "https://auth.simplelumine.dev"
+            - name: SSO_CLIENT_ID
+              value: "387484609933214811"
+            - name: SSO_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: vaultwarden-secrets
+                  key: SSO_CLIENT_SECRET
+            - name: SSO_SCOPES
+              value: "openid email profile offline_access"
+            - name: SSO_PKCE
+              value: "true"
