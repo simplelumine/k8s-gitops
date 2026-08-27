@@ -1,0 +1,16 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: oauth2-proxy-secrets-sync
+  namespace: oauth2-proxy
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: oauth2-proxy-secrets
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: oauth2-proxy-secrets

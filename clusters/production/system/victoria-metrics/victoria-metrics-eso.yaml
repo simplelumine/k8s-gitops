@@ -1,0 +1,33 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: victoria-metrics-auth-sync
+  namespace: monitoring
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: victoria-metrics-auth
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: victoria-metrics-secrets
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: discord-webhook-sync
+  namespace: monitoring
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: discord-webhook
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: victoria-metrics-secrets

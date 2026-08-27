@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - ../../../../platform/zitadel
   - zitadel-eso.yaml
-  - zitadel-secrets.sops.yaml
 patches:
   - path: zitadel-patch.yaml
     target:

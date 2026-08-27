@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - ../../../../platform/vaultwarden
   - vaultwarden-eso.yaml
-  - vaultwarden-secrets.sops.yaml
   - ingress.yaml
 patches:
   - path: vaultwarden-patch.yaml

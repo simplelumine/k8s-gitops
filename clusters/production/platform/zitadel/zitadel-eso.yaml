@@ -23,3 +23,20 @@ spec:
       remoteRef:
         key: zitadel-db-secret
         property: password
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: zitadel-app-secret-sync
+  namespace: zitadel
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: zitadel-secrets
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: zitadel-secrets

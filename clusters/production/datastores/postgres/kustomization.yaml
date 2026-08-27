@@ -3,9 +3,8 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - cluster.yaml
-  - postgres-users-secret.sops.yaml
-  - postgres-backup-secret.sops.yaml
-  - postgres-vars-secret.sops.yaml
+  - postgres-eso.yaml
+  - cluster-vars-eso.yaml
   - postgres-databases.yaml
   - postgres-secret-store.yaml
   - scheduled-backup.yaml

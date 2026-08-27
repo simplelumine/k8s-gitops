@@ -1,0 +1,19 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: cluster-vars-sync
+  namespace: flux-system
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: cluster-vars
+    creationPolicy: Owner
+    template:
+      data:
+        R2_ENDPOINT_URL: "{{ .R2_ENDPOINT_URL }}"
+  dataFrom:
+    - extract:
+        key: postgres-secrets

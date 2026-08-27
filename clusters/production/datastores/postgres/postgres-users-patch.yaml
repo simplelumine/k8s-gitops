@@ -16,16 +16,6 @@ spec:
         login: true
         passwordSecret:
           name: vaultwarden-db-secret
-      - name: lldap
-        ensure: present
-        login: true
-        passwordSecret:
-          name: lldap-db-secret
-      - name: authelia
-        ensure: present
-        login: true
-        passwordSecret:
-          name: authelia-db-secret
       - name: ghostfolio
         ensure: present
         login: true

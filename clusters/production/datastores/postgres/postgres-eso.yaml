@@ -1,0 +1,131 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: postgres-backup-secret-sync
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: postgres-backup-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        ACCESS_KEY_ID: "{{ .ACCESS_KEY_ID }}"
+        SECRET_ACCESS_KEY: "{{ .SECRET_ACCESS_KEY }}"
+  dataFrom:
+    - extract:
+        key: postgres-secrets
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: open-webui-db-secret-sync
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: open-webui-db-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        username: "open-webui"
+        password: '{{ index . "open-webui-password" }}'
+  dataFrom:
+    - extract:
+        key: postgres-secrets
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: vaultwarden-db-secret-sync
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: vaultwarden-db-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        username: "vaultwarden"
+        password: '{{ index . "vaultwarden-password" }}'
+  dataFrom:
+    - extract:
+        key: postgres-secrets
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: ghostfolio-db-secret-sync
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: ghostfolio-db-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        username: "ghostfolio"
+        password: '{{ index . "ghostfolio-password" }}'
+  dataFrom:
+    - extract:
+        key: postgres-secrets
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: vikunja-db-secret-sync
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: vikunja-db-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        username: "vikunja"
+        password: '{{ index . "vikunja-password" }}'
+  dataFrom:
+    - extract:
+        key: postgres-secrets
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: zitadel-db-secret-sync
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: zitadel-db-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        username: "zitadel"
+        password: '{{ index . "zitadel-password" }}'
+  dataFrom:
+    - extract:
+        key: postgres-secrets

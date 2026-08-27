@@ -23,3 +23,20 @@ spec:
       remoteRef:
         key: vaultwarden-db-secret
         property: password
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: vaultwarden-app-secret-sync
+  namespace: vaultwarden
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: vaultwarden-secrets
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: vaultwarden-secrets

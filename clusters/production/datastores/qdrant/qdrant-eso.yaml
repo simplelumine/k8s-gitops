@@ -1,0 +1,16 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: qdrant-secret-sync
+  namespace: qdrant
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: qdrant-secret
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: qdrant-secrets
