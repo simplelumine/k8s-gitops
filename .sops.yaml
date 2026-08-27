@@ -1,5 +1,0 @@
-creation_rules:
-  # Kubernetes Secret encryption rules (default)
-  - path_regex: .*\.sops\.yaml$
-    encrypted_regex: ^(data|stringData)$
-    age: age1dhr8f8ze9ymr9cu9kmkw5w7feg6e5lae7ggjug4e5x87fukudydspd0fpx
