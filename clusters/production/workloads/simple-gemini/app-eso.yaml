@@ -1,0 +1,16 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: simple-gemini-app-secret-sync
+  namespace: simple-gemini
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: simple-gemini-secrets
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: simple-gemini-secrets
