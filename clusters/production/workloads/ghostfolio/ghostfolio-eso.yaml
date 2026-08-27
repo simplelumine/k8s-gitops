@@ -25,3 +25,20 @@ spec:
       remoteRef:
         key: ghostfolio-db-secret
         property: password
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: ghostfolio-app-secret-sync
+  namespace: ghostfolio
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: ghostfolio-secret
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: ghostfolio-secrets
