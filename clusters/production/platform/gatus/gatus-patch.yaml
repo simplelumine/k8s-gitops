@@ -100,7 +100,7 @@ spec:
         # --- Textverse ---
         - name: SillyTavern
           group: Textverse
-          url: "https://st1.textverse.space"
+          url: "https://st.textverse.space"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
