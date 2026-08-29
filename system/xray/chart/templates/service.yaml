@@ -29,10 +29,7 @@ spec:
       targetPort: 8443
       protocol: TCP
 {{- end }}
-
-{{- if .Values.nodes }}
 ---
-# Local Ingress Service for Traefik SNI Passthrough (routes to the Xray pod on the local node)
 apiVersion: v1
 kind: Service
 metadata:
@@ -51,4 +48,3 @@ spec:
       port: 8443
       targetPort: 8443
       protocol: TCP
-{{- end }}

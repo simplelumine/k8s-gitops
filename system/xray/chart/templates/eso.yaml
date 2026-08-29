@@ -54,9 +54,8 @@ spec:
                     "serverNames": {{ .Values.reality.serverNames | toJson }},
                     "privateKey": "{{ `{{ .reality_private_key }}` }}",
                     "shortIds": [
-                      {{- `{{- range $i, $s := (splitList "," .reality_short_ids) }}` }}
-                      {{- `{{- if $i }},{{ end }}"{{ $s | trim }}"` }}
-                      {{- `{{- end }}` }}
+                      "{{ `{{ .short_id_admin }}` }}",
+                      "{{ `{{ .short_id_partner }}` }}"
                     ]
                   }
                 }
