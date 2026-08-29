@@ -57,6 +57,15 @@ spec:
                       "{{ `{{ .reality_short_id }}` }}"
                     ]
                   }
+                },
+                "sniffing": {
+                  "enabled": true,
+                  "destOverride": [
+                    "http",
+                    "tls",
+                    "quic"
+                  ],
+                  "routeOnly": true
                 }
               },
               {
@@ -75,12 +84,25 @@ spec:
                 }
               }
             ],
+            "dns": {
+              "servers": [
+                "1.1.1.1",
+                "8.8.8.8",
+                "localhost"
+              ],
+              "queryStrategy": "UseIPv4"
+            },
             "outbounds": [
               {
                 "tag": "direct",
                 "protocol": "freedom",
                 "settings": {
                   "domainStrategy": "UseIPv4"
+                },
+                "streamSettings": {
+                  "sockopt": {
+                    "domainStrategy": "UseIPv4"
+                  }
                 }
               }
             ]
