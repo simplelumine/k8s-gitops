@@ -43,8 +43,10 @@ spec:
               containerPort: 10809
             - name: socks-proxy
               containerPort: 10808
+          {{- if $.Values.resources }}
           resources:
             {{- toYaml $.Values.resources | nindent 12 }}
+          {{- end }}
           volumeMounts:
             - name: config
               mountPath: /etc/xray
