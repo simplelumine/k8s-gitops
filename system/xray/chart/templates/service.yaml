@@ -29,22 +29,3 @@ spec:
       targetPort: 8443
       protocol: TCP
 {{- end }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ include "xray.fullname" . }}-local
-  namespace: {{ .Release.Namespace }}
-  labels:
-    {{- include "xray.labels" . | nindent 4 }}
-spec:
-  type: ClusterIP
-  internalTrafficPolicy: Local
-  selector:
-    app.kubernetes.io/name: {{ include "xray.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-  ports:
-    - name: reality
-      port: 8443
-      targetPort: 8443
-      protocol: TCP

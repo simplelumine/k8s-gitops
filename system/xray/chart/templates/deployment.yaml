@@ -38,6 +38,7 @@ spec:
           ports:
             - name: reality
               containerPort: 8443
+              hostPort: 8443
             - name: http-proxy
               containerPort: 10809
             - name: socks-proxy
