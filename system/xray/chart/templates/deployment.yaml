@@ -33,6 +33,7 @@ spec:
         - name: xray
           image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
           imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          command: ["xray"]
           args: ["run", "-config", "/etc/xray/config.json"]
           ports:
             - name: reality
