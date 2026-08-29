@@ -2,5 +2,5 @@ apiVersion: v2
 name: xray
 description: Multi-node Xray proxy chart for Kubernetes GitOps
 type: application
-version: 0.1.6
-appVersion: "24.12.31"
+version: 0.2.0
+appVersion: "26.3.27"

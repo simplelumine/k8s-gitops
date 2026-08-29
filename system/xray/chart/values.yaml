@@ -1,6 +1,6 @@
 image:
-  repository: ghcr.io/xtls/xray-core
-  tag: "v24.12.31"
+  repository: teddysun/xray
+  tag: "26.3.27"
   pullPolicy: IfNotPresent
 
 secretName: xray-config
