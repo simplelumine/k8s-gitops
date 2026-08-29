@@ -1,0 +1,54 @@
+{{- range .Values.nodes }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xray-{{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "xray.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: xray-{{ .name }}
+    node: {{ .name }}
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: {{ include "xray.name" $ }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    node: {{ .name }}
+  ports:
+    - name: http-proxy
+      port: 10809
+      targetPort: 10809
+      protocol: TCP
+    - name: socks-proxy
+      port: 10808
+      targetPort: 10808
+      protocol: TCP
+    - name: reality
+      port: 8443
+      targetPort: 8443
+      protocol: TCP
+{{- end }}
+
+{{- if .Values.nodes }}
+---
+# Local Ingress Service for Traefik SNI Passthrough (routes to the Xray pod on the local node)
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "xray.fullname" . }}-local
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "xray.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  internalTrafficPolicy: Local
+  selector:
+    app.kubernetes.io/name: {{ include "xray.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - name: reality
+      port: 8443
+      targetPort: 8443
+      protocol: TCP
+{{- end }}

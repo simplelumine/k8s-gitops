@@ -1,0 +1,17 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: xray
+  namespace: xray
+spec:
+  values:
+    reality:
+      sni: "www.gutenberg.org"
+      dest: "www.gutenberg.org:443"
+      serverNames:
+        - "www.gutenberg.org"
+    nodes:
+      - name: sfo-wk-01
+      - name: lax-wk-01
+      - name: lax-wk-02
+      - name: slc-cp-01

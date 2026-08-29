@@ -1,0 +1,19 @@
+{{- if .Values.nodes }}
+apiVersion: traefik.io/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: {{ include "xray.fullname" . }}-reality
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "xray.labels" . | nindent 4 }}
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HostSNI(`{{ .Values.reality.sni }}`)
+      services:
+        - name: {{ include "xray.fullname" . }}-local
+          port: 8443
+  tls:
+    passthrough: true
+{{- end }}

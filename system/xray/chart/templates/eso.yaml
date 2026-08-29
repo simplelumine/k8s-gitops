@@ -1,0 +1,93 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: {{ include "xray.fullname" . }}-config-sync
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "xray.labels" . | nindent 4 }}
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: {{ .Values.secretName }}
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        config.json: |
+          {
+            "log": {
+              "loglevel": "warning"
+            },
+            "inbounds": [
+              {
+                "tag": "reality-in",
+                "listen": "0.0.0.0",
+                "port": 8443,
+                "protocol": "vless",
+                "settings": {
+                  "clients": [
+                    {{- `{{- if or .u_admin .admin_uuid }}` }}
+                    {
+                      "id": "{{ `{{ default .u_admin .admin_uuid }}` }}",
+                      "email": "admin",
+                      "level": 0,
+                      "flow": "xtls-rprx-vision"
+                    }{{- `{{- if or .u_partner .partner_uuid }},{{ end }}` }}
+                    {{- `{{- end }}` }}
+                    {{- `{{- if or .u_partner .partner_uuid }}` }}
+                    {
+                      "id": "{{ `{{ default .u_partner .partner_uuid }}` }}",
+                      "email": "partner",
+                      "level": 0,
+                      "flow": "xtls-rprx-vision"
+                    }
+                    {{- `{{- end }}` }}
+                  ],
+                  "decryption": "none"
+                },
+                "streamSettings": {
+                  "network": "tcp",
+                  "security": "reality",
+                  "realitySettings": {
+                    "show": false,
+                    "dest": {{ .Values.reality.dest | quote }},
+                    "xver": 0,
+                    "serverNames": {{ .Values.reality.serverNames | toJson }},
+                    "privateKey": "{{ `{{ .reality_private_key }}` }}",
+                    "shortIds": [
+                      {{- `{{- range $i, $s := (splitList "," .reality_short_ids) }}` }}
+                      {{- `{{- if $i }},{{ end }}"{{ $s | trim }}"` }}
+                      {{- `{{- end }}` }}
+                    ]
+                  }
+                }
+              },
+              {
+                "tag": "http-in",
+                "listen": "0.0.0.0",
+                "port": 10809,
+                "protocol": "http"
+              },
+              {
+                "tag": "socks-in",
+                "listen": "0.0.0.0",
+                "port": 10808,
+                "protocol": "socks",
+                "settings": {
+                  "udp": true
+                }
+              }
+            ],
+            "outbounds": [
+              {
+                "tag": "direct",
+                "protocol": "freedom"
+              }
+            ]
+          }
+  dataFrom:
+    - extract:
+        key: xray-secrets
