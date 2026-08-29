@@ -32,6 +32,8 @@ gha-creds-*.json
 .temp/
 
 values.yaml
+!**/chart/values.yaml
+!**/charts/**/values.yaml
 .test/
 config.yaml
 temp/
