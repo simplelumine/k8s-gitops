@@ -29,22 +29,18 @@ spec:
                 "protocol": "vless",
                 "settings": {
                   "clients": [
-                    {{- `{{- if or .u_admin .admin_uuid }}` }}
                     {
-                      "id": "{{ `{{ default .u_admin .admin_uuid }}` }}",
+                      "id": "{{ `{{ .u_admin }}` }}",
                       "email": "admin",
                       "level": 0,
                       "flow": "xtls-rprx-vision"
-                    }{{- `{{- if or .u_partner .partner_uuid }},{{ end }}` }}
-                    {{- `{{- end }}` }}
-                    {{- `{{- if or .u_partner .partner_uuid }}` }}
+                    },
                     {
-                      "id": "{{ `{{ default .u_partner .partner_uuid }}` }}",
+                      "id": "{{ `{{ .u_partner }}` }}",
                       "email": "partner",
                       "level": 0,
                       "flow": "xtls-rprx-vision"
                     }
-                    {{- `{{- end }}` }}
                   ],
                   "decryption": "none"
                 },
