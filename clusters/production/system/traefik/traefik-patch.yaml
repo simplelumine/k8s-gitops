@@ -6,21 +6,23 @@ metadata:
 spec:
   values:
     deployment:
-      replicas: 2
+      kind: DaemonSet
 
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: topology.kubernetes.io/zone
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: traefik
+    tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node-role.kubernetes.io/monitoring"
+        operator: "Exists"
+        effect: "NoSchedule"
 
-    nodeSelector:
-      svccontroller.k3s.cattle.io/enablelb: "true"
-
-    # CP node removed from traffic path - Traefik only runs on pro nodes
-    # tolerations for control-plane intentionally omitted
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
 
     service:
       type: LoadBalancer
