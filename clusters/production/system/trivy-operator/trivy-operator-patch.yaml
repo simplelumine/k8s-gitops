@@ -19,6 +19,13 @@ spec:
       builtInTrivyServer: true
       scanJobsConcurrentLimit: 1
       vulnerabilityScannerScanOnlyCurrentRevisions: true
+      scanJobTolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/master"
+          operator: "Exists"
+          effect: "NoSchedule"
       resources:
         requests:
           cpu: 20m
