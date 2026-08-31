@@ -25,7 +25,7 @@ spec:
             - name: SSO_AUTHORITY
               value: "https://auth.simplelumine.dev"
             - name: SSO_CLIENT_ID
-              value: "387492757855339611"
+              value: "388732916340884571"
             - name: SSO_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
