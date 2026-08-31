@@ -83,13 +83,6 @@ spec:
           conditions:
             - "[STATUS] < 500"
 
-        - name: Vikunja
-          group: SimpleLumine
-          url: "https://tasks.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
         - name: Ghostfolio
           group: SimpleLumine
           url: "https://invest.simplelumine.dev"

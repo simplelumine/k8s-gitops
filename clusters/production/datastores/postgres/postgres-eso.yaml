@@ -89,28 +89,6 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: vikunja-db-secret-sync
-  namespace: postgres
-spec:
-  refreshInterval: 1h
-  secretStoreRef:
-    name: gcp-store
-    kind: ClusterSecretStore
-  target:
-    name: vikunja-db-secret
-    creationPolicy: Owner
-    template:
-      engineVersion: v2
-      data:
-        username: "vikunja"
-        password: '{{ index . "vikunja-password" }}'
-  dataFrom:
-    - extract:
-        key: postgres-secrets
----
-apiVersion: external-secrets.io/v1
-kind: ExternalSecret
-metadata:
   name: zitadel-db-secret-sync
   namespace: postgres
 spec:
