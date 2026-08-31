@@ -7,6 +7,7 @@ spec:
   values:
     trivy:
       ignoreUnfixed: true
+      mode: ClientServer
       resources:
         requests:
           cpu: 20m
@@ -15,6 +16,7 @@ spec:
           cpu: 500m
           memory: 512Mi
     operator:
+      builtInTrivyServer: true
       scanJobsConcurrentLimit: 1
       vulnerabilityScannerScanOnlyCurrentRevisions: true
       resources:
