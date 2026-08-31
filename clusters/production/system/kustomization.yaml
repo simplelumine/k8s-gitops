@@ -10,3 +10,4 @@ resources:
   - redis-operator
   - headlamp
   - xray
+  - trivy-operator
