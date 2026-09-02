@@ -6,10 +6,10 @@ metadata:
 spec:
   values:
     reality:
-      sni: "www.gutenberg.org"
-      dest: "www.gutenberg.org:443"
+      sni: "www.sjsu.edu"
+      dest: "www.sjsu.edu:443"
       serverNames:
-        - "www.gutenberg.org"
+        - "www.sjsu.edu"
     nodes:
       - name: sfo-wk-01
       - name: lax-wk-01
