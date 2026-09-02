@@ -35,8 +35,6 @@ spec:
               key: OIDC_CLIENT_SECRET
         - name: CODER_OIDC_SIGN_IN_TEXT
           value: "Sign in with SimpleLumine SSO"
-        - name: CODER_OIDC_ICON_URL
-          value: "https://auth.simplelumine.dev/ui/console/assets/icons/favicon.ico"
         - name: CODER_OIDC_SCOPES
           value: "openid,profile,email,offline_access"
         - name: CODER_OIDC_IGNORE_EMAIL_VERIFIED
