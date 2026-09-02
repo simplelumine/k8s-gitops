@@ -51,6 +51,7 @@ spec:
         workspacePerms: true
         enableDeployments: true
       service:
+        type: ClusterIP
         annotations:
           tailscale.com/expose: "true"
           tailscale.com/hostname: "coder"
