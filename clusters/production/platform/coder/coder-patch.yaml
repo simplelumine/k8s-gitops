@@ -50,6 +50,10 @@ spec:
       serviceAccount:
         workspacePerms: true
         enableDeployments: true
+      service:
+        annotations:
+          tailscale.com/expose: "true"
+          tailscale.com/hostname: "coder"
       ingress:
         enable: true
         className: traefik
