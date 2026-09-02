@@ -70,7 +70,7 @@ spec:
 
         - name: Coder
           group: SimpleLumine
-          url: "https://coder.simplelumine.dev"
+          url: "https://code.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] < 500"
