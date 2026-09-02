@@ -56,15 +56,7 @@ spec:
           tailscale.com/expose: "true"
           tailscale.com/hostname: "coder"
       ingress:
-        enable: true
-        className: traefik
-        host: code.simplelumine.dev
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        tls:
-          enable: true
-          secretName: code-tls
+        enable: false
       resources:
         requests:
           cpu: 50m
