@@ -6,10 +6,10 @@ metadata:
 spec:
   values:
     reality:
-      sni: "www.usc.edu"
-      dest: "www.usc.edu:443"
+      sni: "www.usu.edu"
+      dest: "www.usu.edu:443"
       serverNames:
-        - "www.usc.edu"
+        - "www.usu.edu"
     nodes:
       - name: sfo-wk-01
       - name: lax-wk-01

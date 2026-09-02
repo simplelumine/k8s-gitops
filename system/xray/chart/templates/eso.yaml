@@ -98,11 +98,6 @@ spec:
                 "protocol": "freedom",
                 "settings": {
                   "domainStrategy": "UseIPv4"
-                },
-                "streamSettings": {
-                  "sockopt": {
-                    "domainStrategy": "UseIPv4"
-                  }
                 }
               }
             ]
