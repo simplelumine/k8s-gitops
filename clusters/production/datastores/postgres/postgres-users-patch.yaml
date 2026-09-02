@@ -26,9 +26,4 @@ spec:
         login: true
         passwordSecret:
           name: zitadel-db-secret
-      - name: coder
-        ensure: present
-        login: true
-        passwordSecret:
-          name: coder-db-secret
 

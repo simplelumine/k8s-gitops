@@ -10,4 +10,3 @@ resources:
   - gatus
   - zitadel
   - oauth2-proxy
-  - coder

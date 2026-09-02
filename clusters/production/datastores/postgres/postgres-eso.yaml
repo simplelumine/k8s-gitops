@@ -107,25 +107,3 @@ spec:
   dataFrom:
     - extract:
         key: postgres-secrets
----
-apiVersion: external-secrets.io/v1
-kind: ExternalSecret
-metadata:
-  name: coder-db-secret-sync
-  namespace: postgres
-spec:
-  refreshInterval: 1h
-  secretStoreRef:
-    name: gcp-store
-    kind: ClusterSecretStore
-  target:
-    name: coder-db-secret
-    creationPolicy: Owner
-    template:
-      engineVersion: v2
-      data:
-        username: "coder"
-        password: '{{ index . "coder-password" }}'
-  dataFrom:
-    - extract:
-        key: postgres-secrets
