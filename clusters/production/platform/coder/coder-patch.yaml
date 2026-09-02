@@ -42,6 +42,11 @@ spec:
         # --- Pure SSO: Disable Native Password Auth ---
         - name: CODER_DISABLE_PASSWORD_AUTH
           value: "true"
+        # --- Network & Security Optimizations ---
+        - name: CODER_DERP_FORCE_WEBSOCKETS
+          value: "true"
+        - name: CODER_HOST_PREFIX_COOKIE
+          value: "true"
       serviceAccount:
         workspacePerms: true
         enableDeployments: true
