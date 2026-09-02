@@ -1,0 +1,66 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: coder
+  namespace: coder
+spec:
+  values:
+    coder:
+      env:
+        - name: CODER_ACCESS_URL
+          value: "https://coder.simplelumine.dev"
+        - name: CODER_PG_CONNECTION_URL
+          valueFrom:
+            secretKeyRef:
+              name: coder-db-url
+              key: url
+        - name: CODER_TELEMETRY_ENABLE
+          value: "false"
+        - name: CODER_PROMETHEUS_ENABLE
+          value: "true"
+        - name: CODER_PROVISIONER_DAEMONS
+          value: "3"
+        # --- OIDC Single Sign-On (-> ZITADEL) ---
+        - name: CODER_OIDC_ISSUER_URL
+          value: "https://auth.simplelumine.dev"
+        - name: CODER_OIDC_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: coder-secrets
+              key: OIDC_CLIENT_ID
+        - name: CODER_OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: coder-secrets
+              key: OIDC_CLIENT_SECRET
+        - name: CODER_OIDC_SIGN_IN_TEXT
+          value: "Sign in with SimpleLumine SSO"
+        - name: CODER_OIDC_ICON_URL
+          value: "https://auth.simplelumine.dev/ui/console/assets/icons/favicon.ico"
+        - name: CODER_OIDC_SCOPES
+          value: "openid,profile,email,offline_access"
+        - name: CODER_OIDC_IGNORE_EMAIL_VERIFIED
+          value: "true"
+        # --- Pure SSO: Disable Native Password Auth ---
+        - name: CODER_DISABLE_PASSWORD_AUTH
+          value: "true"
+      serviceAccount:
+        workspacePerms: true
+        enableDeployments: true
+      ingress:
+        enable: true
+        className: traefik
+        host: coder.simplelumine.dev
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        tls:
+          enable: true
+          secretName: coder-tls
+      resources:
+        requests:
+          cpu: 50m
+          memory: 256Mi
+        limits:
+          cpu: 3000m
+          memory: 2Gi

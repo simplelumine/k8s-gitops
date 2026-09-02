@@ -68,6 +68,13 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
+        - name: Coder
+          group: SimpleLumine
+          url: "https://coder.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] < 500"
+
         # --- Applications ---
         - name: Open WebUI
           group: SimpleLumine
