@@ -24,4 +24,4 @@ spec:
   values:
     reloader:
       watchGlobally: true
-      autoReloadAll: true
+      autoReloadAll: false
