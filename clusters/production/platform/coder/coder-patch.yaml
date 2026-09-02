@@ -52,11 +52,16 @@ spec:
         enableDeployments: true
       service:
         type: ClusterIP
-        annotations:
-          tailscale.com/expose: "true"
-          tailscale.com/hostname: "coder"
       ingress:
-        enable: false
+        enable: true
+        className: traefik
+        host: code.simplelumine.dev
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        tls:
+          enable: true
+          secretName: code-tls
       resources:
         requests:
           cpu: 50m
