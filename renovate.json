@@ -34,46 +34,60 @@
 
   "packageRules": [
     {
-      "description": "Group System patch updates (safe, auto-merge)",
+      "description": "System patch updates (safe, auto-merge)",
       "matchFileNames": ["system/**"],
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": ["patch", "digest", "pin", "pinDigest"],
       "groupName": "system-patch",
       "automerge": true,
       "automergeType": "pr"
     },
     {
-      "description": "Group System & Cluster minor updates (critical infra, manual review)",
+      "description": "Platform patch updates (safe, auto-merge)",
+      "matchFileNames": ["platform/**"],
+      "matchUpdateTypes": ["patch", "digest", "pin", "pinDigest"],
+      "groupName": "platform-patch",
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Workloads patch updates (safe, auto-merge)",
+      "matchFileNames": ["workloads/**"],
+      "matchUpdateTypes": ["patch", "digest", "pin", "pinDigest"],
+      "groupName": "workloads-patch",
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "Datastores patch updates (safe, auto-merge)",
+      "matchFileNames": ["datastores/**"],
+      "matchUpdateTypes": ["patch", "digest", "pin", "pinDigest"],
+      "groupName": "datastores-patch",
+      "automerge": true,
+      "automergeType": "pr"
+    },
+    {
+      "description": "System & Clusters minor updates (critical infra, manual review)",
       "matchFileNames": ["system/**", "clusters/**"],
       "matchUpdateTypes": ["minor"],
       "groupName": "system-minor",
       "automerge": false
     },
     {
-      "description": "Group Platform patch+minor updates (stateless, auto-merge)",
+      "description": "Platform minor updates (manual review)",
       "matchFileNames": ["platform/**"],
-      "matchUpdateTypes": ["patch", "minor"],
-      "groupName": "platform-all",
-      "automerge": true,
-      "automergeType": "pr"
+      "matchUpdateTypes": ["minor"],
+      "groupName": "platform-minor",
+      "automerge": false
     },
     {
-      "description": "Group Workloads patch+minor updates (stateless, auto-merge)",
+      "description": "Workloads minor updates (manual review)",
       "matchFileNames": ["workloads/**"],
-      "matchUpdateTypes": ["patch", "minor"],
-      "groupName": "workloads-all",
-      "automerge": true,
-      "automergeType": "pr"
+      "matchUpdateTypes": ["minor"],
+      "groupName": "workloads-minor",
+      "automerge": false
     },
     {
-      "description": "Group Datastores patch updates (safe, auto-merge)",
-      "matchFileNames": ["datastores/**"],
-      "matchUpdateTypes": ["patch"],
-      "groupName": "datastores-patch",
-      "automerge": true,
-      "automergeType": "pr"
-    },
-    {
-      "description": "Group Datastores minor updates (critical infra, manual review)",
+      "description": "Datastores minor updates (critical infra, manual review)",
       "matchFileNames": ["datastores/**"],
       "matchUpdateTypes": ["minor"],
       "groupName": "datastores-minor",
