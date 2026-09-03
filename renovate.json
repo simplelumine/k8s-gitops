@@ -10,7 +10,9 @@
   "ignorePaths": [
     "**/node_modules/**",
     "**/.git/**",
-    "**/flux-system/**"
+    "**/flux-system/**",
+    "workloads/open-webui/**",
+    "clusters/**/open-webui/**"
   ],
 
   "flux": {
@@ -33,6 +35,15 @@
   "labels": ["dependencies"],
 
   "packageRules": [
+    {
+      "description": "Disable updates for open-webui (pin to stable old UI)",
+      "matchPackageNames": [
+        "open-webui",
+        "ghcr.io/open-webui/open-webui",
+        "ghcr.io/open-webui/*"
+      ],
+      "enabled": false
+    },
     {
       "description": "System patch updates (safe, auto-merge)",
       "matchFileNames": ["system/**"],
