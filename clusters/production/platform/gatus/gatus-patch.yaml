@@ -134,6 +134,8 @@ spec:
           group: 2. Simple Gemini
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/labs-flow/gemini-3.1-flash-lite-image:generateContent"
           interval: 6h
+          client:
+            timeout: 60s
           method: POST
           headers:
             Content-Type: "application/json"
