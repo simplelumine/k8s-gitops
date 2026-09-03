@@ -5,6 +5,9 @@ metadata:
   namespace: gatus
 spec:
   values:
+    envFrom:
+      - secretRef:
+          name: gatus-secrets
     service:
       type: ClusterIP
     persistence:
@@ -31,44 +34,7 @@ spec:
 
     config:
       endpoints:
-        # --- Core System ---
-        - name: ZITADEL
-          group: SimpleLumine
-          url: "https://auth.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: Grafana
-          group: SimpleLumine
-          url: "https://monitor.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: Headlamp
-          group: SimpleLumine
-          url: "https://k8s.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] < 500"
-
-        # --- Platform Services ---
-        - name: Gatus
-          group: SimpleLumine
-          url: "https://status.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: Vaultwarden
-          group: SimpleLumine
-          url: "https://vault.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
-        # --- Applications ---
+        # --- SimpleLumine ---
         - name: Open WebUI
           group: SimpleLumine
           url: "https://chat.simplelumine.dev"
@@ -76,30 +42,107 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
-        - name: Simple Gemini
+        - name: Simple Hub
           group: SimpleLumine
-          url: "https://gemini.simplelumine.dev"
+          url: "https://hub-test.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Simple API
+          group: SimpleLumine
+          url: "https://api-test.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] < 500"
 
-        - name: Ghostfolio
+        - name: Simple Gemini
           group: SimpleLumine
+          url: "https://gemini.simplelumine.dev/v1beta/models"
+          interval: 60s
+          headers:
+            x-goog-api-key: "${SIMPLE_GEMINI_API_KEY}"
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: ZITADEL
+          group: SimpleLumine
+          url: "https://auth.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Gatus
+          group: SimpleLumine
+          url: "https://status.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        # --- Internal ---
+        - name: Vaultwarden
+          group: Internal
+          url: "https://vault.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Ghostfolio
+          group: Internal
           url: "https://invest.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
-        # --- Textverse ---
+        - name: Grafana
+          group: Internal
+          url: "https://monitor.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Headlamp
+          group: Internal
+          url: "https://k8s.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] < 500"
+
+        # --- Simple Gemini Providers ---
+        - name: "AI Studio"
+          group: Simple Gemini
+          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/aistudio/gemini-flash-latest:generateContent"
+          interval: 30m
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${SIMPLE_GEMINI_API_KEY}"
+          body: '{"contents":[{"parts":[{"text":"ping"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: "Antigravity"
+          group: Simple Gemini
+          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/antigravity/gemini-flash-latest:generateContent"
+          interval: 30m
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${SIMPLE_GEMINI_API_KEY}"
+          body: '{"contents":[{"parts":[{"text":"ping"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+
+        # --- TextVerse ---
         - name: SillyTavern
-          group: Textverse
+          group: TextVerse
           url: "https://st.textverse.space"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Space Card
-          group: Textverse
+          group: TextVerse
           url: "https://sc-assets.textverse.space"
           interval: 60s
           conditions:

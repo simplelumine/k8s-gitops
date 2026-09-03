@@ -1,0 +1,16 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: gatus-app-secret-sync
+  namespace: gatus
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: gatus-secrets
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: gatus-secrets
