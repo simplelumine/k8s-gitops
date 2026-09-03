@@ -8,6 +8,8 @@ spec:
     envFrom:
       - secretRef:
           name: gatus-secrets
+      - secretRef:
+          name: gatus-db-secret
     service:
       type: ClusterIP
     persistence:
@@ -33,6 +35,9 @@ spec:
             - status.simplelumine.dev
 
     config:
+      storage:
+        type: postgres
+        path: "${DATABASE_URL}"
       ui:
         default-sort-by: group
       endpoints:
