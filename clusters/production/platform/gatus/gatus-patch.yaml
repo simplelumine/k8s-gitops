@@ -33,117 +33,128 @@ spec:
             - status.simplelumine.dev
 
     config:
+      ui:
+        default-sort-by: group
       endpoints:
-        # --- SimpleLumine ---
+        # --- 1. SimpleLumine ---
         - name: Open WebUI
-          group: SimpleLumine
+          group: 1. SimpleLumine
           url: "https://chat.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Simple Hub
-          group: SimpleLumine
+          group: 1. SimpleLumine
           url: "https://hub-test.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Simple API
-          group: SimpleLumine
+          group: 1. SimpleLumine
           url: "https://api-test.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] < 500"
 
         - name: Simple Gemini
-          group: SimpleLumine
-          url: "https://gemini.simplelumine.dev/v1beta/models"
+          group: 1. SimpleLumine
+          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models"
           interval: 60s
           headers:
-            x-goog-api-key: "${SIMPLE_GEMINI_API_KEY}"
+            x-goog-api-key: "${GEMINI_API_KEY}"
           conditions:
             - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
 
         - name: ZITADEL
-          group: SimpleLumine
+          group: 1. SimpleLumine
           url: "https://auth.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Gatus
-          group: SimpleLumine
+          group: 1. SimpleLumine
           url: "https://status.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
-        # --- Internal ---
-        - name: Vaultwarden
-          group: Internal
-          url: "https://vault.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: Ghostfolio
-          group: Internal
-          url: "https://invest.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: Grafana
-          group: Internal
-          url: "https://monitor.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
-        - name: Headlamp
-          group: Internal
-          url: "https://k8s.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] < 500"
-
-        # --- Simple Gemini Providers ---
+        # --- 2. Simple Gemini ---
         - name: "AI Studio"
-          group: Simple Gemini
+          group: 2. Simple Gemini
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/aistudio/gemini-flash-latest:generateContent"
           interval: 30m
           method: POST
           headers:
             Content-Type: "application/json"
-            x-goog-api-key: "${SIMPLE_GEMINI_API_KEY}"
+            x-goog-api-key: "${GEMINI_API_KEY}"
           body: '{"contents":[{"parts":[{"text":"ping"}]}]}'
           conditions:
             - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
 
         - name: "Antigravity"
-          group: Simple Gemini
+          group: 2. Simple Gemini
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/antigravity/gemini-flash-latest:generateContent"
           interval: 30m
           method: POST
           headers:
             Content-Type: "application/json"
-            x-goog-api-key: "${SIMPLE_GEMINI_API_KEY}"
+            x-goog-api-key: "${GEMINI_API_KEY}"
           body: '{"contents":[{"parts":[{"text":"ping"}]}]}'
           conditions:
             - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
 
-        # --- TextVerse ---
+        # --- 3. TextVerse ---
         - name: SillyTavern
-          group: TextVerse
+          group: 3. TextVerse
           url: "https://st.textverse.space"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Space Card
-          group: TextVerse
+          group: 3. TextVerse
           url: "https://sc-assets.textverse.space"
+          interval: 60s
+          conditions:
+            - "[STATUS] < 500"
+
+        # --- 4. Internal ---
+        - name: Vaultwarden
+          group: 4. Internal
+          url: "https://vault.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Ghostfolio
+          group: 4. Internal
+          url: "https://invest.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Grafana
+          group: 4. Internal
+          url: "https://monitor.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Headlamp
+          group: 4. Internal
+          url: "https://k8s.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] < 500"
