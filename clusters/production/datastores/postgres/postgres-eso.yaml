@@ -129,3 +129,25 @@ spec:
   dataFrom:
     - extract:
         key: postgres-secrets
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: gitea-db-secret-sync
+  namespace: postgres
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: gitea-db-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        username: "gitea"
+        password: '{{ index . "gitea-password" }}'
+  dataFrom:
+    - extract:
+        key: postgres-secrets

@@ -1,0 +1,53 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: gitea-db-secret-sync
+  namespace: gitea
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: postgres-store
+    kind: ClusterSecretStore
+  target:
+    name: gitea-db-secret
+    template:
+      engineVersion: v2
+      data:
+        username: "{{ .username }}"
+        password: "{{ .password }}"
+  data:
+    - secretKey: username
+      remoteRef:
+        key: gitea-db-secret
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: gitea-db-secret
+        property: password
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: gitea-app-secret-sync
+  namespace: gitea
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: gitea-secrets
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        # OIDC
+        key: '{{ index . "oauth-client-id" }}'
+        secret: '{{ index . "oauth-client-secret" }}'
+        # S3 / Cloudflare R2
+        s3-endpoint: '{{ index . "s3-endpoint" | trimPrefix "https://" | trimPrefix "http://" }}'
+        s3-access-key-id: '{{ index . "s3-access-key-id" }}'
+        s3-secret-access-key: '{{ index . "s3-secret-access-key" }}'
+  dataFrom:
+    - extract:
+        key: gitea-secrets

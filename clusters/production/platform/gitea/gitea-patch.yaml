@@ -1,0 +1,103 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gitea
+  namespace: gitea
+spec:
+  values:
+    # Disable bundled subcharts
+    postgresql:
+      enabled: false
+    postgresql-ha:
+      enabled: false
+    valkey-cluster:
+      enabled: false
+
+    # Ingress (Traefik + cert-manager)
+    ingress:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
+      hosts:
+        - host: git.simplelumine.dev
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: gitea-tls
+          hosts:
+            - git.simplelumine.dev
+
+    # Connect to CNPG PostgreSQL & Cloudflare R2
+    deployment:
+      env:
+        # Database
+        - name: GITEA__database__DB_TYPE
+          value: "postgres"
+        - name: GITEA__database__HOST
+          value: "postgres-rw.postgres.svc.cluster.local:5432"
+        - name: GITEA__database__NAME
+          value: "gitea"
+        - name: GITEA__database__USER
+          value: "gitea"
+        - name: GITEA__database__PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: gitea-db-secret
+              key: password
+
+        # Cloudflare R2 (Docker images, packages, LFS, attachments)
+        - name: GITEA__storage__STORAGE_TYPE
+          value: "minio"
+        - name: GITEA__storage__MINIO_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: gitea-secrets
+              key: s3-endpoint
+        - name: GITEA__storage__MINIO_BUCKET
+          value: "gitea-data"
+        - name: GITEA__storage__MINIO_LOCATION
+          value: "auto"
+        - name: GITEA__storage__MINIO_USE_SSL
+          value: "true"
+        - name: GITEA__storage__MINIO_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: gitea-secrets
+              key: s3-access-key-id
+        - name: GITEA__storage__MINIO_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: gitea-secrets
+              key: s3-secret-access-key
+
+    # Application config & Pure OIDC SSO
+    gitea:
+      config:
+        APP_NAME: "SimpleLumine Git"
+        server:
+          DOMAIN: git.simplelumine.dev
+          ROOT_URL: "https://git.simplelumine.dev/"
+        service:
+          ALLOW_ONLY_EXTERNAL_REGISTRATION: true
+          SHOW_REGISTRATION_BUTTON: false
+          ENABLE_PASSWORD_AUTH: false
+        oauth2_client:
+          ENABLE_AUTO_REGISTRATION: true
+          ACCOUNT_LINKING: auto
+
+      # OIDC provider (Zitadel)
+      oauth:
+        - name: Zitadel
+          provider: openidConnect
+          existingSecret: gitea-secrets
+          autoDiscoverUrl: "https://auth.simplelumine.dev/.well-known/openid-configuration"
+          adminGroup: admin
+          groupClaimName: roles
+
+    persistence:
+      enabled: true
+      size: 10Gi

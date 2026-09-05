@@ -225,3 +225,10 @@ spec:
           interval: 60s
           conditions:
             - "[STATUS] < 500"
+
+        - name: Gitea
+          group: 4. Internal
+          url: "https://git.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
