@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: forgejo-custom-templates
+  namespace: forgejo
+data:
+  header.tmpl: |
+    <style>
+      .page-content.user.signin form.ui.form { display: none !important; }
+      .page-content.user.signin .divider { display: none !important; }
+      .page-content.user.signin .ui.attached.segment.header.top { display: none !important; }
+    </style>

@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - ../../../../platform/forgejo
   - forgejo-eso.yaml
+  - forgejo-templates.yaml
 patches:
   - path: forgejo-patch.yaml

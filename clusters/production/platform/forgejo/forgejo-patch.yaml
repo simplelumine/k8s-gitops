@@ -22,20 +22,16 @@ spec:
     strategy:
       type: Recreate
 
-    # Auto-generate pure SSO minimalist login style (Style B: card without header)
-    initPreScript: |
-      mkdir -p /data/gitea/templates/custom
-      cat << 'EOF' > /data/gitea/templates/custom/header.tmpl
-      <style>
-        .page-content.user.signin form.ui.form { display: none !important; }
-        .page-content.user.signin .divider { display: none !important; }
-        .page-content.user.signin h4.ui.top.attached.header { display: none !important; }
-        .page-content.user.signin .ui.attached.segment.header.top { display: none !important; }
-        .page-content.user.signin .ui.attached.segment {
-          border-radius: 8px !important;
-        }
-      </style>
-      EOF
+    # Custom templates (pure SSO CSS) via native Kubernetes ConfigMap mount
+    extraVolumes:
+      - name: custom-templates
+        configMap:
+          name: forgejo-custom-templates
+    extraContainerVolumeMounts:
+      - name: custom-templates
+        mountPath: /data/gitea/templates/custom/header.tmpl
+        subPath: header.tmpl
+        readOnly: true
 
     # Ingress (Traefik + cert-manager)
     ingress:
