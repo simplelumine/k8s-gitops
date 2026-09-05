@@ -13,6 +13,10 @@ spec:
     valkey-cluster:
       enabled: false
 
+    # Deployment Strategy (Recreate to prevent LevelDB & PVC lock collision during updates)
+    strategy:
+      type: Recreate
+
     # Ingress (Traefik + cert-manager)
     ingress:
       enabled: true
