@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: prof-dev
+  labels:
+    purpose: development
+    owner: prof
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: prof-quota
+  namespace: prof-dev
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: 4Gi
+    limits.cpu: "3"
+    limits.memory: 6Gi
+    pods: "20"
+    persistentvolumeclaims: "5"
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: prof-limit-range
+  namespace: prof-dev
+spec:
+  limits:
+    - default:
+        cpu: 500m
+        memory: 512Mi
+      defaultRequest:
+        cpu: 100m
+        memory: 128Mi
+      type: Container
