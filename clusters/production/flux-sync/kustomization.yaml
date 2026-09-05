@@ -8,3 +8,4 @@ resources:
   - system.yaml
   - workloads.yaml
   - cluster-config.yaml
+  - rbac.yaml
