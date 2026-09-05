@@ -10,4 +10,4 @@ resources:
   - gatus
   - zitadel
   - oauth2-proxy
-  - gitea
+  - forgejo

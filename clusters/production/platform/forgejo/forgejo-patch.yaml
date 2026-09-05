@@ -1,10 +1,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: gitea
-  namespace: gitea
+  name: forgejo
+  namespace: forgejo
 spec:
   values:
+    image:
+      registry: codeberg.org
+      repository: forgejo/forgejo
+      tag: 16-rootless
+
     # Disable bundled subcharts
     postgresql:
       enabled: false
@@ -31,66 +36,68 @@ spec:
             - path: /
               pathType: Prefix
       tls:
-        - secretName: gitea-tls
+        - secretName: forgejo-tls
           hosts:
             - git.simplelumine.dev
 
-    # Connect to CNPG PostgreSQL & Cloudflare R2
+    # Connect to CNPG PostgreSQL, Cloudflare R2, and Resend SMTP
     deployment:
       env:
         # Database
-        - name: GITEA__database__DB_TYPE
+        - name: FORGEJO__database__DB_TYPE
           value: "postgres"
-        - name: GITEA__database__HOST
+        - name: FORGEJO__database__HOST
           value: "postgres-rw.postgres.svc.cluster.local:5432"
-        - name: GITEA__database__NAME
-          value: "gitea"
-        - name: GITEA__database__USER
-          value: "gitea"
-        - name: GITEA__database__PASSWD
+        - name: FORGEJO__database__NAME
+          value: "forgejo"
+        - name: FORGEJO__database__USER
+          value: "forgejo"
+        - name: FORGEJO__database__PASSWD
           valueFrom:
             secretKeyRef:
-              name: gitea-db-secret
+              name: forgejo-db-secret
               key: password
 
-        # Cloudflare R2 (Docker images, packages, LFS, attachments)
-        - name: GITEA__storage__STORAGE_TYPE
-          value: "minio"
-        - name: GITEA__storage__MINIO_ENDPOINT
+        # Cloudflare R2 (S3 Storage)
+        - name: FORGEJO__storage__STORAGE_TYPE
+          value: minio
+        - name: FORGEJO__storage__MINIO_ENDPOINT
           valueFrom:
             secretKeyRef:
-              name: gitea-secrets
+              name: forgejo-secrets
               key: s3-endpoint
-        - name: GITEA__storage__MINIO_BUCKET
+        - name: FORGEJO__storage__MINIO_BUCKET
           value: "gitea-data"
-        - name: GITEA__storage__MINIO_LOCATION
+        - name: FORGEJO__storage__MINIO_LOCATION
           value: "auto"
-        - name: GITEA__storage__MINIO_USE_SSL
+        - name: FORGEJO__storage__MINIO_USE_SSL
           value: "true"
-        - name: GITEA__storage__MINIO_ACCESS_KEY_ID
+        - name: FORGEJO__storage__MINIO_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
-              name: gitea-secrets
+              name: forgejo-secrets
               key: s3-access-key-id
-        - name: GITEA__storage__MINIO_SECRET_ACCESS_KEY
+        - name: FORGEJO__storage__MINIO_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
-              name: gitea-secrets
+              name: forgejo-secrets
               key: s3-secret-access-key
+
         # Resend SMTP Password
-        - name: GITEA__mailer__PASSWD
+        - name: FORGEJO__mailer__PASSWD
           valueFrom:
             secretKeyRef:
-              name: gitea-secrets
+              name: forgejo-secrets
               key: smtp-password
 
     # Application config & Pure OIDC SSO
     gitea:
       config:
-        APP_NAME: "Gitea"
+        APP_NAME: "Forgejo"
         server:
           DOMAIN: git.simplelumine.dev
           ROOT_URL: "https://git.simplelumine.dev/"
+          REVERSE_PROXY_TRUSTED_PROXIES: "*"
         service:
           ALLOW_ONLY_EXTERNAL_REGISTRATION: true
           SHOW_REGISTRATION_BUTTON: false
@@ -112,7 +119,7 @@ spec:
       oauth:
         - name: SimpleLumine
           provider: openidConnect
-          existingSecret: gitea-secrets
+          existingSecret: forgejo-secrets
           autoDiscoverUrl: "https://auth.simplelumine.dev/.well-known/openid-configuration"
 
     persistence:

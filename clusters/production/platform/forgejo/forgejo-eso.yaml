@@ -1,15 +1,15 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: gitea-db-secret-sync
-  namespace: gitea
+  name: forgejo-db-secret-sync
+  namespace: forgejo
 spec:
   refreshInterval: 1h
   secretStoreRef:
     name: postgres-store
     kind: ClusterSecretStore
   target:
-    name: gitea-db-secret
+    name: forgejo-db-secret
     template:
       engineVersion: v2
       data:
@@ -18,25 +18,25 @@ spec:
   data:
     - secretKey: username
       remoteRef:
-        key: gitea-db-secret
+        key: forgejo-db-secret
         property: username
     - secretKey: password
       remoteRef:
-        key: gitea-db-secret
+        key: forgejo-db-secret
         property: password
 ---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: gitea-app-secret-sync
-  namespace: gitea
+  name: forgejo-app-secret-sync
+  namespace: forgejo
 spec:
   refreshInterval: 1h
   secretStoreRef:
     name: gcp-store
     kind: ClusterSecretStore
   target:
-    name: gitea-secrets
+    name: forgejo-secrets
     creationPolicy: Owner
     template:
       engineVersion: v2
@@ -52,4 +52,4 @@ spec:
         smtp-password: '{{ index . "smtp-password" }}'
   dataFrom:
     - extract:
-        key: gitea-secrets
+        key: forgejo-secrets

@@ -133,7 +133,7 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: gitea-db-secret-sync
+  name: forgejo-db-secret-sync
   namespace: postgres
 spec:
   refreshInterval: 1h
@@ -141,13 +141,13 @@ spec:
     name: gcp-store
     kind: ClusterSecretStore
   target:
-    name: gitea-db-secret
+    name: forgejo-db-secret
     creationPolicy: Owner
     template:
       engineVersion: v2
       data:
-        username: "gitea"
-        password: '{{ index . "gitea-password" }}'
+        username: "forgejo"
+        password: '{{ index . "forgejo-password" }}'
   dataFrom:
     - extract:
         key: postgres-secrets

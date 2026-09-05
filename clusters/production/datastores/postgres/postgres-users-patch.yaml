@@ -31,9 +31,9 @@ spec:
         login: true
         passwordSecret:
           name: gatus-db-secret
-      - name: gitea
+      - name: forgejo
         ensure: present
         login: true
         passwordSecret:
-          name: gitea-db-secret
+          name: forgejo-db-secret
 

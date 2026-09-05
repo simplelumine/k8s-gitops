@@ -1,16 +1,16 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: gitea
-  namespace: gitea
+  name: forgejo
+  namespace: forgejo
 spec:
   interval: 1h
   chart:
     spec:
-      chart: gitea
-      version: 12.x
+      chart: forgejo
+      version: "*"
       sourceRef:
         kind: HelmRepository
-        name: gitea
-        namespace: gitea
+        name: forgejo
+        namespace: forgejo
   values: {}
