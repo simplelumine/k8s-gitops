@@ -87,6 +87,7 @@ spec:
     # Application config & Pure OIDC SSO
     gitea:
       config:
+        APP_NAME: "Gitea"
         server:
           DOMAIN: git.simplelumine.dev
           ROOT_URL: "https://git.simplelumine.dev/"
@@ -100,11 +101,12 @@ spec:
           ACCOUNT_LINKING: auto
         mailer:
           ENABLED: true
+          NAME: SimpleLumine
           SMTP_ADDR: smtp.resend.com
           SMTP_PORT: 465
           PROTOCOL: smtps
           USER: resend
-          FROM: "\"SimpleLumine\" <git@simplelumine.dev>"
+          FROM: "git@simplelumine.dev"
 
       # OIDC provider (Zitadel)
       oauth:
@@ -112,8 +114,6 @@ spec:
           provider: openidConnect
           existingSecret: gitea-secrets
           autoDiscoverUrl: "https://auth.simplelumine.dev/.well-known/openid-configuration"
-          adminGroup: admin
-          groupClaimName: roles
 
     persistence:
       enabled: true
