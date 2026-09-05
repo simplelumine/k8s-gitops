@@ -48,6 +48,8 @@ spec:
         s3-endpoint: '{{ index . "s3-endpoint" | trimPrefix "https://" | trimPrefix "http://" }}'
         s3-access-key-id: '{{ index . "s3-access-key-id" }}'
         s3-secret-access-key: '{{ index . "s3-secret-access-key" }}'
+        # Resend SMTP
+        smtp-password: '{{ index . "smtp-password" }}'
   dataFrom:
     - extract:
         key: gitea-secrets

@@ -73,25 +73,38 @@ spec:
             secretKeyRef:
               name: gitea-secrets
               key: s3-secret-access-key
+        # Resend SMTP Password
+        - name: GITEA__mailer__PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: gitea-secrets
+              key: smtp-password
 
     # Application config & Pure OIDC SSO
     gitea:
       config:
-        APP_NAME: "SimpleLumine Git"
         server:
           DOMAIN: git.simplelumine.dev
           ROOT_URL: "https://git.simplelumine.dev/"
         service:
           ALLOW_ONLY_EXTERNAL_REGISTRATION: true
           SHOW_REGISTRATION_BUTTON: false
-          ENABLE_PASSWORD_AUTH: false
+          ENABLE_PASSWORD_SIGNIN_FORM: false
+          ENABLE_PASSKEY_AUTHENTICATION: false
         oauth2_client:
           ENABLE_AUTO_REGISTRATION: true
           ACCOUNT_LINKING: auto
+        mailer:
+          ENABLED: true
+          SMTP_ADDR: smtp.resend.com
+          SMTP_PORT: 465
+          PROTOCOL: smtps
+          USER: resend
+          FROM: "\"SimpleLumine\" <git@simplelumine.dev>"
 
       # OIDC provider (Zitadel)
       oauth:
-        - name: Zitadel
+        - name: SimpleLumine
           provider: openidConnect
           existingSecret: gitea-secrets
           autoDiscoverUrl: "https://auth.simplelumine.dev/.well-known/openid-configuration"
