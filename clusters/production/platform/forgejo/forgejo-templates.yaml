@@ -8,5 +8,9 @@ data:
     <style>
       .page-content.user.signin form.ui.form { display: none !important; }
       .page-content.user.signin .divider { display: none !important; }
+      .page-content.user.signin h4.ui.top.attached.header { display: none !important; }
       .page-content.user.signin .ui.attached.segment.header.top { display: none !important; }
+      .page-content.user.signin .ui.attached.segment {
+        border-radius: 8px !important;
+      }
     </style>
