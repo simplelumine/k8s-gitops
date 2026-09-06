@@ -120,6 +120,10 @@ spec:
         oauth2_client:
           ENABLE_AUTO_REGISTRATION: true
           ACCOUNT_LINKING: auto
+        actions:
+          ENABLED: true
+          DEFAULT_ACTIONS_URL: github
+
         mailer:
           ENABLED: true
           NAME: SimpleLumine

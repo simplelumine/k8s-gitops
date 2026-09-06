@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: forgejo-runner-config
+  namespace: forgejo
+data:
+  config.yaml: |
+    log:
+      level: info
+
+    runner:
+      file: /data/.runner
+      capacity: 1
+      timeout: 3h
+      insecure: false
+      fetch_timeout: 5s
+      fetch_interval: 2s
+      labels:
+        - "ubuntu-latest:docker://node:lts"
+        - "ubuntu-22.04:docker://node:lts"
+        - "docker:docker://node:lts"
+        - "docker-cli:docker://docker:27-cli"
+
+    cache:
+      enabled: true
+      dir: /data/cache
+
+    container:
+      network: host
+      privileged: true
+      docker_host: "tcp://127.0.0.1:2375"
+      workdir_parent: /data/workspace
+      valid_volumes:
+        - "**"

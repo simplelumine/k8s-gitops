@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forgejo-runner
+  namespace: forgejo
+spec:
+  template:
+    spec:
+      containers:
+        - name: runner
+          env:
+            - name: FORGEJO_INSTANCE_URL
+              value: "https://git.simplelumine.dev/"
+            - name: FORGEJO_RUNNER_UUID
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-runner-secret
+                  key: uuid
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+        - name: dind
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 2000m
+              memory: 4Gi
+      volumes:
+        - name: runner-secret
+          secret:
+            secretName: forgejo-runner-secret

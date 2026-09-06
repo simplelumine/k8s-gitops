@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forgejo-runner
+  namespace: forgejo
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: forgejo-runner
+  template:
+    metadata:
+      labels:
+        app: forgejo-runner
+    spec:
+      containers:
+        - name: runner
+          image: code.forgejo.org/forgejo/runner:latest
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for Docker daemon (DinD) on 127.0.0.1:2375..."
+              while ! nc -z 127.0.0.1 2375 </dev/null 2>/dev/null; do
+                sleep 2
+              done
+              echo "Docker daemon is ready."
+
+              echo "Starting forgejo-runner daemon..."
+              exec forgejo-runner daemon \
+                --config /config/config.yaml \
+                --url "${FORGEJO_INSTANCE_URL}" \
+                --uuid "${FORGEJO_RUNNER_UUID}" \
+                --token-url "file:///etc/runner-secret/token"
+          env:
+            - name: DOCKER_HOST
+              value: "tcp://127.0.0.1:2375"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: config
+              mountPath: /config
+            - name: runner-secret
+              mountPath: /etc/runner-secret
+              readOnly: true
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+        - name: dind
+          image: docker:27-dind
+          securityContext:
+            privileged: true
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
+          volumeMounts:
+            - name: docker-storage
+              mountPath: /var/lib/docker
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: forgejo-runner-config
+        - name: runner-secret
+          emptyDir: {}
+        - name: docker-storage
+          emptyDir: {}

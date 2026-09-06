@@ -11,3 +11,4 @@ resources:
   - zitadel
   - oauth2-proxy
   - forgejo
+  - forgejo-runner

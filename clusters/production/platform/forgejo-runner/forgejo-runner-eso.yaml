@@ -1,0 +1,27 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: forgejo-runner-secret-sync
+  namespace: forgejo
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: forgejo-runner-secret
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        token: "{{ .token }}"
+        uuid: "{{ .uuid }}"
+  data:
+    - secretKey: token
+      remoteRef:
+        key: forgejo-secrets
+        property: runner-token
+    - secretKey: uuid
+      remoteRef:
+        key: forgejo-secrets
+        property: runner-uuid
