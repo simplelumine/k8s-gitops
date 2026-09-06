@@ -49,8 +49,8 @@ spec:
               readOnly: true
           resources:
             requests:
-              cpu: 50m
-              memory: 128Mi
+              cpu: 25m
+              memory: 32Mi
             limits:
               cpu: 500m
               memory: 512Mi
@@ -66,8 +66,8 @@ spec:
               mountPath: /var/lib/docker
           resources:
             requests:
-              cpu: 50m
-              memory: 256Mi
+              cpu: 25m
+              memory: 32Mi
             limits:
               cpu: 500m
               memory: 512Mi
