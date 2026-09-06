@@ -18,6 +18,8 @@ data:
       labels:
         - "ubuntu-latest:docker://node:lts"
         - "ubuntu-22.04:docker://node:lts"
+        - "debian:docker://node:lts"
+        - "self-hosted:docker://node:lts"
         - "docker:docker://node:lts"
         - "docker-cli:docker://docker:27-cli"
 

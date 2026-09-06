@@ -15,9 +15,11 @@ spec:
       labels:
         app: forgejo-runner
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
         - name: runner
-          image: code.forgejo.org/forgejo/runner:latest
+          image: data.forgejo.org/forgejo/runner:13
           command:
             - sh
             - -c
