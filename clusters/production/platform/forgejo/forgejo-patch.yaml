@@ -130,7 +130,7 @@ spec:
           SMTP_PORT: 465
           PROTOCOL: smtps
           USER: resend
-          FROM: '"SimpleLumine" <git@simplelumine.dev>'
+          FROM: '"SimpleLumine" <noreply@simplelumine.dev>'
 
       # OIDC provider (Zitadel)
       oauth:

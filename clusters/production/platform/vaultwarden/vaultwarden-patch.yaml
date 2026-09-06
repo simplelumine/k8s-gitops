@@ -45,7 +45,7 @@ spec:
             - name: SMTP_SECURITY
               value: "force_tls"
             - name: SMTP_FROM
-              value: "vault@simplelumine.dev"
+              value: "noreply@simplelumine.dev"
             - name: SMTP_FROM_NAME
               value: "SimpleLumine"
             - name: SMTP_USERNAME
