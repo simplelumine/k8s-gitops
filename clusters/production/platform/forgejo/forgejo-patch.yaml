@@ -126,12 +126,11 @@ spec:
 
         mailer:
           ENABLED: true
-          NAME: SimpleLumine
           SMTP_ADDR: smtp.resend.com
           SMTP_PORT: 465
           PROTOCOL: smtps
           USER: resend
-          FROM: "git@simplelumine.dev"
+          FROM: '"SimpleLumine" <git@simplelumine.dev>'
 
       # OIDC provider (Zitadel)
       oauth:
