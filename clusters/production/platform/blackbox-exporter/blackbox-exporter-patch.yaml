@@ -6,9 +6,9 @@ metadata:
 spec:
   values:
     nodeSelector:
-      node-role.kubernetes.io/monitoring: "true"
+      node-role.kubernetes.io/non-critical: "true"
     tolerations:
-      - key: "node-role.kubernetes.io/monitoring"
+      - key: "node-role.kubernetes.io/non-critical"
         operator: "Exists"
         effect: "NoSchedule"
     config:

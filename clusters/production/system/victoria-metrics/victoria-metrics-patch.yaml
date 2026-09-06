@@ -17,9 +17,9 @@ spec:
 
     grafana:
       nodeSelector:
-        node-role.kubernetes.io/monitoring: "true"
+        node-role.kubernetes.io/non-critical: "true"
       tolerations:
-        - key: "node-role.kubernetes.io/monitoring"
+        - key: "node-role.kubernetes.io/non-critical"
           operator: "Exists"
           effect: "NoSchedule"
       ingress:
@@ -69,32 +69,32 @@ spec:
           allow_assign_grafana_admin: true
 
 
-    # Pin all monitoring components to the dedicated monitoring node
+    # Pin all monitoring components to the non-critical node
     vmsingle:
       spec:
         retentionPeriod: "7d"
         nodeSelector:
-          node-role.kubernetes.io/monitoring: "true"
+          node-role.kubernetes.io/non-critical: "true"
         tolerations:
-          - key: "node-role.kubernetes.io/monitoring"
+          - key: "node-role.kubernetes.io/non-critical"
             operator: "Exists"
             effect: "NoSchedule"
 
     vmagent:
       spec:
         nodeSelector:
-          node-role.kubernetes.io/monitoring: "true"
+          node-role.kubernetes.io/non-critical: "true"
         tolerations:
-          - key: "node-role.kubernetes.io/monitoring"
+          - key: "node-role.kubernetes.io/non-critical"
             operator: "Exists"
             effect: "NoSchedule"
 
     vmalert:
       spec:
         nodeSelector:
-          node-role.kubernetes.io/monitoring: "true"
+          node-role.kubernetes.io/non-critical: "true"
         tolerations:
-          - key: "node-role.kubernetes.io/monitoring"
+          - key: "node-role.kubernetes.io/non-critical"
             operator: "Exists"
             effect: "NoSchedule"
 
@@ -104,8 +104,8 @@ spec:
         secrets:
           - discord-webhook
         nodeSelector:
-          node-role.kubernetes.io/monitoring: "true"
+          node-role.kubernetes.io/non-critical: "true"
         tolerations:
-          - key: "node-role.kubernetes.io/monitoring"
+          - key: "node-role.kubernetes.io/non-critical"
             operator: "Exists"
             effect: "NoSchedule"
