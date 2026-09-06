@@ -2,7 +2,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: forgejo-runner-secret-sync
-  namespace: forgejo
+  namespace: forgejo-runner
 spec:
   refreshInterval: 1h
   secretStoreRef:
