@@ -76,6 +76,7 @@ spec:
           configMap:
             name: forgejo-runner-config
         - name: runner-secret
-          emptyDir: {}
+          secret:
+            secretName: forgejo-runner-secret
         - name: docker-storage
           emptyDir: {}

@@ -31,7 +31,3 @@ spec:
             limits:
               cpu: 2000m
               memory: 4Gi
-      volumes:
-        - name: runner-secret
-          secret:
-            secretName: forgejo-runner-secret
