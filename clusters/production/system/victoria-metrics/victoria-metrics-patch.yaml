@@ -72,7 +72,7 @@ spec:
     # Pin all monitoring components to the non-critical node
     vmsingle:
       spec:
-        retentionPeriod: "7d"
+        retentionPeriod: "15d"
         nodeSelector:
           node-role.kubernetes.io/non-critical: "true"
         tolerations:
