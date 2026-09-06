@@ -1,16 +1,17 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: prof-dev
+  name: simple-hub-omega
   labels:
     purpose: development
-    owner: prof
+    owner: omega
+    project: simple-hub
 ---
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: prof-quota
-  namespace: prof-dev
+  name: simple-hub-omega-quota
+  namespace: simple-hub-omega
 spec:
   hard:
     requests.cpu: "2"
@@ -23,8 +24,8 @@ spec:
 apiVersion: v1
 kind: LimitRange
 metadata:
-  name: prof-limit-range
-  namespace: prof-dev
+  name: simple-hub-omega-limit-range
+  namespace: simple-hub-omega
 spec:
   limits:
     - default:

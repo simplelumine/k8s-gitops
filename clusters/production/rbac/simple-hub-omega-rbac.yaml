@@ -1,0 +1,54 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: omega-admin
+  namespace: simple-hub-omega
+rules:
+  - apiGroups: [""]
+    resources:
+      - pods
+      - pods/log
+      - pods/exec
+      - pods/portforward
+      - services
+      - endpoints
+      - configmaps
+      - secrets
+      - persistentvolumeclaims
+      - events
+    verbs: ["*"]
+  - apiGroups: ["apps"]
+    resources:
+      - deployments
+      - statefulsets
+      - replicasets
+      - daemonsets
+    verbs: ["*"]
+  - apiGroups: ["batch"]
+    resources:
+      - jobs
+      - cronjobs
+    verbs: ["*"]
+  - apiGroups: ["networking.k8s.io"]
+    resources:
+      - ingresses
+      - networkpolicies
+    verbs: ["*"]
+  - apiGroups: ["autoscaling"]
+    resources:
+      - horizontalpodautoscalers
+    verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: omega-admin-binding
+  namespace: simple-hub-omega
+subjects:
+  - kind: ServiceAccount
+    name: omega
+    namespace: omega-dev
+roleRef:
+  kind: Role
+  name: omega-admin
+  apiGroup: rbac.authorization.k8s.io
