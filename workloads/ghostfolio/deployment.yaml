@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: ghostfolio
-          image: ghostfolio/ghostfolio:latest
+          image: ghostfolio/ghostfolio:3.68.0
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
