@@ -5,13 +5,6 @@ metadata:
   namespace: headlamp
 spec:
   values:
-    nodeSelector:
-      node-role.kubernetes.io/control-plane: "true"
-    tolerations:
-      - key: "node-role.kubernetes.io/control-plane"
-        operator: "Exists"
-        effect: "NoSchedule"
-
     config:
       inCluster: true
       unsafeUseServiceAccountToken: true
@@ -68,7 +61,7 @@ spec:
     resources:
       requests:
         cpu: 20m
-        memory: 64Mi
+        memory: 32Mi
       limits:
-        cpu: 200m
+        cpu: 500m
         memory: 256Mi
