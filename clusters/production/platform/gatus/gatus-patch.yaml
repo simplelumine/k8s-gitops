@@ -107,7 +107,7 @@ spec:
 
         - name: "Antigravity"
           group: 2. Gemini Provider
-          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/antigravity/gemini-flash-lite-latest:generateContent"
+          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/antigravity/gemini-flash-latest:generateContent"
           interval: 6h
           method: POST
           headers:
