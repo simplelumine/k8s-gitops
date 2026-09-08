@@ -18,8 +18,8 @@ spec:
       enabled: false
     resources:
       requests:
-        cpu: 50m
-        memory: 32Mi
+        cpu: 20m
+        memory: 16Mi
 
     ingress:
       enabled: true
