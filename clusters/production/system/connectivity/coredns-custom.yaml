@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  git.override: |
+    rewrite stop name exact git.simplelumine.dev traefik.traefik.svc.cluster.local
