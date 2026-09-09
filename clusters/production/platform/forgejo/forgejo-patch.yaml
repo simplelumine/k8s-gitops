@@ -78,7 +78,7 @@ spec:
               name: forgejo-secrets
               key: s3-endpoint
         - name: FORGEJO__storage__MINIO_BUCKET
-          value: "gitea-data"
+          value: "forgejo-data"
         - name: FORGEJO__storage__MINIO_LOCATION
           value: "auto"
         - name: FORGEJO__storage__MINIO_USE_SSL
