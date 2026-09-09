@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - eso.yaml
-  - gitrepository.yaml
+  - helmrepository.yaml
   - helmrelease.yaml

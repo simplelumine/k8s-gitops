@@ -7,10 +7,11 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: ./charts
+      chart: simple-gemini-chart
+      version: "2.0.2"
       sourceRef:
-        kind: GitRepository
-        name: simple-gemini-repo
+        kind: HelmRepository
+        name: simple-gemini
   install:
     createNamespace: true
     remediation:
