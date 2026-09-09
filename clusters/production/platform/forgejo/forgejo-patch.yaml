@@ -109,8 +109,11 @@ spec:
           DOMAIN: git.simplelumine.dev
           ROOT_URL: "https://git.simplelumine.dev/"
           REVERSE_PROXY_TRUSTED_PROXIES: "*"
+        repository:
+          DEFAULT_PRIVATE: private
         service:
           REQUIRE_SIGNIN_VIEW: true
+          DEFAULT_USER_VISIBILITY: private
           DISABLE_REGISTRATION: true
           ALLOW_ONLY_EXTERNAL_REGISTRATION: true
           SHOW_REGISTRATION_BUTTON: false
