@@ -12,7 +12,7 @@ spec:
       tag: "latest"
 
     imagePullSecrets:
-      - name: ghcr-secret
+      - name: image-pull-secret
 
     browser:
       replicaCount: 2

@@ -18,7 +18,7 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: ghcr-secret-sync
+  name: image-pull-secret-sync
   namespace: simple-gemini
 spec:
   refreshInterval: 1h
@@ -26,12 +26,24 @@ spec:
     name: gcp-store
     kind: ClusterSecretStore
   target:
-    name: ghcr-secret
+    name: image-pull-secret
     creationPolicy: Owner
-    template:
-      type: kubernetes.io/dockerconfigjson
-      data:
-        .dockerconfigjson: '{"auths":{"ghcr.io":{"username":"{{ .username }}","password":"{{ .password }}"}}}'
+  template:
+    type: kubernetes.io/dockerconfigjson
+    data:
+      .dockerconfigjson: |
+        {
+          "auths": {
+            "ghcr.io": {
+              "username": "{{ .ghcr_username }}",
+              "password": "{{ .ghcr_password }}"
+            },
+            "git.simplelumine.dev": {
+              "username": "{{ .forgejo_username }}",
+              "password": "{{ .forgejo_token }}"
+            }
+          }
+        }
   dataFrom:
     - extract:
-        key: github-pat-secrets
+        key: container-registry-secrets

@@ -10,17 +10,18 @@ data:
 
     runner:
       file: /data/.runner
-      capacity: 1
+      capacity: 2
       timeout: 3h
       insecure: false
       fetch_timeout: 5s
       fetch_interval: 2s
       labels:
-        - "ubuntu-latest:docker://node:lts"
-        - "ubuntu-22.04:docker://node:lts"
-        - "debian:docker://node:lts"
-        - "self-hosted:docker://node:lts"
-        - "docker:docker://node:lts"
+        - "ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
+        - "ubuntu-24.04:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
+        - "ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
+        - "debian:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
+        - "self-hosted:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
+        - "docker:docker://ghcr.io/catthehacker/ubuntu:act-24.04"
         - "docker-cli:docker://docker:27-cli"
 
     cache:
