@@ -24,6 +24,8 @@ spec:
               cpu: 3000m
               memory: 2Gi
         - name: dind
+          args:
+            - "--mtu=1400"
           resources:
             requests:
               cpu: 25m

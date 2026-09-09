@@ -1,7 +1,7 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: simple-gemini-git-auth-sync
+  name: git-auth-sync
   namespace: simple-gemini
 spec:
   refreshInterval: 1h
@@ -9,11 +9,16 @@ spec:
     name: gcp-store
     kind: ClusterSecretStore
   target:
-    name: simple-gemini-git-auth
+    name: git-auth
     creationPolicy: Owner
+    template:
+      type: Opaque
+      data:
+        username: "{{ .forgejo_username }}"
+        password: "{{ .forgejo_token }}"
   dataFrom:
     - extract:
-        key: github-pat-secrets
+        key: container-registry-secrets
 ---
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
