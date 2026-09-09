@@ -110,6 +110,7 @@ spec:
           ROOT_URL: "https://git.simplelumine.dev/"
           REVERSE_PROXY_TRUSTED_PROXIES: "*"
         service:
+          REQUIRE_SIGNIN_VIEW: true
           DISABLE_REGISTRATION: true
           ALLOW_ONLY_EXTERNAL_REGISTRATION: true
           SHOW_REGISTRATION_BUTTON: false
