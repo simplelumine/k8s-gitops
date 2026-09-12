@@ -13,13 +13,7 @@ spec:
       tls:
         secretName: simple-hub-tls
 
-    api:
-      image:
-        tag: "0.0.1"
-
     web:
-      image:
-        tag: "0.0.1"
       oidc:
         issuerUrl: "https://auth.simplelumine.dev"
         clientId: "388733766928958555"
