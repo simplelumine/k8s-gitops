@@ -11,7 +11,7 @@ spec:
       - name: image-pull-secret
 
     browser:
-      replicaCount: 2
+      replicaCount: 3
     service:
       annotations:
         tailscale.com/expose: "true"
