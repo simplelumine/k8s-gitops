@@ -51,14 +51,14 @@ spec:
 
         - name: Simple Hub
           group: 1. SimpleLumine
-          url: "https://hub-test.simplelumine.dev"
+          url: "https://hub.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Simple API
           group: 1. SimpleLumine
-          url: "https://api-test.simplelumine.dev"
+          url: "https://api.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] < 500"

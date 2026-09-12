@@ -22,6 +22,7 @@ spec:
         - "https://gemini.simplelumine.dev"
         - "https://invest.simplelumine.dev"
         - "https://git.simplelumine.dev"
+        - "https://hub.simplelumine.dev"
         # Textverse
         - "https://st.textverse.space"
         - "https://sc-assets.textverse.space"
