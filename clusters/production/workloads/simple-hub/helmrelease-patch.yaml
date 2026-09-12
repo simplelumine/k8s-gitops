@@ -5,6 +5,9 @@ metadata:
   namespace: simple-hub
 spec:
   values:
+    imagePullSecrets:
+      - name: image-pull-secret
+
     ingress:
       enabled: true
       hosts:
