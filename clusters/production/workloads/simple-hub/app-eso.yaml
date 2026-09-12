@@ -1,0 +1,16 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: simple-hub-app-secret-sync
+  namespace: simple-hub
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: simple-hub-secrets
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: simple-hub-secrets

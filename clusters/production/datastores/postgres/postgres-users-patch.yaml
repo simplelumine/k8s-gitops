@@ -36,4 +36,9 @@ spec:
         login: true
         passwordSecret:
           name: forgejo-db-secret
+      - name: simple-hub
+        ensure: present
+        login: true
+        passwordSecret:
+          name: simple-hub-db-secret
 

@@ -1,0 +1,28 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: image-pull-secret-sync
+  namespace: simple-hub
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: image-pull-secret
+    creationPolicy: Owner
+    template:
+      type: kubernetes.io/dockerconfigjson
+      data:
+        .dockerconfigjson: |
+          {
+            "auths": {
+              "git.simplelumine.dev": {
+                "username": "{{ .forgejo_username }}",
+                "password": "{{ .forgejo_token }}"
+              }
+            }
+          }
+  dataFrom:
+    - extract:
+        key: container-registry-secrets

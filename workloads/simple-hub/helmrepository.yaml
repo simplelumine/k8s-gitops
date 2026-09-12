@@ -1,0 +1,11 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: simple-hub
+  namespace: simple-hub
+spec:
+  type: oci
+  interval: 5m
+  url: oci://git.simplelumine.dev/simplelumine
+  secretRef:
+    name: image-pull-secret

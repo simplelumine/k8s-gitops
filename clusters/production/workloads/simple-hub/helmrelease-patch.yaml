@@ -1,0 +1,61 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: simple-hub
+  namespace: simple-hub
+spec:
+  values:
+    ingress:
+      enabled: true
+      hosts:
+        api: api.simplelumine.dev
+        web: hub.simplelumine.dev
+      tls:
+        secretName: simple-hub-tls
+
+    api:
+      image:
+        tag: "0.0.1"
+
+    web:
+      image:
+        tag: "0.0.1"
+      oidc:
+        issuerUrl: "https://auth.simplelumine.dev"
+        clientId: "388733766928958555"
+        existingSecret: "simple-hub-secrets"
+        secretKey: "OIDC_CLIENT_SECRET"
+        adminRole: "admin"
+      zitadel:
+        apiUrl: ""
+        servicesProjectId: "387401966759707734"
+        existingSecret: "simple-hub-secrets"
+        secretKey: "ZITADEL_KEY_JSON"
+      recaptcha:
+        enabled: true
+        siteKey: "6Ldczp8tAAAAAI3v636iG49I2Aahdi4PMjgMeN4H"
+        projectId: "identity-sec-839102"
+        existingSecret: "simple-hub-secrets"
+        secretKey: "RECAPTCHA_API_KEY"
+        minScore: 0.5
+
+    simpleGemini:
+      url: "http://simple-gemini-worker.simple-gemini:8080"
+      existingSecret: "simple-hub-secrets"
+      secretKey: "SIMPLE_GEMINI_KEY"
+
+    postgres:
+      enabled: false
+      host: "postgres-rw.postgres.svc.cluster.local"
+      port: 5432
+      db: "simple-hub"
+      user: "simple-hub"
+      existingSecret: "simple-hub-secrets"
+      secretKey: "POSTGRES_PASSWORD"
+      sslmode: "disable"
+
+    redis:
+      enabled: false
+      addr: "redis-master.redis.svc.cluster.local:6379"
+      existingSecret: "simple-hub-secrets"
+      secretKey: "REDIS_PASSWORD"

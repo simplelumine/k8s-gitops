@@ -68,3 +68,16 @@ spec:
     name: postgres
   name: forgejo
   owner: forgejo
+
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: simple-hub-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres
+  name: simple-hub
+  owner: simple-hub
+
