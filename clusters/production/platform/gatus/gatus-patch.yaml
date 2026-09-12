@@ -94,6 +94,8 @@ spec:
           group: 2. Gemini Provider
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/aistudio/gemini-flash-lite-latest:generateContent"
           interval: 6h
+          client:
+            timeout: 30s
           method: POST
           headers:
             Content-Type: "application/json"
@@ -109,6 +111,8 @@ spec:
           group: 2. Gemini Provider
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/antigravity/gemini-flash-latest:generateContent"
           interval: 6h
+          client:
+            timeout: 30s
           method: POST
           headers:
             Content-Type: "application/json"
@@ -141,6 +145,8 @@ spec:
           group: 2. Gemini Provider
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/gemini-app/gemini-flash-lite-latest:generateContent"
           interval: 6h
+          client:
+            timeout: 30s
           method: POST
           headers:
             Content-Type: "application/json"
@@ -156,6 +162,8 @@ spec:
           group: 2. Gemini Provider
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/gemini-api/gemini-flash-lite-latest:generateContent"
           interval: 6h
+          client:
+            timeout: 30s
           method: POST
           headers:
             Content-Type: "application/json"
@@ -171,6 +179,8 @@ spec:
           group: 2. Gemini Provider
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/vertexai/gemini-3.5-flash-lite:generateContent"
           interval: 6h
+          client:
+            timeout: 30s
           method: POST
           headers:
             Content-Type: "application/json"
