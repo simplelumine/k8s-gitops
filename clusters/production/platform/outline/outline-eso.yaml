@@ -1,0 +1,42 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: outline-db-secret-sync
+  namespace: outline
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: postgres-store
+    kind: ClusterSecretStore
+  target:
+    name: outline-db-secret
+    template:
+      engineVersion: v2
+      data:
+        DATABASE_URL: "postgresql://{{ .username }}:{{ .password }}@postgres-rw.postgres.svc.cluster.local:5432/outline"
+  data:
+    - secretKey: username
+      remoteRef:
+        key: outline-db-secret
+        property: username
+    - secretKey: password
+      remoteRef:
+        key: outline-db-secret
+        property: password
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: outline-app-secret-sync
+  namespace: outline
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: outline-secrets
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: outline-secrets

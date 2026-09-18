@@ -41,4 +41,9 @@ spec:
         login: true
         passwordSecret:
           name: simple-hub-db-secret
+      - name: outline
+        ensure: present
+        login: true
+        passwordSecret:
+          name: outline-db-secret
 

@@ -81,3 +81,15 @@ spec:
   name: simple-hub
   owner: simple-hub
 
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: outline-db
+  namespace: postgres
+spec:
+  cluster:
+    name: postgres
+  name: outline
+  owner: outline
+

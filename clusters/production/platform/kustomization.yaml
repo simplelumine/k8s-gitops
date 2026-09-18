@@ -12,3 +12,4 @@ resources:
   - oauth2-proxy
   - forgejo
   - forgejo-runner
+  - outline

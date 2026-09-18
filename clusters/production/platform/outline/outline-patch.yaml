@@ -1,0 +1,125 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: outline
+  namespace: outline
+spec:
+  template:
+    metadata:
+      annotations:
+        reloader.stakater.com/auto: "true"
+    spec:
+      containers:
+        - name: outline
+          env:
+            # Core Application Config
+            - name: URL
+              value: "https://docs.simplelumine.dev"
+            - name: PORT
+              value: "3000"
+            - name: NODE_ENV
+              value: "production"
+            - name: FORCE_HTTPS
+              value: "false"
+            - name: ENABLE_UPDATES
+              value: "false"
+            - name: DEFAULT_LANGUAGE
+              value: "en_US"
+
+            # Application Secrets
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: secret-key
+            - name: UTILS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: utils-secret
+
+            # Database (PostgreSQL via CNPG)
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: outline-db-secret
+                  key: DATABASE_URL
+            - name: DATABASE_CONNECTION_POOL_MIN
+              value: "2"
+            - name: DATABASE_CONNECTION_POOL_MAX
+              value: "10"
+
+            # Cache & Websockets (Redis)
+            - name: REDIS_URL
+              value: "redis://redis-master.redis.svc.cluster.local:6379"
+
+            # Object Storage (Cloudflare R2)
+            - name: FILE_STORAGE
+              value: "s3"
+            - name: AWS_REGION
+              value: "auto"
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: s3-access-key-id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: s3-secret-access-key
+            - name: AWS_S3_UPLOAD_BUCKET_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: s3-bucket-name
+            - name: AWS_S3_UPLOAD_BUCKET_URL
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: s3-endpoint-url
+            - name: AWS_S3_FORCE_PATH_STYLE
+              value: "true"
+            - name: AWS_S3_ACL
+              value: "private"
+
+            # Authentication (Zitadel OIDC)
+            - name: OIDC_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: oidc-client-id
+            - name: OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: oidc-client-secret
+            - name: OIDC_AUTH_URI
+              value: "https://auth.simplelumine.dev/oauth/v2/authorize"
+            - name: OIDC_TOKEN_URI
+              value: "https://auth.simplelumine.dev/oauth/v2/token"
+            - name: OIDC_USERINFO_URI
+              value: "https://auth.simplelumine.dev/oidc/v1/userinfo"
+            - name: OIDC_DISPLAY_NAME
+              value: "Zitadel"
+            - name: OIDC_SCOPES
+              value: "openid profile email"
+            - name: OIDC_USERNAME_CLAIM
+              value: "preferred_username"
+
+            # SMTP (Resend Email)
+            - name: SMTP_HOST
+              value: "smtp.resend.com"
+            - name: SMTP_PORT
+              value: "465"
+            - name: SMTP_SECURE
+              value: "true"
+            - name: SMTP_USERNAME
+              value: "resend"
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: outline-secrets
+                  key: smtp-password
+            - name: SMTP_FROM_EMAIL
+              value: "noreply@simplelumine.dev"
