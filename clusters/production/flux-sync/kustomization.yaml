@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
   - source.yaml
   - datastores.yaml
-  - platform.yaml
+  # - platform.yaml
   - system.yaml
-  - workloads.yaml
+  # - workloads.yaml
   - cluster-config.yaml
   - rbac.yaml

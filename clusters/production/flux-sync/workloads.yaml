@@ -4,6 +4,7 @@ metadata:
   name: workloads
   namespace: flux-system
 spec:
+  suspend: true
   dependsOn:
     - name: system
     - name: datastores

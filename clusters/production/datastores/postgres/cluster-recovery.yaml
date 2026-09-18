@@ -1,0 +1,96 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: postgres
+spec:
+  # Pin PostgreSQL image version to prevent unexpected upgrades
+  # imageName: ghcr.io/cloudnative-pg/postgresql:18.1-system-trixie
+  # HA Configuration: 2 instances (1 primary + 1 standby)
+  instances: 2
+
+  # Resource requests and limits
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "512Mi"
+    limits:
+      cpu: "1"
+      memory: "1Gi"
+
+  # Storage Configuration
+  storage:
+    size: 10Gi
+    storageClass: local-path
+
+  # Bootstrap from Cloudflare R2 backup
+  bootstrap:
+    recovery:
+      source: r2-backup
+
+  externalClusters:
+    - name: r2-backup
+      barmanObjectStore:
+        destinationPath: s3://prod-pg-backups/
+        endpointURL: ${R2_ENDPOINT_URL}
+        serverName: postgres
+        s3Credentials:
+          accessKeyId:
+            name: postgres-backup-secret
+            key: ACCESS_KEY_ID
+          secretAccessKey:
+            name: postgres-backup-secret
+            key: SECRET_ACCESS_KEY
+        wal:
+          compression: gzip
+          maxParallel: 2
+
+  # PostgreSQL Configuration - optimized for small clusters
+  postgresql:
+    parameters:
+      # Memory settings
+      shared_buffers: "128MB"
+      effective_cache_size: "384MB"
+      maintenance_work_mem: "64MB"
+      work_mem: "8MB"
+
+      # WAL settings
+      wal_buffers: "16MB"
+      checkpoint_completion_target: "0.9"
+
+      # Query planner
+      default_statistics_target: "100"
+      random_page_cost: "1.1" # SSD optimization
+      effective_io_concurrency: "200" # SSD optimization
+
+      # Connection settings
+      max_connections: "200"
+
+  # HA & Failover settings
+  primaryUpdateStrategy: unsupervised
+
+  priorityClassName: high
+
+  # Scheduling & Affinity Configuration
+  affinity:
+    # Spread Postgres instances across different nodes (HA best practice)
+    enablePodAntiAffinity: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityType: preferred
+
+  # Backup Configuration (Cloudflare R2)
+  backup:
+    barmanObjectStore:
+      destinationPath: s3://prod-pg-backups/
+      endpointURL: ${R2_ENDPOINT_URL}
+      s3Credentials:
+        accessKeyId:
+          name: postgres-backup-secret
+          key: ACCESS_KEY_ID
+        secretAccessKey:
+          name: postgres-backup-secret
+          key: SECRET_ACCESS_KEY
+      wal:
+        compression: gzip
+        maxParallel: 2
+    retentionPolicy: "7d"
