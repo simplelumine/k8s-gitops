@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespace.yaml
-  # - cluster.yaml
-  - cluster-recovery.yaml
+  - cluster.yaml
+  # - cluster-recovery.yaml
   - postgres-eso.yaml
   - cluster-vars-eso.yaml
   - postgres-databases.yaml

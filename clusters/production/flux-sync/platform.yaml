@@ -4,7 +4,6 @@ metadata:
   name: platform
   namespace: flux-system
 spec:
-  suspend: true
   dependsOn:
     - name: datastores
     - name: system
