@@ -148,6 +148,7 @@ spec:
       requests:
         memory: "768Mi"
 
+    affinity:
       podAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
