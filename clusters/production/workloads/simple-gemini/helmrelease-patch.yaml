@@ -5,13 +5,12 @@ metadata:
   namespace: simple-gemini
 spec:
   values:
-    replicaCount: 2
-
     imagePullSecrets:
       - name: image-pull-secret
-
+    worker:
+      replicaCount: 2
     browser:
-      replicaCount: 3
+      replicaCount: 4
     service:
       annotations:
         tailscale.com/expose: "true"
