@@ -106,6 +106,15 @@ spec:
           - key: "node-role.kubernetes.io/non-critical"
             operator: "Exists"
             effect: "NoSchedule"
+        affinity:
+          podAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/name: vmsingle
+                  topologyKey: kubernetes.io/hostname
 
     alertmanager:
       spec:
