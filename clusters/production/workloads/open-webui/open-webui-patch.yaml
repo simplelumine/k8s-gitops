@@ -119,7 +119,7 @@ spec:
             name: open-webui-secret
             key: oauth-client-secret
       - name: OAUTH_PROVIDER_NAME
-        value: "SimpleLumine SSO"
+        value: "SimpleLumine"
       - name: OAUTH_SCOPES
         value: "openid email profile"
       - name: OAUTH_CODE_CHALLENGE_METHOD

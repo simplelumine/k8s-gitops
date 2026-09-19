@@ -101,7 +101,7 @@ spec:
             - name: OIDC_USERINFO_URI
               value: "https://auth.simplelumine.dev/oidc/v1/userinfo"
             - name: OIDC_DISPLAY_NAME
-              value: "Zitadel"
+              value: "SimpleLumine"
             - name: OIDC_SCOPES
               value: "openid profile email"
             - name: OIDC_USERNAME_CLAIM
@@ -122,4 +122,4 @@ spec:
                   name: outline-secrets
                   key: smtp-password
             - name: SMTP_FROM_EMAIL
-              value: "noreply@simplelumine.dev"
+              value: "SimpleLumine <noreply@simplelumine.dev>"
