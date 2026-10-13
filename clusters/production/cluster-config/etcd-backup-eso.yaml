@@ -1,0 +1,25 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: k3s-etcd-s3-config-sync
+  namespace: kube-system
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: k3s-etcd-s3-config
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        etcd-s3-endpoint: '{{ .R2_ENDPOINT_URL | trimPrefix "https://" | trimSuffix "/" }}'
+        etcd-s3-region: "auto"
+        etcd-s3-bucket: "etcd-backups"
+        etcd-s3-folder: "k3s-pdx"
+        etcd-s3-access-key: "{{ .ACCESS_KEY_ID }}"
+        etcd-s3-secret-key: "{{ .SECRET_ACCESS_KEY }}"
+  dataFrom:
+    - extract:
+        key: postgres-secrets
