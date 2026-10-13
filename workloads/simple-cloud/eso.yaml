@@ -2,7 +2,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: image-pull-secret-sync
-  namespace: simple-hub
+  namespace: simple-cloud
 spec:
   refreshInterval: 1h
   secretStoreRef:
@@ -17,9 +17,9 @@ spec:
         .dockerconfigjson: |
           {
             "auths": {
-              "git.simplelumine.dev": {
-                "username": "{{ .forgejo_username }}",
-                "password": "{{ .forgejo_token }}"
+              "ghcr.io": {
+                "username": "{{ .ghcr_username }}",
+                "password": "{{ .ghcr_password }}"
               }
             }
           }

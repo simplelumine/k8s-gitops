@@ -36,11 +36,11 @@ spec:
         login: true
         passwordSecret:
           name: forgejo-db-secret
-      - name: simple-hub
+      - name: simple-cloud
         ensure: present
         login: true
         passwordSecret:
-          name: simple-hub-db-secret
+          name: simple-cloud-db-secret
       - name: outline
         ensure: present
         login: true

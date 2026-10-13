@@ -155,7 +155,7 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: simple-hub-db-secret-sync
+  name: simple-cloud-db-secret-sync
   namespace: postgres
 spec:
   refreshInterval: 1h
@@ -163,13 +163,13 @@ spec:
     name: gcp-store
     kind: ClusterSecretStore
   target:
-    name: simple-hub-db-secret
+    name: simple-cloud-db-secret
     creationPolicy: Owner
     template:
       engineVersion: v2
       data:
-        username: "simple-hub"
-        password: '{{ index . "simple-hub-password" }}'
+        username: "simple-cloud"
+        password: '{{ index . "simple-cloud-password" }}'
   dataFrom:
     - extract:
         key: postgres-secrets

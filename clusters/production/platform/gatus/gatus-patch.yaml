@@ -49,9 +49,9 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
-        - name: Simple Hub
+        - name: Simple Cloud
           group: 1. SimpleLumine
-          url: "https://hub.simplelumine.dev"
+          url: "https://console.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"

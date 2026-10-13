@@ -6,6 +6,6 @@ metadata:
 spec:
   type: oci
   interval: 5m
-  url: oci://git.simplelumine.dev/simplelumine
+  url: oci://ghcr.io/simplelumine
   secretRef:
     name: image-pull-secret
