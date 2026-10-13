@@ -1,13 +1,13 @@
 #!/bin/bash
 # Generate a scoped kubeconfig for developer ServiceAccount (omega)
 # Usage: ./generate-kubeconfig.sh [sa-name] [primary-namespace] [secondary-namespace]
-# Default: ./generate-kubeconfig.sh omega omega-dev simple-hub-omega
+# Default: ./generate-kubeconfig.sh omega omega-dev simple-cloud-omega
 
 set -euo pipefail
 
 SA_NAME="${1:-omega}"
 PRIMARY_NS="${2:-omega-dev}"
-SECONDARY_NS="${3:-simple-hub-omega}"
+SECONDARY_NS="${3:-simple-cloud-omega}"
 
 CLUSTER_NAME="default"
 SERVER=$(kubectl config view --raw -o jsonpath='{.clusters[?(@.name=="default")].cluster.server}')

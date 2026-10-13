@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: simple-hub-omega
+  name: simple-cloud-omega
   labels:
     purpose: development
     owner: omega
-    project: simple-hub
+    project: simple-cloud
 ---
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: simple-hub-omega-quota
-  namespace: simple-hub-omega
+  name: simple-cloud-omega-quota
+  namespace: simple-cloud-omega
 spec:
   hard:
     requests.cpu: "2"
@@ -24,8 +24,8 @@ spec:
 apiVersion: v1
 kind: LimitRange
 metadata:
-  name: simple-hub-omega-limit-range
-  namespace: simple-hub-omega
+  name: simple-cloud-omega-limit-range
+  namespace: simple-cloud-omega
 spec:
   limits:
     - default:

@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - omega-dev-namespace.yaml
   - omega-dev-rbac.yaml
-  - simple-hub-omega-namespace.yaml
-  - simple-hub-omega-rbac.yaml
+  - simple-cloud-omega-namespace.yaml
+  - simple-cloud-omega-rbac.yaml

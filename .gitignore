@@ -4,6 +4,7 @@
 **/repository-secret.yaml
 **/*-secret.yaml
 **/*-auth.yaml
+**/*-kubeconfig.yaml
 !**/*-secret.yaml.example
 secret.yaml
 
