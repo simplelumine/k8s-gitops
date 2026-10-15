@@ -33,7 +33,7 @@ spec:
       barmanObjectStore:
         destinationPath: s3://postgres-backups/
         endpointURL: ${R2_ENDPOINT_URL}
-        serverName: postgres
+        serverName: postgres-pdx
         s3Credentials:
           accessKeyId:
             name: postgres-backup-secret
@@ -83,7 +83,7 @@ spec:
     barmanObjectStore:
       destinationPath: s3://postgres-backups/
       endpointURL: ${R2_ENDPOINT_URL}
-      serverName: postgres-pdx
+      serverName: postgres-pdx-v2
       s3Credentials:
         accessKeyId:
           name: postgres-backup-secret
