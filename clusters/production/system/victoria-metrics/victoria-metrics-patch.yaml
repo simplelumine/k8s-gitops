@@ -82,6 +82,9 @@ spec:
 
     vmagent:
       spec:
+        scrapeInterval: "40s"
+        extraArgs:
+          promscrape.minScrapeInterval: "40s"
         nodeSelector:
           node-role.kubernetes.io/observability: "true"
         tolerations:
@@ -91,6 +94,7 @@ spec:
 
     vmalert:
       spec:
+        evaluationInterval: "60s"
         nodeSelector:
           node-role.kubernetes.io/observability: "true"
         tolerations:
