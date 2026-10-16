@@ -8,7 +8,7 @@ spec:
 
   targetEndpoints:
     - targets:
-        - "100.123.250.26:9100"
+        - "10.10.2.1:9100"
       interval: "60s"
       labels:
         instance: "lax-eg-01"
@@ -17,7 +17,7 @@ spec:
         node_type: "edge"
 
     - targets:
-        - "100.96.1.11:9100"
+        - "10.10.2.2:9100"
       interval: "60s"
       labels:
         instance: "tyo-eg-01"
