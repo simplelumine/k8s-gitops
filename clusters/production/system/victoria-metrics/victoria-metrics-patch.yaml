@@ -17,20 +17,11 @@ spec:
 
     grafana:
       nodeSelector:
-        node-role.kubernetes.io/non-critical: "true"
+        node-role.kubernetes.io/observability: "true"
       tolerations:
-        - key: "node-role.kubernetes.io/non-critical"
+        - key: "node-role.kubernetes.io/observability"
           operator: "Exists"
           effect: "NoSchedule"
-      affinity:
-        podAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/name: vmsingle
-                topologyKey: kubernetes.io/hostname
       ingress:
         enabled: true
         ingressClassName: traefik
@@ -78,43 +69,34 @@ spec:
           allow_assign_grafana_admin: true
 
 
-    # Pin all monitoring components to the non-critical node
+    # Pin all monitoring components to the observability node
     vmsingle:
       spec:
-        retentionPeriod: "15d"
+        retentionPeriod: "30d"
         nodeSelector:
-          node-role.kubernetes.io/non-critical: "true"
+          node-role.kubernetes.io/observability: "true"
         tolerations:
-          - key: "node-role.kubernetes.io/non-critical"
+          - key: "node-role.kubernetes.io/observability"
             operator: "Exists"
             effect: "NoSchedule"
 
     vmagent:
       spec:
         nodeSelector:
-          node-role.kubernetes.io/non-critical: "true"
+          node-role.kubernetes.io/observability: "true"
         tolerations:
-          - key: "node-role.kubernetes.io/non-critical"
+          - key: "node-role.kubernetes.io/observability"
             operator: "Exists"
             effect: "NoSchedule"
 
     vmalert:
       spec:
         nodeSelector:
-          node-role.kubernetes.io/non-critical: "true"
+          node-role.kubernetes.io/observability: "true"
         tolerations:
-          - key: "node-role.kubernetes.io/non-critical"
+          - key: "node-role.kubernetes.io/observability"
             operator: "Exists"
             effect: "NoSchedule"
-        affinity:
-          podAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 100
-                podAffinityTerm:
-                  labelSelector:
-                    matchLabels:
-                      app.kubernetes.io/name: vmsingle
-                  topologyKey: kubernetes.io/hostname
 
     alertmanager:
       spec:
@@ -122,8 +104,8 @@ spec:
         secrets:
           - discord-webhook
         nodeSelector:
-          node-role.kubernetes.io/non-critical: "true"
+          node-role.kubernetes.io/observability: "true"
         tolerations:
-          - key: "node-role.kubernetes.io/non-critical"
+          - key: "node-role.kubernetes.io/observability"
             operator: "Exists"
             effect: "NoSchedule"
