@@ -1,16 +1,16 @@
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: simple-cloud-app-secret-sync
-  namespace: simple-cloud
+  name: simple-core-app-secret-sync
+  namespace: simple-core
 spec:
   refreshInterval: 1h
   secretStoreRef:
     name: gcp-store
     kind: ClusterSecretStore
   target:
-    name: simple-cloud-secrets
+    name: simple-core-secrets
     creationPolicy: Owner
   dataFrom:
     - extract:
-        key: simple-cloud-secrets
+        key: simple-core-secrets

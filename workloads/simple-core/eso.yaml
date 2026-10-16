@@ -2,7 +2,7 @@ apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
   name: image-pull-secret-sync
-  namespace: simple-cloud
+  namespace: simple-core
 spec:
   refreshInterval: 1h
   secretStoreRef:

@@ -1,8 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: simple-cloud
-  namespace: simple-cloud
+  name: simple-core
+  namespace: simple-core
 spec:
   values:
     imagePullSecrets:
@@ -14,40 +14,40 @@ spec:
         api: api.simplelumine.dev
         console: console.simplelumine.dev
       tls:
-        secretName: simple-cloud-tls
+        secretName: simple-core-tls
 
     console:
       oidc:
         issuerUrl: "https://auth.simplelumine.dev"
         clientId: "388733766928958555"
-        existingSecret: "simple-cloud-secrets"
+        existingSecret: "simple-core-secrets"
         secretKey: "OIDC_CLIENT_SECRET"
         adminRole: "admin"
       recaptcha:
         enabled: true
         siteKey: "6Ldczp8tAAAAAI3v636iG49I2Aahdi4PMjgMeN4H"
         projectId: "identity-sec-839102"
-        existingSecret: "simple-cloud-secrets"
+        existingSecret: "simple-core-secrets"
         secretKey: "RECAPTCHA_API_KEY"
         minScore: 0.5
 
     simpleGemini:
       url: "http://simple-gemini-worker.simple-gemini:8080"
-      existingSecret: "simple-cloud-secrets"
+      existingSecret: "simple-core-secrets"
       secretKey: "SIMPLE_GEMINI_KEY"
 
     postgres:
       enabled: false
       host: "postgres-rw.postgres.svc.cluster.local"
       port: 5432
-      db: "simple-cloud"
-      user: "simple-cloud"
-      existingSecret: "simple-cloud-secrets"
+      db: "simple-core"
+      user: "simple-core"
+      existingSecret: "simple-core-secrets"
       secretKey: "POSTGRES_PASSWORD"
       sslmode: "disable"
 
     redis:
       enabled: false
       addr: "redis-master.redis.svc.cluster.local:6379"
-      existingSecret: "simple-cloud-secrets"
+      existingSecret: "simple-core-secrets"
       secretKey: "REDIS_PASSWORD"

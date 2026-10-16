@@ -73,13 +73,13 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: simple-cloud-db
+  name: simple-core-db
   namespace: postgres
 spec:
   cluster:
     name: postgres
-  name: simple-cloud
-  owner: simple-cloud
+  name: simple-core
+  owner: simple-core
 
 ---
 apiVersion: postgresql.cnpg.io/v1
