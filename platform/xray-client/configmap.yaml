@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: xray-entrypoint
+  namespace: xray-client
+data:
+  entrypoint.sh: |
+    #!/bin/sh
+    set -eu
+
+    if [ -z "${NODE_KEY:-}" ]; then
+      echo "Error: NODE_KEY environment variable is required" >&2
+      exit 1
+    fi
+
+    eval "SERVER=\${${NODE_KEY}_SERVER:-}"
+    eval "PORT=\${${NODE_KEY}_PORT:-\${DEFAULT_PORT:-8443}}"
+    eval "UUID=\${${NODE_KEY}_UUID:-\${UUID:-}}"
+    eval "PUBLIC_KEY=\${${NODE_KEY}_PUBLIC_KEY:-\${PUBLIC_KEY:-}}"
+    eval "SHORT_ID=\${${NODE_KEY}_SHORT_ID:-\${SHORT_ID:-}}"
+    eval "SNI=\${${NODE_KEY}_SNI:-\${DEFAULT_SNI:-}}"
+
+    if [ -z "$SERVER" ] || [ -z "$UUID" ] || [ -z "$PUBLIC_KEY" ] || [ -z "$SHORT_ID" ] || [ -z "$SNI" ]; then
+      echo "Error: Missing required Xray configuration for NODE_KEY=${NODE_KEY}" >&2
+      exit 1
+    fi
+
+    cat > /etc/xray/config.json <<EOF
+    {
+      "log": {
+        "loglevel": "warning"
+      },
+      "inbounds": [
+        {
+          "listen": "0.0.0.0",
+          "port": 1080,
+          "protocol": "socks",
+          "settings": {
+            "udp": true
+          }
+        },
+        {
+          "listen": "0.0.0.0",
+          "port": 1081,
+          "protocol": "http"
+        }
+      ],
+      "outbounds": [
+        {
+          "protocol": "vless",
+          "settings": {
+            "vnext": [
+              {
+                "address": "${SERVER}",
+                "port": ${PORT},
+                "users": [
+                  {
+                    "id": "${UUID}",
+                    "flow": "xtls-rprx-vision",
+                    "encryption": "none"
+                  }
+                ]
+              }
+            ]
+          },
+          "streamSettings": {
+            "network": "tcp",
+            "security": "reality",
+            "realitySettings": {
+              "fingerprint": "chrome",
+              "serverName": "${SNI}",
+              "publicKey": "${PUBLIC_KEY}",
+              "shortId": "${SHORT_ID}"
+            }
+          }
+        }
+      ]
+    }
+    EOF
+
+    exec xray run -c /etc/xray/config.json

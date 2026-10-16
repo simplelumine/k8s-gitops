@@ -13,3 +13,4 @@ resources:
   # - forgejo
   # - forgejo-runner
   - outline
+  - xray-client

@@ -1,0 +1,528 @@
+# =============================================================================
+# slc-wk-01
+# =============================================================================
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xray-slc-wk-01
+  namespace: xray-client
+  labels:
+    app.kubernetes.io/name: xray-client
+    app.kubernetes.io/instance: slc-wk-01
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xray-slc-wk-01
+  template:
+    metadata:
+      labels:
+        app: xray-slc-wk-01
+        app.kubernetes.io/name: xray-client
+        app.kubernetes.io/instance: slc-wk-01
+    spec:
+      containers:
+        - name: xray
+          image: teddysun/xray:latest
+          command: ["/bin/sh", "/entrypoint/entrypoint.sh"]
+          envFrom:
+            - secretRef:
+                name: xray-credentials
+          env:
+            - name: NODE_KEY
+              value: "SLC_WK_01"
+          ports:
+            - containerPort: 1080
+              name: socks5
+            - containerPort: 1081
+              name: http
+          volumeMounts:
+            - name: entrypoint
+              mountPath: /entrypoint
+              readOnly: true
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+          livenessProbe:
+            tcpSocket:
+              port: 1080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+      volumes:
+        - name: entrypoint
+          configMap:
+            name: xray-entrypoint
+            defaultMode: 0555
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xray-slc-wk-01
+  namespace: xray-client
+spec:
+  selector:
+    app: xray-slc-wk-01
+  ports:
+    - name: socks5
+      port: 1080
+      targetPort: 1080
+    - name: http
+      port: 1081
+      targetPort: 1081
+
+# =============================================================================
+# sfo-wk-01
+# =============================================================================
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xray-sfo-wk-01
+  namespace: xray-client
+  labels:
+    app.kubernetes.io/name: xray-client
+    app.kubernetes.io/instance: sfo-wk-01
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xray-sfo-wk-01
+  template:
+    metadata:
+      labels:
+        app: xray-sfo-wk-01
+        app.kubernetes.io/name: xray-client
+        app.kubernetes.io/instance: sfo-wk-01
+    spec:
+      containers:
+        - name: xray
+          image: teddysun/xray:latest
+          command: ["/bin/sh", "/entrypoint/entrypoint.sh"]
+          envFrom:
+            - secretRef:
+                name: xray-credentials
+          env:
+            - name: NODE_KEY
+              value: "SFO_WK_01"
+          ports:
+            - containerPort: 1080
+              name: socks5
+            - containerPort: 1081
+              name: http
+          volumeMounts:
+            - name: entrypoint
+              mountPath: /entrypoint
+              readOnly: true
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+          livenessProbe:
+            tcpSocket:
+              port: 1080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+      volumes:
+        - name: entrypoint
+          configMap:
+            name: xray-entrypoint
+            defaultMode: 0555
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xray-sfo-wk-01
+  namespace: xray-client
+spec:
+  selector:
+    app: xray-sfo-wk-01
+  ports:
+    - name: socks5
+      port: 1080
+      targetPort: 1080
+    - name: http
+      port: 1081
+      targetPort: 1081
+
+# =============================================================================
+# lax-wk-01
+# =============================================================================
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xray-lax-wk-01
+  namespace: xray-client
+  labels:
+    app.kubernetes.io/name: xray-client
+    app.kubernetes.io/instance: lax-wk-01
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xray-lax-wk-01
+  template:
+    metadata:
+      labels:
+        app: xray-lax-wk-01
+        app.kubernetes.io/name: xray-client
+        app.kubernetes.io/instance: lax-wk-01
+    spec:
+      containers:
+        - name: xray
+          image: teddysun/xray:latest
+          command: ["/bin/sh", "/entrypoint/entrypoint.sh"]
+          envFrom:
+            - secretRef:
+                name: xray-credentials
+          env:
+            - name: NODE_KEY
+              value: "LAX_WK_01"
+          ports:
+            - containerPort: 1080
+              name: socks5
+            - containerPort: 1081
+              name: http
+          volumeMounts:
+            - name: entrypoint
+              mountPath: /entrypoint
+              readOnly: true
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+          livenessProbe:
+            tcpSocket:
+              port: 1080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+      volumes:
+        - name: entrypoint
+          configMap:
+            name: xray-entrypoint
+            defaultMode: 0555
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xray-lax-wk-01
+  namespace: xray-client
+spec:
+  selector:
+    app: xray-lax-wk-01
+  ports:
+    - name: socks5
+      port: 1080
+      targetPort: 1080
+    - name: http
+      port: 1081
+      targetPort: 1081
+
+# =============================================================================
+# lax-eg-01
+# =============================================================================
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xray-lax-eg-01
+  namespace: xray-client
+  labels:
+    app.kubernetes.io/name: xray-client
+    app.kubernetes.io/instance: lax-eg-01
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xray-lax-eg-01
+  template:
+    metadata:
+      labels:
+        app: xray-lax-eg-01
+        app.kubernetes.io/name: xray-client
+        app.kubernetes.io/instance: lax-eg-01
+    spec:
+      containers:
+        - name: xray
+          image: teddysun/xray:latest
+          command: ["/bin/sh", "/entrypoint/entrypoint.sh"]
+          envFrom:
+            - secretRef:
+                name: xray-credentials
+          env:
+            - name: NODE_KEY
+              value: "LAX_EG_01"
+          ports:
+            - containerPort: 1080
+              name: socks5
+            - containerPort: 1081
+              name: http
+          volumeMounts:
+            - name: entrypoint
+              mountPath: /entrypoint
+              readOnly: true
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+          livenessProbe:
+            tcpSocket:
+              port: 1080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+      volumes:
+        - name: entrypoint
+          configMap:
+            name: xray-entrypoint
+            defaultMode: 0555
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xray-lax-eg-01
+  namespace: xray-client
+spec:
+  selector:
+    app: xray-lax-eg-01
+  ports:
+    - name: socks5
+      port: 1080
+      targetPort: 1080
+    - name: http
+      port: 1081
+      targetPort: 1081
+
+# =============================================================================
+# tyo-eg-01
+# =============================================================================
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xray-tyo-eg-01
+  namespace: xray-client
+  labels:
+    app.kubernetes.io/name: xray-client
+    app.kubernetes.io/instance: tyo-eg-01
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xray-tyo-eg-01
+  template:
+    metadata:
+      labels:
+        app: xray-tyo-eg-01
+        app.kubernetes.io/name: xray-client
+        app.kubernetes.io/instance: tyo-eg-01
+    spec:
+      containers:
+        - name: xray
+          image: teddysun/xray:latest
+          command: ["/bin/sh", "/entrypoint/entrypoint.sh"]
+          envFrom:
+            - secretRef:
+                name: xray-credentials
+          env:
+            - name: NODE_KEY
+              value: "TYO_EG_01"
+          ports:
+            - containerPort: 1080
+              name: socks5
+            - containerPort: 1081
+              name: http
+          volumeMounts:
+            - name: entrypoint
+              mountPath: /entrypoint
+              readOnly: true
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+          livenessProbe:
+            tcpSocket:
+              port: 1080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+      volumes:
+        - name: entrypoint
+          configMap:
+            name: xray-entrypoint
+            defaultMode: 0555
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xray-tyo-eg-01
+  namespace: xray-client
+spec:
+  selector:
+    app: xray-tyo-eg-01
+  ports:
+    - name: socks5
+      port: 1080
+      targetPort: 1080
+    - name: http
+      port: 1081
+      targetPort: 1081
+
+
+# =============================================================================
+# sfo-wk-02
+# =============================================================================
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: xray-sfo-wk-02
+  namespace: xray-client
+  labels:
+    app.kubernetes.io/name: xray-client
+    app.kubernetes.io/instance: sfo-wk-02
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: xray-sfo-wk-02
+  template:
+    metadata:
+      labels:
+        app: xray-sfo-wk-02
+        app.kubernetes.io/name: xray-client
+        app.kubernetes.io/instance: sfo-wk-02
+    spec:
+      containers:
+        - name: xray
+          image: teddysun/xray:latest
+          command: ["/bin/sh", "/entrypoint/entrypoint.sh"]
+          envFrom:
+            - secretRef:
+                name: xray-credentials
+          env:
+            - name: NODE_KEY
+              value: "SFO_WK_02"
+          ports:
+            - containerPort: 1080
+              name: socks5
+            - containerPort: 1081
+              name: http
+          volumeMounts:
+            - name: entrypoint
+              mountPath: /entrypoint
+              readOnly: true
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "128Mi"
+          livenessProbe:
+            tcpSocket:
+              port: 1080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+      volumes:
+        - name: entrypoint
+          configMap:
+            name: xray-entrypoint
+            defaultMode: 0555
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xray-sfo-wk-02
+  namespace: xray-client
+spec:
+  selector:
+    app: xray-sfo-wk-02
+  ports:
+    - name: socks5
+      port: 1080
+      targetPort: 1080
+    - name: http
+      port: 1081
+      targetPort: 1081

@@ -1,0 +1,16 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: xray-credentials-sync
+  namespace: xray-client
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: xray-credentials
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: xray-secrets
