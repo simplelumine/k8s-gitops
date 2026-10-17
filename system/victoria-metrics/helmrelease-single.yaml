@@ -21,6 +21,14 @@ spec:
     # Enable hostNetwork to ensure node-exporter inherits the real node hostname for Grafana dashboards
     prometheus-node-exporter:
       hostNetwork: true
+      extraArgs:
+        - --collector.textfile.directory=/host/textfile_collector
+      extraHostVolumeMounts:
+        - name: textfile-collector
+          hostPath: /var/lib/node_exporter/textfile_collector
+          mountPath: /host/textfile_collector
+          readOnly: true
+          mountPropagation: None
 
     # Enable Single-node mode for resource efficiency
     vmsingle:

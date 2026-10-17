@@ -1,0 +1,384 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-xray-traffic
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  xray-traffic.json: |
+    {
+      "annotations": {
+        "list": []
+      },
+      "editable": true,
+      "fiscalYearStartMonth": 0,
+      "graphTooltip": 1,
+      "links": [],
+      "panels": [
+        {
+          "id": 1,
+          "title": "User Billing & Throttling Overview (Current Billing Cycle)",
+          "type": "table",
+          "gridPos": { "h": 9, "w": 15, "x": 0, "y": 0 },
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "fieldConfig": {
+            "defaults": {
+              "custom": { "align": "auto", "cellOptions": { "type": "auto" }, "inspect": false }
+            },
+            "overrides": [
+              {
+                "matcher": { "id": "byName", "options": "xray_node" },
+                "properties": [{ "id": "displayName", "value": "Node" }]
+              },
+              {
+                "matcher": { "id": "byName", "options": "email" },
+                "properties": [{ "id": "displayName", "value": "User (Email)" }]
+              },
+              {
+                "matcher": { "id": "byName", "options": "Value #A" },
+                "properties": [
+                  { "id": "displayName", "value": "Status" },
+                  { "id": "custom.cellOptions", "value": { "type": "color-text" } },
+                  {
+                    "id": "mappings",
+                    "value": [
+                      {
+                        "type": "value",
+                        "options": {
+                          "0": { "text": "🟢 Active", "color": "green", "index": 0 },
+                          "1": { "text": "🔴 Throttled", "color": "red", "index": 1 }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "matcher": { "id": "byName", "options": "Value #B" },
+                "properties": [
+                  { "id": "displayName", "value": "Online Sessions" },
+                  { "id": "unit", "value": "short" }
+                ]
+              },
+              {
+                "matcher": { "id": "byName", "options": "Value #C" },
+                "properties": [
+                  { "id": "displayName", "value": "Billed Traffic (x2)" },
+                  { "id": "unit", "value": "bytes" }
+                ]
+              },
+              {
+                "matcher": { "id": "byName", "options": "Value #D" },
+                "properties": [
+                  { "id": "displayName", "value": "Monthly Quota" },
+                  { "id": "unit", "value": "bytes" },
+                  {
+                    "id": "mappings",
+                    "value": [
+                      {
+                        "type": "value",
+                        "options": {
+                          "0": { "text": "♾️ Unlimited", "index": 0 }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "matcher": { "id": "byName", "options": "Value #E" },
+                "properties": [
+                  { "id": "displayName", "value": "Cycle Downlink" },
+                  { "id": "unit", "value": "bytes" }
+                ]
+              },
+              {
+                "matcher": { "id": "byName", "options": "Value #F" },
+                "properties": [
+                  { "id": "displayName", "value": "Cycle Uplink" },
+                  { "id": "unit", "value": "bytes" }
+                ]
+              }
+            ]
+          },
+          "options": {
+            "showHeader": true,
+            "sortBy": [{ "desc": true, "displayName": "Billed Traffic (x2)" }]
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "max by (xray_node, email) (xray_user_throttled{xray_node=~\"$xray_node\",email=~\"$email\"})",
+              "format": "table",
+              "instant": true
+            },
+            {
+              "refId": "B",
+              "expr": "max by (xray_node, email) (xray_user_online_sessions{xray_node=~\"$xray_node\",email=~\"$email\"})",
+              "format": "table",
+              "instant": true
+            },
+            {
+              "refId": "C",
+              "expr": "max by (xray_node, email) (xray_user_cycle_billed_bytes{xray_node=~\"$xray_node\",email=~\"$email\"})",
+              "format": "table",
+              "instant": true
+            },
+            {
+              "refId": "D",
+              "expr": "max by (xray_node, email) (xray_user_quota_bytes{xray_node=~\"$xray_node\",email=~\"$email\"})",
+              "format": "table",
+              "instant": true
+            },
+            {
+              "refId": "E",
+              "expr": "max by (xray_node, email) (xray_user_cycle_traffic_bytes{xray_node=~\"$xray_node\",email=~\"$email\",direction=\"downlink\"})",
+              "format": "table",
+              "instant": true
+            },
+            {
+              "refId": "F",
+              "expr": "max by (xray_node, email) (xray_user_cycle_traffic_bytes{xray_node=~\"$xray_node\",email=~\"$email\",direction=\"uplink\"})",
+              "format": "table",
+              "instant": true
+            }
+          ],
+          "transformations": [
+            {
+              "id": "merge",
+              "options": {}
+            },
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": { "Time": true },
+                "indexByName": {
+                  "xray_node": 0,
+                  "email": 1,
+                  "Value #A": 2,
+                  "Value #B": 3,
+                  "Value #C": 4,
+                  "Value #D": 5,
+                  "Value #E": 6,
+                  "Value #F": 7
+                }
+              }
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "title": "Quota Usage (%)",
+          "type": "bargauge",
+          "gridPos": { "h": 9, "w": 9, "x": 15, "y": 0 },
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "percent",
+              "min": 0,
+              "max": 100,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  { "color": "green", "value": null },
+                  { "color": "yellow", "value": 70 },
+                  { "color": "red", "value": 90 }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "options": {
+            "displayMode": "gradient",
+            "orientation": "horizontal",
+            "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+            "showUnfilled": true
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "(max by (xray_node, email) (xray_user_cycle_billed_bytes{xray_node=~\"$xray_node\",email=~\"$email\"}) / (max by (xray_node, email) (xray_user_quota_bytes{xray_node=~\"$xray_node\",email=~\"$email\"}) > 0)) * 100",
+              "legendFormat": "{{xray_node}} / {{email}}"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "title": "Cycle Billed Traffic vs. Quota Limit",
+          "type": "timeseries",
+          "gridPos": { "h": 9, "w": 12, "x": 0, "y": 9 },
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "bytes",
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "showPoints": "never"
+              }
+            },
+            "overrides": [
+              {
+                "matcher": { "id": "byRegexp", "options": ".*Quota.*" },
+                "properties": [
+                  { "id": "custom.fillOpacity", "value": 0 },
+                  { "id": "custom.lineStyle", "value": { "dash": [10, 10], "fill": "dash" } }
+                ]
+              }
+            ]
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "max by (xray_node, email) (xray_user_cycle_billed_bytes{xray_node=~\"$xray_node\",email=~\"$email\"})",
+              "legendFormat": "{{xray_node}} / {{email}} (Billed)"
+            },
+            {
+              "refId": "B",
+              "expr": "max by (xray_node, email) (xray_user_quota_bytes{xray_node=~\"$xray_node\",email=~\"$email\"}) > 0",
+              "legendFormat": "{{xray_node}} / {{email}} (Quota Limit)"
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "title": "Real-Time Bandwidth",
+          "type": "timeseries",
+          "gridPos": { "h": 9, "w": 12, "x": 12, "y": 9 },
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "bps",
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 20,
+                "lineWidth": 2,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "sum by (xray_node, email) (rate(xray_user_total_traffic_bytes{xray_node=~\"$xray_node\",email=~\"$email\",direction=\"downlink\"}[$__rate_interval])) * 8",
+              "legendFormat": "⬇️ {{xray_node}} / {{email}} (Down)"
+            },
+            {
+              "refId": "B",
+              "expr": "sum by (xray_node, email) (rate(xray_user_total_traffic_bytes{xray_node=~\"$xray_node\",email=~\"$email\",direction=\"uplink\"}[$__rate_interval])) * 8",
+              "legendFormat": "⬆️ {{xray_node}} / {{email}} (Up)"
+            }
+          ]
+        },
+        {
+          "id": 5,
+          "title": "Active Online Sessions",
+          "type": "timeseries",
+          "gridPos": { "h": 8, "w": 12, "x": 0, "y": 18 },
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short",
+              "min": 0,
+              "custom": {
+                "drawStyle": "line",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "showPoints": "never"
+              }
+            },
+            "overrides": []
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "max by (xray_node, email) (xray_user_online_sessions{xray_node=~\"$xray_node\",email=~\"$email\"})",
+              "legendFormat": "{{xray_node}} / {{email}}"
+            }
+          ]
+        },
+        {
+          "id": 6,
+          "title": "Node Billing Cycle Configuration",
+          "type": "table",
+          "gridPos": { "h": 8, "w": 12, "x": 12, "y": 18 },
+          "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": [
+              {
+                "matcher": { "id": "byName", "options": "xray_node" },
+                "properties": [{ "id": "displayName", "value": "Node" }]
+              },
+              {
+                "matcher": { "id": "byName", "options": "billing_cycle" },
+                "properties": [{ "id": "displayName", "value": "Cycle Start Date" }]
+              },
+              {
+                "matcher": { "id": "byName", "options": "Value" },
+                "properties": [{ "id": "displayName", "value": "Billing Reset Day" }]
+              }
+            ]
+          },
+          "targets": [
+            {
+              "refId": "A",
+              "expr": "max by (xray_node, billing_cycle) (xray_billing_info{xray_node=~\"$xray_node\"})",
+              "format": "table",
+              "instant": true
+            }
+          ],
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": { "Time": true }
+              }
+            }
+          ]
+        }
+      ],
+      "refresh": "1m",
+      "schemaVersion": 39,
+      "tags": ["xray", "edge", "traffic", "billing"],
+      "templating": {
+        "list": [
+          {
+            "name": "DS_PROMETHEUS",
+            "type": "datasource",
+            "query": "prometheus",
+            "hide": 0,
+            "label": "Datasource"
+          },
+          {
+            "name": "xray_node",
+            "label": "Node",
+            "type": "query",
+            "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+            "query": "label_values(xray_user_cycle_billed_bytes, xray_node)",
+            "includeAll": true,
+            "multi": true,
+            "refresh": 2,
+            "current": { "selected": true, "text": ["All"], "value": ["$__all"] }
+          },
+          {
+            "name": "email",
+            "label": "User (Email)",
+            "type": "query",
+            "datasource": { "type": "prometheus", "uid": "${DS_PROMETHEUS}" },
+            "query": "label_values(xray_user_cycle_billed_bytes{xray_node=~\"$xray_node\"}, email)",
+            "includeAll": true,
+            "multi": true,
+            "refresh": 2,
+            "current": { "selected": true, "text": ["All"], "value": ["$__all"] }
+          }
+        ]
+      },
+      "time": { "from": "now-24h", "to": "now" },
+      "title": "Xray Traffic Accounting & Quota",
+      "uid": "xray-traffic-accounting",
+      "version": 1
+    }
