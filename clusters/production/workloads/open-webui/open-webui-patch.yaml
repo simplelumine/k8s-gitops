@@ -99,15 +99,6 @@ spec:
             key: qdrant-api-key
       - name: ENABLE_QDRANT_MULTITENANCY_MODE
         value: "true"
-      # --- OpenTelemetry Tracing (-> Grafana Tempo) ---
-      - name: ENABLE_OTEL
-        value: "true"
-      - name: OTEL_SERVICE_NAME
-        value: "open-webui"
-      - name: OTEL_EXPORTER_OTLP_ENDPOINT
-        value: "http://grafana-tempo.monitoring.svc:4317"
-      - name: OTEL_EXPORTER_OTLP_PROTOCOL
-        value: "grpc"
       # --- OIDC Single Sign-On (-> ZITADEL) ---
       - name: OPENID_PROVIDER_URL
         value: "https://auth.simplelumine.dev/.well-known/openid-configuration"

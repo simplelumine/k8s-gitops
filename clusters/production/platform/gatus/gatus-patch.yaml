@@ -97,7 +97,41 @@ spec:
             - "[STATUS] == 200"
 
         # --- 2. Gemini Provider ---
-        - name: "Studio"
+        - name: "Vega"
+          group: 2. Gemini Provider
+          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/gemini-api/gemini-flash-lite-latest:generateContent"
+          interval: 6h
+          client:
+            timeout: 30s
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${GEMINI_API_KEY}"
+          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
+
+        - name: "Spica"
+          group: 2. Gemini Provider
+          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/vertexai/gemini-flash-lite-latest:generateContent"
+          interval: 6h
+          client:
+            timeout: 30s
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${GEMINI_API_KEY}"
+          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
+
+        - name: "Altair"
           group: 2. Gemini Provider
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/aistudio/gemini-flash-lite-latest:generateContent"
           interval: 6h
@@ -114,7 +148,7 @@ spec:
             hide-url: true
             hide-hostname: true
 
-        - name: "Agent"
+        - name: "Rigel"
           group: 2. Gemini Provider
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/antigravity/gemini-flash-latest:generateContent"
           interval: 6h
@@ -131,24 +165,7 @@ spec:
             hide-url: true
             hide-hostname: true
 
-        - name: "Flow"
-          group: 2. Gemini Provider
-          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/labs-flow/gemini-3.1-flash-lite-image:generateContent"
-          interval: 6h
-          client:
-            timeout: 60s
-          method: POST
-          headers:
-            Content-Type: "application/json"
-            x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"parts":[{"text":"draw a cat"}]}]}'
-          conditions:
-            - "[STATUS] == 200"
-          ui:
-            hide-url: true
-            hide-hostname: true
-
-        - name: "App"
+        - name: "Sirius"
           group: 2. Gemini Provider
           url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/gemini-app/gemini-flash-lite-latest:generateContent"
           interval: 6h
@@ -165,17 +182,17 @@ spec:
             hide-url: true
             hide-hostname: true
 
-        - name: "Dev"
+        - name: "Deneb"
           group: 2. Gemini Provider
-          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/gemini-api/gemini-flash-lite-latest:generateContent"
+          url: "http://simple-gemini-worker.simple-gemini.svc.cluster.local:8080/v1beta/models/labs-flow/gemini-3.1-flash-lite-image:generateContent"
           interval: 6h
           client:
-            timeout: 30s
+            timeout: 60s
           method: POST
           headers:
             Content-Type: "application/json"
             x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          body: '{"contents":[{"parts":[{"text":"draw a cat"}]}]}'
           conditions:
             - "[STATUS] == 200"
           ui:

@@ -44,7 +44,7 @@ spec:
     vmcluster:
       enabled: false
 
-    # Configure Grafana with VictoriaLogs integration
+    # Configure Grafana
     grafana:
       enabled: true
       persistence:

@@ -3,14 +3,10 @@ kind: Kustomization
 resources:
   - blackbox-exporter
   - cert-issuer
-  # - grafana-tempo
   - monitoring-rules
-  # - victoria-logs
   - vaultwarden
   - gatus
   - zitadel
   - oauth2-proxy
-  # - forgejo
-  # - forgejo-runner
   - outline
   - xray-client

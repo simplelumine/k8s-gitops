@@ -9,4 +9,3 @@ resources:
   - connectivity
   - redis-operator
   - headlamp
-  # - trivy-operator

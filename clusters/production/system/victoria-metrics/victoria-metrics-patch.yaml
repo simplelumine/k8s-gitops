@@ -34,9 +34,6 @@ spec:
             hosts:
               - monitor.simplelumine.dev
 
-      plugins:
-        - victoriametrics-logs-datasource
-
       # service:
       #   annotations:
       #     tailscale.com/expose: "true"

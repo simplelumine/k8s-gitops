@@ -12,6 +12,3 @@ resources:
 
   # ESO Secrets Sync
   - connectivity-eso.yaml
-
-  # CoreDNS Custom Override (Internal DNS Rewrite)
-  - coredns-custom.yaml
