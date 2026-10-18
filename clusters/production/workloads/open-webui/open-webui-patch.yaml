@@ -138,6 +138,8 @@ spec:
     resources:
       requests:
         memory: "768Mi"
+      limits:
+        memory: "1024Mi"
 
     affinity:
       podAffinity:

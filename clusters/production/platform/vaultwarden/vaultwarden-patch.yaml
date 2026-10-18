@@ -38,3 +38,10 @@ spec:
                   key: SMTP_PASSWORD
             - name: SMTP_AUTH_MECHANISM
               value: "Plain"
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi

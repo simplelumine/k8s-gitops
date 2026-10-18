@@ -22,6 +22,19 @@ spec:
         - key: "node-role.kubernetes.io/observability"
           operator: "Exists"
           effect: "NoSchedule"
+      resources:
+        requests:
+          cpu: 20m
+          memory: 256Mi
+        limits:
+          memory: 448Mi
+      sidecar:
+        resources:
+          requests:
+            cpu: 5m
+            memory: 48Mi
+          limits:
+            memory: 96Mi
       ingress:
         enabled: true
         ingressClassName: traefik
@@ -70,6 +83,12 @@ spec:
     vmsingle:
       spec:
         retentionPeriod: "30d"
+        resources:
+          requests:
+            cpu: "200m"
+            memory: "512Mi"
+          limits:
+            memory: "768Mi"
         nodeSelector:
           node-role.kubernetes.io/observability: "true"
         tolerations:

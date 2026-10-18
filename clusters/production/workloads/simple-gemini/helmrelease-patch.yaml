@@ -10,7 +10,13 @@ spec:
     worker:
       replicaCount: 2
     browser:
-      replicaCount: 4
+      replicaCount: 8
+      resources:
+        requests:
+          cpu: 20m
+          memory: 512Mi
+        limits:
+          memory: 1024Mi
     service:
       annotations:
         tailscale.com/expose: "true"

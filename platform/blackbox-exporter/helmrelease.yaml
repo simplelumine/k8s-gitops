@@ -13,10 +13,3 @@ spec:
         kind: HelmRepository
         name: prometheus-community
         namespace: monitoring
-  values:
-    resources:
-      requests:
-        cpu: 10m
-        memory: 32Mi
-      limits:
-        memory: 64Mi

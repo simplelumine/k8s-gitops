@@ -11,6 +11,12 @@ spec:
       - key: "node-role.kubernetes.io/observability"
         operator: "Exists"
         effect: "NoSchedule"
+    resources:
+      requests:
+        cpu: 10m
+        memory: 32Mi
+      limits:
+        memory: 64Mi
     config:
       modules:
         http_2xx:
