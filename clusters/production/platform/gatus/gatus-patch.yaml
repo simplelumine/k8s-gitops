@@ -143,7 +143,7 @@ spec:
 
         - name: "Rigel"
           group: 2. Gemini Provider
-          url: "https://api.simplelumine.dev/v1beta/models/rigel/gemini-flash-lite-latest:generateContent"
+          url: "https://api.simplelumine.dev/v1beta/models/rigel/gemini-flash-latest:generateContent"
           interval: 6h
           client:
             timeout: 30s
