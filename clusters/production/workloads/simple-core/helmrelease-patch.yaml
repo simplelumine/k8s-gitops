@@ -30,6 +30,11 @@ spec:
         existingSecret: "simple-core-secrets"
         secretKey: "RECAPTCHA_API_KEY"
         minScore: 0.5
+      stripe:
+        enabled: true
+        existingSecret: "simple-core-secrets"
+        secretKeyName: "STRIPE_SECRET_KEY"
+        webhookSecretKeyName: "STRIPE_WEBHOOK_SECRET"
 
     simpleGemini:
       url: "http://simple-gemini-worker.simple-gemini:8080"
