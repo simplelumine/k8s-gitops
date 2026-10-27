@@ -41,6 +41,109 @@ spec:
       ui:
         default-sort-by: group
       endpoints:
+        # --- 1. Gemini ---
+        - name: "Vega"
+          group: 1. Gemini
+          url: "https://api.simplelumine.dev/v1beta/models/vega/gemini-3.5-flash-lite:generateContent"
+          interval: 6h
+          client:
+            timeout: 30s
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${GEMINI_API_KEY}"
+          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
+
+        - name: "Spica"
+          group: 1. Gemini
+          url: "https://api.simplelumine.dev/v1beta/models/spica/gemini-3.5-flash-lite:generateContent"
+          interval: 6h
+          client:
+            timeout: 30s
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${GEMINI_API_KEY}"
+          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
+
+        - name: "Altair"
+          group: 1. Gemini
+          url: "https://api.simplelumine.dev/v1beta/models/altair/gemini-3.5-flash-lite:generateContent"
+          interval: 6h
+          client:
+            timeout: 30s
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${GEMINI_API_KEY}"
+          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
+
+        - name: "Rigel"
+          group: 1. Gemini
+          url: "https://api.simplelumine.dev/v1beta/models/rigel/gemini-3.8-flash:generateContent"
+          interval: 6h
+          client:
+            timeout: 30s
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${GEMINI_API_KEY}"
+          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
+
+        - name: "Sirius"
+          group: 1. Gemini
+          url: "https://api.simplelumine.dev/v1beta/models/sirius/gemini-3.5-flash-lite:generateContent"
+          interval: 6h
+          client:
+            timeout: 30s
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${GEMINI_API_KEY}"
+          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
+
+        - name: "Deneb"
+          group: 1. Gemini
+          url: "https://api.simplelumine.dev/v1beta/models/deneb/gemini-3.1-flash-lite-image:generateContent"
+          interval: 6h
+          client:
+            timeout: 60s
+          method: POST
+          headers:
+            Content-Type: "application/json"
+            x-goog-api-key: "${GEMINI_API_KEY}"
+          body: '{"contents":[{"parts":[{"text":"draw a cat"}]}]}'
+          conditions:
+            - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
+
         # --- 2. SimpleLumine ---
         - name: Open WebUI
           group: 2. SimpleLumine
@@ -89,125 +192,16 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
-        # --- 1. Gemini ---
-        - name: "Vega"
-          group: 1. Gemini
-          url: "https://api.simplelumine.dev/v1beta/models/vega/gemini-flash-lite-latest:generateContent"
-          interval: 6h
-          client:
-            timeout: 30s
-          method: POST
-          headers:
-            Content-Type: "application/json"
-            x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
-          conditions:
-            - "[STATUS] == 200"
-          ui:
-            hide-url: true
-            hide-hostname: true
-
-        - name: "Spica"
-          group: 1. Gemini
-          url: "https://api.simplelumine.dev/v1beta/models/spica/gemini-3.5-flash-lite:generateContent"
-          interval: 6h
-          client:
-            timeout: 30s
-          method: POST
-          headers:
-            Content-Type: "application/json"
-            x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
-          conditions:
-            - "[STATUS] == 200"
-          ui:
-            hide-url: true
-            hide-hostname: true
-
-        - name: "Altair"
-          group: 1. Gemini
-          url: "https://api.simplelumine.dev/v1beta/models/altair/gemini-flash-lite-latest:generateContent"
-          interval: 6h
-          client:
-            timeout: 30s
-          method: POST
-          headers:
-            Content-Type: "application/json"
-            x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
-          conditions:
-            - "[STATUS] == 200"
-          ui:
-            hide-url: true
-            hide-hostname: true
-
-        - name: "Rigel"
-          group: 1. Gemini
-          url: "https://api.simplelumine.dev/v1beta/models/rigel/gemini-flash-latest:generateContent"
-          interval: 6h
-          client:
-            timeout: 30s
-          method: POST
-          headers:
-            Content-Type: "application/json"
-            x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
-          conditions:
-            - "[STATUS] == 200"
-          ui:
-            hide-url: true
-            hide-hostname: true
-
-        - name: "Sirius"
-          group: 1. Gemini
-          url: "https://api.simplelumine.dev/v1beta/models/sirius/gemini-flash-lite-latest:generateContent"
-          interval: 6h
-          client:
-            timeout: 30s
-          method: POST
-          headers:
-            Content-Type: "application/json"
-            x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
-          conditions:
-            - "[STATUS] == 200"
-          ui:
-            hide-url: true
-            hide-hostname: true
-
-        - name: "Deneb"
-          group: 1. Gemini
-          url: "https://api.simplelumine.dev/v1beta/models/deneb/gemini-3.1-flash-lite-image:generateContent"
-          interval: 6h
-          client:
-            timeout: 60s
-          method: POST
-          headers:
-            Content-Type: "application/json"
-            x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"parts":[{"text":"draw a cat"}]}]}'
-          conditions:
-            - "[STATUS] == 200"
-          ui:
-            hide-url: true
-            hide-hostname: true
-
-        # --- 3. TextVerse ---
-        - name: SillyTavern
-          group: 3. TextVerse
-          url: "https://st.textverse.space"
+        - name: Simple Gemini
+          group: 2. SimpleLumine
+          url: "https://gemini.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
 
-        - name: Space Card
-          group: 3. TextVerse
-          url: "https://sc-assets.textverse.space"
-          interval: 60s
-          conditions:
-            - "[STATUS] < 500"
-
-        # --- 4. Internal ---
         - name: Vaultwarden
           group: 4. Internal
           url: "https://vault.simplelumine.dev"
@@ -232,6 +226,22 @@ spec:
         - name: Headlamp
           group: 4. Internal
           url: "https://k8s.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] < 500"
+
+
+        # --- 3. TextVerse ---
+        - name: SillyTavern
+          group: 3. TextVerse
+          url: "https://st.textverse.space"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Space Card
+          group: 3. TextVerse
+          url: "https://sc-assets.textverse.space"
           interval: 60s
           conditions:
             - "[STATUS] < 500"
