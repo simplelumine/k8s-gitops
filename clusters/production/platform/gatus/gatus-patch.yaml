@@ -203,28 +203,28 @@ spec:
             hide-hostname: true
 
         - name: Vaultwarden
-          group: 4. Internal
+          group: 2. SimpleLumine
           url: "https://vault.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Ghostfolio
-          group: 4. Internal
+          group: 2. SimpleLumine
           url: "https://invest.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Grafana
-          group: 4. Internal
+          group: 2. SimpleLumine
           url: "https://monitor.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
 
         - name: Headlamp
-          group: 4. Internal
+          group: 2. SimpleLumine
           url: "https://k8s.simplelumine.dev"
           interval: 60s
           conditions:
