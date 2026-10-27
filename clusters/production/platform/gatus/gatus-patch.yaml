@@ -230,6 +230,13 @@ spec:
           conditions:
             - "[STATUS] < 500"
 
+        - name: Qdrant
+          group: 2. SimpleLumine
+          url: "https://vector.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
 
         # --- 3. TextVerse ---
         - name: SillyTavern

@@ -40,7 +40,7 @@ spec:
             - name: OIDC_ISSUER
               value: "https://auth.simplelumine.dev"
             - name: OIDC_CLIENT_ID
-              value: "388731925444953179"
+              value: "396974081636828351"
             - name: OIDC_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:

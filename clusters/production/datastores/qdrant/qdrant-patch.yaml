@@ -44,14 +44,24 @@ spec:
           name: qdrant-secret
           key: api-key
 
-    # --- Service ---
-    service:
-      annotations:
-        tailscale.com/expose: "true"
-        tailscale.com/hostname: "qdrant"
-
     # --- Ingress ---
     ingress:
-      enabled: false
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
+        traefik.ingress.kubernetes.io/router.middlewares: oauth2-proxy-oauth2-proxy-errors@kubernetescrd,oauth2-proxy-oauth2-proxy-auth@kubernetescrd
+      hosts:
+        - host: vector.simplelumine.dev
+          paths:
+            - path: /
+              pathType: Prefix
+              servicePort: 6333
+      tls:
+        - secretName: qdrant-tls
+          hosts:
+            - vector.simplelumine.dev
 
 

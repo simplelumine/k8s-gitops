@@ -17,10 +17,6 @@ spec:
           memory: 512Mi
         limits:
           memory: 1024Mi
-    service:
-      annotations:
-        tailscale.com/expose: "true"
-        tailscale.com/hostname: "simple-gemini"
 
     ingress:
       enabled: false
