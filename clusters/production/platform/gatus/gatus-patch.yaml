@@ -112,7 +112,7 @@ spec:
 
         - name: "Sirius"
           group: 1. Gemini
-          url: "https://api.simplelumine.dev/v1beta/models/sirius/gemini-3.5-flash-lite:generateContent"
+          url: "https://api.simplelumine.dev/v1beta/models/sirius/gemini-flash-lite-latest:generateContent"
           interval: 6h
           client:
             timeout: 30s
