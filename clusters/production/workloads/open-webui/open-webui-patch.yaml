@@ -103,7 +103,7 @@ spec:
       - name: OPENID_PROVIDER_URL
         value: "https://auth.simplelumine.dev/.well-known/openid-configuration"
       - name: OAUTH_CLIENT_ID
-        value: "387406520549114141"
+        value: "397221845062911167"
       - name: OAUTH_CLIENT_SECRET
         valueFrom:
           secretKeyRef:
