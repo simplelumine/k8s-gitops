@@ -4,7 +4,7 @@ metadata:
   name: simple-gemini
   namespace: simple-gemini
 spec:
-  interval: 5m
+  interval: 6h
   chart:
     spec:
       chart: simple-gemini-chart

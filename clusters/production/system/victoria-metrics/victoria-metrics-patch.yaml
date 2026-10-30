@@ -15,6 +15,66 @@ spec:
     kubeEtcd:
       enabled: false
 
+    # Keep kube-apiserver core metrics on CP node but drop high-cardinality histogram buckets (>90% payload reduction)
+    kubeApiServer:
+      enabled: true
+      vmScrape:
+        spec:
+          endpoints:
+            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+              port: https
+              scheme: https
+              interval: "60s"
+              tlsConfig:
+                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+                serverName: kubernetes
+              metricRelabelConfigs:
+                - action: drop
+                  sourceLabels:
+                    - __name__
+                  regex: ".*_bucket"
+
+    # Exclude CP node from kubelet/cadvisor/probes/resources scrapes (avoids scraping K3s monolithic /metrics twice)
+    kubelet:
+      vmScrape:
+        spec:
+          interval: "60s"
+          selector:
+            matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: DoesNotExist
+
+    # Exclude high-churn leases from kube-state-metrics cluster-wide watch
+    kube-state-metrics:
+      collectors:
+        - certificatesigningrequests
+        - configmaps
+        - cronjobs
+        - daemonsets
+        - deployments
+        - endpointslices
+        - horizontalpodautoscalers
+        - ingresses
+        - jobs
+        - limitranges
+        - mutatingwebhookconfigurations
+        - namespaces
+        - networkpolicies
+        - nodes
+        - persistentvolumeclaims
+        - persistentvolumes
+        - poddisruptionbudgets
+        - pods
+        - replicasets
+        - replicationcontrollers
+        - resourcequotas
+        - secrets
+        - services
+        - statefulsets
+        - storageclasses
+        - validatingwebhookconfigurations
+        - volumeattachments
+
     grafana:
       nodeSelector:
         node-role.kubernetes.io/observability: "true"
@@ -35,6 +95,18 @@ spec:
             memory: 48Mi
           limits:
             memory: 96Mi
+        dashboards:
+          watchMethod: SLEEP
+          resource: configmap
+          searchNamespace: monitoring
+          env:
+            SLEEP_TIME: "300"
+        datasources:
+          watchMethod: SLEEP
+          resource: configmap
+          searchNamespace: monitoring
+          env:
+            SLEEP_TIME: "300"
       ingress:
         enabled: true
         ingressClassName: traefik

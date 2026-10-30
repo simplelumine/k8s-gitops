@@ -4,7 +4,7 @@ metadata:
   name: gatus
   namespace: gatus
 spec:
-  interval: 1h
+  interval: 6h
   chart:
     spec:
       chart: gatus

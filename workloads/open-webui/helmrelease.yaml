@@ -4,7 +4,7 @@ metadata:
   name: open-webui
   namespace: open-webui
 spec:
-  interval: 15m
+  interval: 6h
   chart:
     spec:
       chart: open-webui

@@ -4,7 +4,7 @@ metadata:
   name: simple-core
   namespace: simple-core
 spec:
-  interval: 5m
+  interval: 6h
   chart:
     spec:
       chart: simple-core-chart

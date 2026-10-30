@@ -4,7 +4,7 @@ metadata:
   name: cluster-config
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 6h
   path: ./clusters/production/cluster-config
   prune: true
   sourceRef:

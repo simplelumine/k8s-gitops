@@ -4,7 +4,7 @@ metadata:
   name: rbac
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 6h
   path: ./clusters/production/rbac
   prune: true
   sourceRef:

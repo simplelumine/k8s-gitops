@@ -4,7 +4,7 @@ metadata:
   name: reloader
   namespace: flux-system
 spec:
-  interval: 1h
+  interval: 6h
   chart:
     spec:
       chart: reloader

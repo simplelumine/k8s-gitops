@@ -53,6 +53,13 @@ spec:
   # HA & Failover settings
   primaryUpdateStrategy: unsupervised
 
+  # Reduce API server polling from readiness/liveness probes (default 10s -> 60s)
+  probes:
+    liveness:
+      periodSeconds: 60
+    readiness:
+      periodSeconds: 60
+
   priorityClassName: high
 
   # Scheduling & Affinity Configuration
