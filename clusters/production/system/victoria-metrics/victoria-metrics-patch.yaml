@@ -15,24 +15,9 @@ spec:
     kubeEtcd:
       enabled: false
 
-    # Keep kube-apiserver core metrics on CP node but drop high-cardinality histogram buckets (>90% payload reduction)
+    # Disable monolithic K3s kube-apiserver /metrics scrape (426 KB gzipped/scrape = 18.4 GB/month at 60s)
     kubeApiServer:
-      enabled: true
-      vmScrape:
-        spec:
-          endpoints:
-            - bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-              port: https
-              scheme: https
-              interval: "60s"
-              tlsConfig:
-                caFile: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-                serverName: kubernetes
-              metricRelabelConfigs:
-                - action: drop
-                  sourceLabels:
-                    - __name__
-                  regex: ".*_bucket"
+      enabled: false
 
     # Exclude CP node from kubelet/cadvisor/probes/resources scrapes (avoids scraping K3s monolithic /metrics twice)
     kubelet:
