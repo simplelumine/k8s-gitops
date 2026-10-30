@@ -80,6 +80,13 @@ spec:
         - validatingwebhookconfigurations
         - volumeattachments
 
+    # Disable 2s leader-election lease churn and scope watch to monitoring namespace
+    victoria-metrics-operator:
+      watchNamespaces:
+        - monitoring
+      extraArgs:
+        leader-elect: "false"
+
     grafana:
       nodeSelector:
         node-role.kubernetes.io/observability: "true"
@@ -105,13 +112,13 @@ spec:
           resource: configmap
           searchNamespace: monitoring
           env:
-            SLEEP_TIME: "300"
+            SLEEP_TIME: "21600"
         datasources:
           watchMethod: SLEEP
           resource: configmap
           searchNamespace: monitoring
           env:
-            SLEEP_TIME: "300"
+            SLEEP_TIME: "21600"
       ingress:
         enabled: true
         ingressClassName: traefik

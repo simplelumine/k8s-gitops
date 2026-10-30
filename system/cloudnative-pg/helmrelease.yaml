@@ -18,3 +18,12 @@ spec:
     crds: Create
   upgrade:
     crds: CreateReplace
+  values:
+    additionalArgs:
+      - --leader-elect=false
+    additionalEnv:
+      - name: WATCH_NAMESPACE
+        value: postgres
+    config:
+      data:
+        WATCH_NAMESPACE: postgres

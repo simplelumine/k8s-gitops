@@ -5,6 +5,13 @@ metadata:
   namespace: ot-operators
 spec:
   values:
+    redisOperator:
+      watchNamespace: "redis"
+      extraArgs:
+        - --leader-elect=false
+    manager:
+      config:
+        kubeClientQPS: 2
     resources:
       limits:
         cpu: 200m
