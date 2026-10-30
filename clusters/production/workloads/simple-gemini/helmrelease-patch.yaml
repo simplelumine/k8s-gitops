@@ -10,10 +10,10 @@ spec:
     worker:
       replicaCount: 2
     browser:
-      replicaCount: 8
+      replicaCount: 10
       resources:
         requests:
-          cpu: 20m
+          cpu: 50m
           memory: 512Mi
         limits:
           memory: 1024Mi
