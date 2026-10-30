@@ -44,6 +44,11 @@ spec:
               - key: node-role.kubernetes.io/control-plane
                 operator: DoesNotExist
 
+    # Allow node-exporter to tolerate CP node's NoExecute taint so CP host metrics stay monitored
+    prometheus-node-exporter:
+      tolerations:
+        - operator: Exists
+
     # Exclude high-churn leases from kube-state-metrics cluster-wide watch
     kube-state-metrics:
       collectors:
