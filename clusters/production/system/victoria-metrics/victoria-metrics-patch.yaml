@@ -65,10 +65,8 @@ spec:
         - validatingwebhookconfigurations
         - volumeattachments
 
-    # Disable 2s leader-election lease churn and scope watch to monitoring namespace
+    # Disable 2s leader-election lease churn on single-replica operator
     victoria-metrics-operator:
-      watchNamespaces:
-        - monitoring
       extraArgs:
         leader-elect: "false"
 
