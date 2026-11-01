@@ -58,28 +58,27 @@ data:
     if [[ -z "$MASTER_IP" ]]; then
       if [[ "$MY_NAME" == "redis-0" ]]; then
         PEER="redis-1.redis-headless.redis.svc.cluster.local"
+        PEER_IP=$(getent hosts "$PEER" | awk '{print $1}' | head -n 1 || true)
+        if [[ -n "$PEER_IP" && "$PEER_IP" != "$MY_IP" ]]; then
+          PEER_ROLE=$(redis-cli -h "$PEER_IP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+          if [[ "$PEER_ROLE" == "master" ]]; then
+            MASTER_IP="$PEER_IP"
+          fi
+        fi
       else
         PEER="redis-0.redis-headless.redis.svc.cluster.local"
-      fi
-      PEER_IP=$(getent hosts "$PEER" | awk '{print $1}' | head -n 1 || true)
-      if [[ -n "$PEER_IP" && "$PEER_IP" != "$MY_IP" ]]; then
-        PEER_ROLE=$(redis-cli -h "$PEER_IP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
-        if [[ "$PEER_ROLE" == "master" ]]; then
-          MASTER_IP="$PEER_IP"
-        elif [[ "$MY_NAME" != "redis-0" && -z "$PEER_ROLE" ]]; then
-          # Wait briefly on initial cluster boot for redis-0
-          for i in {1..5}; do
-            sleep 2
-            PEER_IP=$(getent hosts "$PEER" | awk '{print $1}' | head -n 1 || true)
-            if [[ -n "$PEER_IP" ]]; then
-              PEER_ROLE=$(redis-cli -h "$PEER_IP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
-              if [[ "$PEER_ROLE" == "master" ]]; then
-                MASTER_IP="$PEER_IP"
-                break
-              fi
+        # Wait up to 20s on initial parallel boot for redis-0 DNS and server to come up
+        for i in {1..10}; do
+          PEER_IP=$(getent hosts "$PEER" | awk '{print $1}' | head -n 1 || true)
+          if [[ -n "$PEER_IP" && "$PEER_IP" != "$MY_IP" ]]; then
+            PEER_ROLE=$(redis-cli -h "$PEER_IP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+            if [[ "$PEER_ROLE" == "master" ]]; then
+              MASTER_IP="$PEER_IP"
+              break
             fi
-          done
-        fi
+          fi
+          sleep 2
+        done
       fi
     fi
 
