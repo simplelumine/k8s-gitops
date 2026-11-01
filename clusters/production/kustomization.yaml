@@ -17,3 +17,11 @@ patches:
       kind: Kustomization
       name: flux-system
       namespace: flux-system
+  - patch: |
+      - op: add
+        path: /spec/template/spec/containers/0/args/-
+        value: --enable-leader-election=false
+    target:
+      kind: Deployment
+      name: "(source|kustomize|helm|notification)-controller"
+      namespace: flux-system
