@@ -33,6 +33,8 @@ kind: ConfigMap
 metadata:
   name: redis-scripts
   namespace: redis
+  annotations:
+    kustomize.toolkit.fluxcd.io/substitute: disabled
 data:
   start-redis.sh: |
     #!/bin/bash
