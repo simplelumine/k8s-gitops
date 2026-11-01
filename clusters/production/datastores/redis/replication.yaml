@@ -41,47 +41,28 @@ data:
     set -euo pipefail
 
     MY_NAME=$(hostname)
-    MY_IP=$(hostname -i | awk '{print $1}')
-    MASTER_IP=""
+    MY_FQDN="${MY_NAME}.redis-headless.redis.svc.cluster.local"
+    if [[ "$MY_NAME" == "redis-0" ]]; then
+      PEER_FQDN="redis-1.redis-headless.redis.svc.cluster.local"
+    else
+      PEER_FQDN="redis-0.redis-headless.redis.svc.cluster.local"
+    fi
+    MASTER_HOST=""
 
-    # 1. Query Sentinels first to see who the current active master is
-    for s in redis-s-0.redis-s-hl.redis.svc.cluster.local redis-s-1.redis-s-hl.redis.svc.cluster.local redis-s-2.redis-s-hl.redis.svc.cluster.local; do
-      CANDIDATE=$(redis-cli -h "$s" -p 26379 --raw SENTINEL get-master-addr-by-name mymaster 2>/dev/null | head -n 1 || true)
-      if [[ -n "$CANDIDATE" && "$CANDIDATE" != "$MY_IP" ]]; then
-        ROLE=$(redis-cli -h "$CANDIDATE" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
-        if [[ "$ROLE" == "master" ]]; then
-          MASTER_IP="$CANDIDATE"
+    # 1. Check if peer Redis pod is already running as master
+    PEER_ROLE=$(redis-cli -h "$PEER_FQDN" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+    if [[ "$PEER_ROLE" == "master" ]]; then
+      MASTER_HOST="$PEER_FQDN"
+    elif [[ "$MY_NAME" != "redis-0" ]]; then
+      # On cold parallel boot, redis-1 waits up to 20s for redis-0 DNS and server to come up
+      for i in {1..10}; do
+        sleep 2
+        PEER_ROLE=$(redis-cli -h "$PEER_FQDN" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+        if [[ "$PEER_ROLE" == "master" ]]; then
+          MASTER_HOST="$PEER_FQDN"
           break
         fi
-      fi
-    done
-
-    # 2. Fallback: Check peer Redis pod directly if Sentinel is still booting or unreachable
-    if [[ -z "$MASTER_IP" ]]; then
-      if [[ "$MY_NAME" == "redis-0" ]]; then
-        PEER="redis-1.redis-headless.redis.svc.cluster.local"
-        PEER_IP=$(getent hosts "$PEER" | awk '{print $1}' | head -n 1 || true)
-        if [[ -n "$PEER_IP" && "$PEER_IP" != "$MY_IP" ]]; then
-          PEER_ROLE=$(redis-cli -h "$PEER_IP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
-          if [[ "$PEER_ROLE" == "master" ]]; then
-            MASTER_IP="$PEER_IP"
-          fi
-        fi
-      else
-        PEER="redis-0.redis-headless.redis.svc.cluster.local"
-        # Wait up to 20s on initial parallel boot for redis-0 DNS and server to come up
-        for i in {1..10}; do
-          PEER_IP=$(getent hosts "$PEER" | awk '{print $1}' | head -n 1 || true)
-          if [[ -n "$PEER_IP" && "$PEER_IP" != "$MY_IP" ]]; then
-            PEER_ROLE=$(redis-cli -h "$PEER_IP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
-            if [[ "$PEER_ROLE" == "master" ]]; then
-              MASTER_IP="$PEER_IP"
-              break
-            fi
-          fi
-          sleep 2
-        done
-      fi
+      done
     fi
 
     cat <<EOF > /tmp/redis.conf
@@ -95,15 +76,15 @@ data:
     save 900 1
     save 300 10
     save 60 10000
-    replica-announce-ip ${MY_IP}
+    replica-announce-ip ${MY_FQDN}
     replica-announce-port 6379
     EOF
 
-    if [[ -n "$MASTER_IP" && "$MASTER_IP" != "$MY_IP" ]]; then
-      echo "Starting Redis as replica of ${MASTER_IP}:6379 (my IP: ${MY_IP})"
-      echo "replicaof ${MASTER_IP} 6379" >> /tmp/redis.conf
+    if [[ -n "$MASTER_HOST" ]]; then
+      echo "Starting Redis as replica of ${MASTER_HOST}:6379 (my FQDN: ${MY_FQDN})"
+      echo "replicaof ${MASTER_HOST} 6379" >> /tmp/redis.conf
     else
-      echo "Starting Redis as master (my IP: ${MY_IP})"
+      echo "Starting Redis as master (my FQDN: ${MY_FQDN})"
     fi
 
     rm -f /tmp/redis_role
@@ -161,47 +142,31 @@ data:
     #!/bin/bash
     set -euo pipefail
 
-    MY_IP=$(hostname -i | awk '{print $1}')
-    MASTER_IP=""
+    MY_NAME=$(hostname)
+    MY_FQDN="${MY_NAME}.redis-s-hl.redis.svc.cluster.local"
+    MASTER_HOST=""
 
-    while [[ -z "$MASTER_IP" ]]; do
-      # 1. Ask existing Sentinels first
-      for s in redis-s-0.redis-s-hl.redis.svc.cluster.local redis-s-1.redis-s-hl.redis.svc.cluster.local redis-s-2.redis-s-hl.redis.svc.cluster.local; do
-        CANDIDATE=$(redis-cli -h "$s" -p 26379 --raw SENTINEL get-master-addr-by-name mymaster 2>/dev/null | head -n 1 || true)
-        if [[ -n "$CANDIDATE" ]]; then
-          ROLE=$(redis-cli -h "$CANDIDATE" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
-          if [[ "$ROLE" == "master" ]]; then
-            MASTER_IP="$CANDIDATE"
-            break
-          fi
+    while [[ -z "$MASTER_HOST" ]]; do
+      for r in redis-0.redis-headless.redis.svc.cluster.local redis-1.redis-headless.redis.svc.cluster.local; do
+        ROLE=$(redis-cli -h "$r" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+        if [[ "$ROLE" == "master" ]]; then
+          MASTER_HOST="$r"
+          break
         fi
       done
-
-      # 2. Probe redis-0 and redis-1 directly for role:master
-      if [[ -z "$MASTER_IP" ]]; then
-        for r in redis-0.redis-headless.redis.svc.cluster.local redis-1.redis-headless.redis.svc.cluster.local; do
-          RIP=$(getent hosts "$r" | awk '{print $1}' | head -n 1 || true)
-          if [[ -n "$RIP" ]]; then
-            ROLE=$(redis-cli -h "$RIP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
-            if [[ "$ROLE" == "master" ]]; then
-              MASTER_IP="$RIP"
-              break
-            fi
-          fi
-        done
-      fi
-
-      [[ -z "$MASTER_IP" ]] && sleep 2
+      [[ -z "$MASTER_HOST" ]] && sleep 2
     done
 
-    echo "Sentinel monitoring master at ${MASTER_IP}:6379 (my IP: ${MY_IP})"
+    echo "Sentinel monitoring master at ${MASTER_HOST}:6379 (my FQDN: ${MY_FQDN})"
     cat <<EOF > /tmp/sentinel.conf
     bind 0.0.0.0
     port 26379
     dir /tmp
-    sentinel announce-ip ${MY_IP}
+    sentinel resolve-hostnames yes
+    sentinel announce-hostnames yes
+    sentinel announce-ip ${MY_FQDN}
     sentinel announce-port 26379
-    sentinel monitor mymaster ${MASTER_IP} 6379 2
+    sentinel monitor mymaster ${MASTER_HOST} 6379 2
     sentinel down-after-milliseconds mymaster 15000
     sentinel failover-timeout mymaster 30000
     sentinel parallel-syncs mymaster 1
