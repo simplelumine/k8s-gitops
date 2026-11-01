@@ -1,35 +1,380 @@
-apiVersion: redis.redis.opstreelabs.in/v1beta2
-kind: RedisReplication
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: redis-ha
+  namespace: redis
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: redis-ha
+  namespace: redis
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: redis-ha
+  namespace: redis
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: redis-ha
+subjects:
+  - kind: ServiceAccount
+    name: redis-ha
+    namespace: redis
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-scripts
+  namespace: redis
+data:
+  start-redis.sh: |
+    #!/bin/bash
+    set -euo pipefail
+
+    MY_NAME=$(hostname)
+    MY_IP=$(hostname -i | awk '{print $1}')
+    MASTER_IP=""
+
+    # 1. Query Sentinels first to see who the current active master is
+    for s in redis-s-0.redis-s-hl.redis.svc.cluster.local redis-s-1.redis-s-hl.redis.svc.cluster.local redis-s-2.redis-s-hl.redis.svc.cluster.local; do
+      CANDIDATE=$(redis-cli -h "$s" -p 26379 --raw SENTINEL get-master-addr-by-name mymaster 2>/dev/null | head -n 1 || true)
+      if [[ -n "$CANDIDATE" && "$CANDIDATE" != "$MY_IP" ]]; then
+        ROLE=$(redis-cli -h "$CANDIDATE" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+        if [[ "$ROLE" == "master" ]]; then
+          MASTER_IP="$CANDIDATE"
+          break
+        fi
+      fi
+    done
+
+    # 2. Fallback: Check peer Redis pod directly if Sentinel is still booting or unreachable
+    if [[ -z "$MASTER_IP" ]]; then
+      if [[ "$MY_NAME" == "redis-0" ]]; then
+        PEER="redis-1.redis-headless.redis.svc.cluster.local"
+      else
+        PEER="redis-0.redis-headless.redis.svc.cluster.local"
+      fi
+      PEER_IP=$(getent hosts "$PEER" | awk '{print $1}' | head -n 1 || true)
+      if [[ -n "$PEER_IP" && "$PEER_IP" != "$MY_IP" ]]; then
+        PEER_ROLE=$(redis-cli -h "$PEER_IP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+        if [[ "$PEER_ROLE" == "master" ]]; then
+          MASTER_IP="$PEER_IP"
+        elif [[ "$MY_NAME" != "redis-0" && -z "$PEER_ROLE" ]]; then
+          # Wait briefly on initial cluster boot for redis-0
+          for i in {1..5}; do
+            sleep 2
+            PEER_IP=$(getent hosts "$PEER" | awk '{print $1}' | head -n 1 || true)
+            if [[ -n "$PEER_IP" ]]; then
+              PEER_ROLE=$(redis-cli -h "$PEER_IP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+              if [[ "$PEER_ROLE" == "master" ]]; then
+                MASTER_IP="$PEER_IP"
+                break
+              fi
+            fi
+          done
+        fi
+      fi
+    fi
+
+    cat <<EOF > /tmp/redis.conf
+    bind 0.0.0.0
+    port 6379
+    protected-mode no
+    dir /data
+    appendonly yes
+    appendfilename "appendonly.aof"
+    appenddirname "appendonlydir"
+    save 900 1
+    save 300 10
+    save 60 10000
+    replica-announce-ip ${MY_IP}
+    replica-announce-port 6379
+    EOF
+
+    if [[ -n "$MASTER_IP" && "$MASTER_IP" != "$MY_IP" ]]; then
+      echo "Starting Redis as replica of ${MASTER_IP}:6379 (my IP: ${MY_IP})"
+      echo "replicaof ${MASTER_IP} 6379" >> /tmp/redis.conf
+    else
+      echo "Starting Redis as master (my IP: ${MY_IP})"
+    fi
+
+    rm -f /tmp/redis_role
+    exec redis-server /tmp/redis.conf
+
+  readiness.sh: |
+    #!/bin/bash
+    set -euo pipefail
+
+    PONG=$(redis-cli -p 6379 ping 2>/dev/null | tr -d '\r' || true)
+    if [[ "$PONG" != "PONG" ]]; then
+      exit 1
+    fi
+
+    ROLE=$(redis-cli -p 6379 info replication 2>/dev/null | awk -F: '/^role:/{gsub(/\r/,"",$2); print $2}')
+    if [[ "$ROLE" != "master" && "$ROLE" != "slave" ]]; then
+      exit 1
+    fi
+
+    OLD_ROLE=$(cat /tmp/redis_role 2>/dev/null || true)
+    if [[ "$ROLE" != "$OLD_ROLE" ]]; then
+      TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
+      POD_NAME=$(hostname)
+      BODY="{\"metadata\":{\"labels\":{\"redis-role\":\"${ROLE}\"}}}"
+      LEN=${#BODY}
+
+      exec 3<>/dev/tcp/${KUBERNETES_SERVICE_HOST}/${KUBERNETES_SERVICE_PORT}
+      RESP=$(printf "PATCH /api/v1/namespaces/redis/pods/%s HTTP/1.1\r\nHost: %s\r\nAuthorization: Bearer %s\r\nContent-Type: application/strategic-merge-patch+json\r\nContent-Length: %d\r\nConnection: close\r\n\r\n%s" \
+        "$POD_NAME" "$KUBERNETES_SERVICE_HOST" "$TOKEN" "$LEN" "$BODY" \
+        | SSL_CERT_FILE=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt ssl_client -s 3 -n kubernetes.default.svc 2>/dev/null | head -n 1 || true)
+      exec 3>&- || true
+
+      if [[ "$RESP" == *"200 OK"* ]]; then
+        echo "$ROLE" > /tmp/redis_role
+      fi
+    fi
+
+    exit 0
+
+  prestop.sh: |
+    #!/bin/bash
+    ROLE=$(redis-cli -p 6379 info replication 2>/dev/null | awk -F: '/^role:/{gsub(/\r/,"",$2); print $2}' || true)
+    if [[ "$ROLE" == "master" ]]; then
+      for s in redis-s-0.redis-s-hl.redis.svc.cluster.local redis-s-1.redis-s-hl.redis.svc.cluster.local redis-s-2.redis-s-hl.redis.svc.cluster.local; do
+        redis-cli -h "$s" -p 26379 SENTINEL failover mymaster >/dev/null 2>&1 && break || true
+      done
+      for i in {1..15}; do
+        sleep 1
+        ROLE=$(redis-cli -p 6379 info replication 2>/dev/null | awk -F: '/^role:/{gsub(/\r/,"",$2); print $2}' || true)
+        [[ "$ROLE" == "slave" ]] && break
+      done
+    fi
+
+  start-sentinel.sh: |
+    #!/bin/bash
+    set -euo pipefail
+
+    MY_IP=$(hostname -i | awk '{print $1}')
+    MASTER_IP=""
+
+    while [[ -z "$MASTER_IP" ]]; do
+      # 1. Ask existing Sentinels first
+      for s in redis-s-0.redis-s-hl.redis.svc.cluster.local redis-s-1.redis-s-hl.redis.svc.cluster.local redis-s-2.redis-s-hl.redis.svc.cluster.local; do
+        CANDIDATE=$(redis-cli -h "$s" -p 26379 --raw SENTINEL get-master-addr-by-name mymaster 2>/dev/null | head -n 1 || true)
+        if [[ -n "$CANDIDATE" ]]; then
+          ROLE=$(redis-cli -h "$CANDIDATE" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+          if [[ "$ROLE" == "master" ]]; then
+            MASTER_IP="$CANDIDATE"
+            break
+          fi
+        fi
+      done
+
+      # 2. Probe redis-0 and redis-1 directly for role:master
+      if [[ -z "$MASTER_IP" ]]; then
+        for r in redis-0.redis-headless.redis.svc.cluster.local redis-1.redis-headless.redis.svc.cluster.local; do
+          RIP=$(getent hosts "$r" | awk '{print $1}' | head -n 1 || true)
+          if [[ -n "$RIP" ]]; then
+            ROLE=$(redis-cli -h "$RIP" -p 6379 --raw role 2>/dev/null | head -n 1 || true)
+            if [[ "$ROLE" == "master" ]]; then
+              MASTER_IP="$RIP"
+              break
+            fi
+          fi
+        done
+      fi
+
+      [[ -z "$MASTER_IP" ]] && sleep 2
+    done
+
+    echo "Sentinel monitoring master at ${MASTER_IP}:6379 (my IP: ${MY_IP})"
+    cat <<EOF > /tmp/sentinel.conf
+    bind 0.0.0.0
+    port 26379
+    dir /tmp
+    sentinel announce-ip ${MY_IP}
+    sentinel announce-port 26379
+    sentinel monitor mymaster ${MASTER_IP} 6379 2
+    sentinel down-after-milliseconds mymaster 15000
+    sentinel failover-timeout mymaster 30000
+    sentinel parallel-syncs mymaster 1
+    EOF
+
+    exec redis-sentinel /tmp/sentinel.conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master
+  namespace: redis
+spec:
+  type: ClusterIP
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: redis
+    redis-role: master
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-replica
+  namespace: redis
+spec:
+  type: ClusterIP
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: redis
+    redis-role: slave
+---
+apiVersion: v1
+kind: Service
 metadata:
   name: redis
   namespace: redis
 spec:
-  clusterSize: 2 # 1 master + 1 replica
-  priorityClassName: high
-  podSecurityContext:
-    runAsUser: 1000
-    fsGroup: 1000
-  sentinel:
-    size: 3
-    image: quay.io/opstree/redis-sentinel:v8.10.1
-    imagePullPolicy: IfNotPresent
-    resources:
-      requests:
-        cpu: 20m
-        memory: 16Mi
-  redisExporter:
-    enabled: true
-    image: quay.io/opstree/redis-exporter:v1.89.0
-
-  kubernetesConfig:
-    image: quay.io/opstree/redis:v8.10.1
-    imagePullPolicy: IfNotPresent
-    resources:
-      requests:
-        cpu: 20m
-        memory: 32Mi
-  storage:
-    volumeClaimTemplate:
+  type: ClusterIP
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-headless
+  namespace: redis
+spec:
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+  selector:
+    app: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-s
+  namespace: redis
+spec:
+  type: ClusterIP
+  ports:
+    - name: sentinel
+      port: 26379
+      targetPort: 26379
+  selector:
+    app: redis-s
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-s-hl
+  namespace: redis
+spec:
+  clusterIP: None
+  publishNotReadyAddresses: true
+  ports:
+    - name: sentinel
+      port: 26379
+      targetPort: 26379
+  selector:
+    app: redis-s
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: redis
+spec:
+  serviceName: redis-headless
+  replicas: 2
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      serviceAccountName: redis-ha
+      priorityClassName: high
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - lax-wk-01
+                      - sfo-wk-01
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: redis
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: redis
+          image: quay.io/opstree/redis:v8.10.1
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "/scripts/start-redis.sh"]
+          ports:
+            - name: redis
+              containerPort: 6379
+          resources:
+            requests:
+              cpu: 20m
+              memory: 32Mi
+          readinessProbe:
+            exec:
+              command: ["/bin/bash", "/scripts/readiness.sh"]
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 3
+          livenessProbe:
+            tcpSocket:
+              port: 6379
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/bash", "/scripts/prestop.sh"]
+          volumeMounts:
+            - name: redis
+              mountPath: /data
+            - name: scripts
+              mountPath: /scripts
+              readOnly: true
+      volumes:
+        - name: scripts
+          configMap:
+            name: redis-scripts
+            defaultMode: 0755
+  volumeClaimTemplates:
+    - metadata:
+        name: redis
       spec:
         accessModes:
           - ReadWriteOnce
@@ -37,4 +382,65 @@ spec:
         resources:
           requests:
             storage: 1Gi
-
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-s
+  namespace: redis
+spec:
+  serviceName: redis-s-hl
+  replicas: 3
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app: redis-s
+  template:
+    metadata:
+      labels:
+        app: redis-s
+    spec:
+      priorityClassName: high
+      securityContext:
+        runAsUser: 1000
+        fsGroup: 1000
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: redis-s
+                topologyKey: kubernetes.io/hostname
+      containers:
+        - name: sentinel
+          image: quay.io/opstree/redis-sentinel:v8.10.1
+          imagePullPolicy: IfNotPresent
+          command: ["/bin/bash", "/scripts/start-sentinel.sh"]
+          ports:
+            - name: sentinel
+              containerPort: 26379
+          resources:
+            requests:
+              cpu: 20m
+              memory: 16Mi
+          readinessProbe:
+            tcpSocket:
+              port: 26379
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 26379
+            initialDelaySeconds: 10
+            periodSeconds: 15
+          volumeMounts:
+            - name: scripts
+              mountPath: /scripts
+              readOnly: true
+      volumes:
+        - name: scripts
+          configMap:
+            name: redis-scripts
+            defaultMode: 0755

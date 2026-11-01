@@ -7,5 +7,4 @@ resources:
   - traefik
   - victoria-metrics
   - connectivity
-  - redis-operator
   - headlamp
