@@ -19,6 +19,13 @@ spec:
     kubeApiServer:
       enabled: false
 
+    # The chart gates kube-apiserver burnrate/histogram/slos rule groups on kubeApiServer.enabled,
+    # but not availability: its 16 recording rules evaluate to empty results (-> RecordingRulesNoData).
+    defaultRules:
+      groups:
+        kube-apiserver-availability.rules:
+          enabled: false
+
     # Exclude CP node from kubelet/cadvisor/probes/resources scrapes (avoids scraping K3s monolithic /metrics twice)
     kubelet:
       vmScrape:
