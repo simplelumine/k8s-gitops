@@ -1,0 +1,96 @@
+# CloudNativePG monitoring: scrape the instance exporters directly and alert on the
+# conditions that break disaster recovery (R2 base backups / WAL archiving) or HA (replication).
+#
+# Lives in the platform layer (not datastores) on purpose: the datastores Flux Kustomization
+# runs postBuild substitution, which would mangle `$labels` in the alert annotations.
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMPodScrape
+metadata:
+  name: cnpg-postgres
+  namespace: postgres
+spec:
+  selector:
+    matchLabels:
+      cnpg.io/cluster: postgres
+      cnpg.io/podRole: instance
+  podMetricsEndpoints:
+    - port: metrics
+      interval: 60s
+      relabelConfigs:
+        - targetLabel: job
+          replacement: cnpg
+      # ~600 series per instance, most are pg_settings / pg_stat_database noise.
+      # Keep only what the rules below and basic capacity tracking need.
+      metricRelabelConfigs:
+        - sourceLabels: [__name__]
+          regex: "cnpg_collector_.*|cnpg_pg_replication_.*|cnpg_pg_stat_archiver_.*|cnpg_pg_database_size_bytes|cnpg_backends_total"
+          action: keep
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: cnpg-rules
+  namespace: monitoring
+spec:
+  groups:
+    - name: cnpg.rules
+      interval: 60s
+      rules:
+        - alert: CNPGInstanceDown
+          expr: up{job="cnpg"} == 0 or cnpg_collector_up == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "CNPG instance {{ $labels.pod }} is down"
+            description: "Postgres instance {{ $labels.namespace }}/{{ $labels.pod }} has not been scrapeable / healthy for 5 minutes."
+
+        # Only the primary reports the backup timestamps (replicas report 0), hence max by namespace.
+        # ScheduledBackup runs daily at 00:00 UTC: 26h leaves room for a slow upload.
+        - alert: CNPGBackupTooOld
+          expr: time() - max by (namespace) (cnpg_collector_last_available_backup_timestamp) > 26 * 3600
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: "CNPG base backup is older than 26h ({{ $labels.namespace }})"
+            description: "The last successful base backup to R2 is {{ $value | humanizeDuration }} old."
+
+        - alert: CNPGBackupFailed
+          expr: |
+            max by (namespace) (cnpg_collector_last_failed_backup_timestamp)
+              > max by (namespace) (cnpg_collector_last_available_backup_timestamp)
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "CNPG base backup failed ({{ $labels.namespace }})"
+            description: "The most recent base backup attempt failed after the last successful one."
+
+        # Point-in-time recovery depends on continuous WAL archiving to R2.
+        - alert: CNPGWALArchivingFailing
+          expr: cnpg_pg_stat_archiver_last_failed_time > cnpg_pg_stat_archiver_last_archived_time
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            summary: "CNPG WAL archiving is failing on {{ $labels.pod }}"
+            description: "The last WAL archive attempt failed and no segment has been archived since. PITR window is not advancing."
+
+        - alert: CNPGReplicaNotStreaming
+          expr: max by (namespace) (cnpg_pg_replication_streaming_replicas) < 1
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "CNPG primary has no streaming replica ({{ $labels.namespace }})"
+            description: "The primary reports 0 streaming replicas for 10 minutes. Failover is not possible."
+
+        - alert: CNPGReplicationLagHigh
+          expr: max by (namespace, pod) (cnpg_pg_replication_lag) > 300
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "CNPG replica {{ $labels.pod }} is lagging"
+            description: "Replication lag is {{ $value | humanizeDuration }} on {{ $labels.namespace }}/{{ $labels.pod }}."
