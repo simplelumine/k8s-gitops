@@ -44,10 +44,15 @@ stringData:
         - matchers:
             - alertname = "InfoInhibitor"
           receiver: 'null'
+        # info-level alerts (e.g. RecordingRulesNoData) are noise for Discord
+        - matchers:
+            - severity = "info"
+          receiver: 'null'
 
     receivers:
       - name: 'null'
       - name: 'discord-notifications'
         discord_configs:
-          - webhook_url_file: /etc/alertmanager/secrets/discord-webhook/webhook-url
+          # VM operator mounts spec.secrets at /etc/vm/secrets/<name>/ (not /etc/alertmanager/secrets/)
+          - webhook_url_file: /etc/vm/secrets/discord-webhook/webhook-url
             send_resolved: true
