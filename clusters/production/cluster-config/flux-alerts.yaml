@@ -1,0 +1,97 @@
+# Flux reconciliation failure notifications -> Discord
+# Reuses the same Discord webhook as Alertmanager (GCP SM: victoria-metrics-secrets/webhook-url).
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: flux-discord-webhook-sync
+  namespace: flux-system
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: flux-discord-webhook
+    creationPolicy: Owner
+    template:
+      engineVersion: v2
+      data:
+        address: '{{ index . "webhook-url" }}'
+  dataFrom:
+    - extract:
+        key: victoria-metrics-secrets
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: flux-system
+spec:
+  type: discord
+  username: Flux
+  secretRef:
+    name: flux-discord-webhook
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: flux-errors
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: error
+  # Alert eventSources do not support namespace wildcards:
+  # add the namespace here when a new HelmRelease namespace is introduced.
+  eventSources:
+    - kind: GitRepository
+      name: "*"
+    - kind: HelmRepository
+      name: "*"
+    - kind: Kustomization
+      name: "*"
+    - kind: HelmRelease
+      name: "*"
+      namespace: flux-system
+    - kind: HelmRelease
+      name: "*"
+      namespace: cert-manager
+    - kind: HelmRelease
+      name: "*"
+      namespace: cnpg-system
+    - kind: HelmRelease
+      name: "*"
+      namespace: external-dns
+    - kind: HelmRelease
+      name: "*"
+      namespace: gatus
+    - kind: HelmRelease
+      name: "*"
+      namespace: headlamp
+    - kind: HelmRelease
+      name: "*"
+      namespace: monitoring
+    - kind: HelmRelease
+      name: "*"
+      namespace: oauth2-proxy
+    - kind: HelmRelease
+      name: "*"
+      namespace: open-webui
+    - kind: HelmRelease
+      name: "*"
+      namespace: qdrant
+    - kind: HelmRelease
+      name: "*"
+      namespace: simple-core
+    - kind: HelmRelease
+      name: "*"
+      namespace: simple-gemini
+    - kind: HelmRelease
+      name: "*"
+      namespace: tailscale
+    - kind: HelmRelease
+      name: "*"
+      namespace: traefik
+    - kind: HelmRelease
+      name: "*"
+      namespace: zitadel
