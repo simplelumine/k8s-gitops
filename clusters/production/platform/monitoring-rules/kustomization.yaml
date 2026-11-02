@@ -4,3 +4,4 @@ resources:
   - edge-scrape.yaml
   - xray-dashboard.yaml
   - cnpg.yaml
+  - flux-alerts.yaml
