@@ -218,6 +218,9 @@ spec:
           interval: 60s
           conditions:
             - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
 
         - name: Ghostfolio
           group: 2. SimpleLumine
@@ -225,6 +228,9 @@ spec:
           interval: 60s
           conditions:
             - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
 
         - name: Grafana
           group: 2. SimpleLumine
@@ -232,6 +238,9 @@ spec:
           interval: 60s
           conditions:
             - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
 
         - name: Headlamp
           group: 2. SimpleLumine
@@ -239,6 +248,9 @@ spec:
           interval: 60s
           conditions:
             - "[STATUS] < 500"
+          ui:
+            hide-url: true
+            hide-hostname: true
 
         - name: Qdrant
           group: 2. SimpleLumine
@@ -246,7 +258,9 @@ spec:
           interval: 60s
           conditions:
             - "[STATUS] == 200"
-
+          ui:
+            hide-url: true
+            hide-hostname: true
 
         # --- 3. TextVerse ---
         - name: SillyTavern
@@ -255,6 +269,9 @@ spec:
           interval: 60s
           conditions:
             - "[STATUS] == 200"
+          ui:
+            hide-url: true
+            hide-hostname: true
 
         - name: Space Card
           group: 3. TextVerse
@@ -262,3 +279,6 @@ spec:
           interval: 60s
           conditions:
             - "[STATUS] < 500"
+          ui:
+            hide-url: true
+            hide-hostname: true
