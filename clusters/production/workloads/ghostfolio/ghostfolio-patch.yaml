@@ -46,10 +46,12 @@ spec:
                 secretKeyRef:
                   name: ghostfolio-secret
                   key: OIDC_CLIENT_SECRET
+            - name: NODE_OPTIONS
+              value: "--max-old-space-size=256"
           resources:
             requests:
               cpu: 50m
               memory: 256Mi
             limits:
               cpu: 500m
-              memory: 384Mi
+              memory: 512Mi
