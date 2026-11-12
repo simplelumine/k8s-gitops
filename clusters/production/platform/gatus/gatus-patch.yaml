@@ -41,9 +41,9 @@ spec:
       ui:
         default-sort-by: group
       endpoints:
-        # --- 1. Gemini ---
+        # --- 1. Simple API ---
         - name: "Vega"
-          group: 1. Gemini
+          group: 1. Simple API
           url: "https://api.simplelumine.dev/v1beta/models/vega/gemini-3.5-flash-lite:generateContent"
           interval: 6h
           client:
@@ -60,7 +60,7 @@ spec:
             hide-hostname: true
 
         - name: "Spica"
-          group: 1. Gemini
+          group: 1. Simple API
           url: "https://api.simplelumine.dev/v1beta/models/spica/gemini-3.5-flash-lite:generateContent"
           interval: 6h
           client:
@@ -77,7 +77,7 @@ spec:
             hide-hostname: true
 
         - name: "Altair"
-          group: 1. Gemini
+          group: 1. Simple API
           url: "https://api.simplelumine.dev/v1beta/models/altair/gemini-3.5-flash-lite:generateContent"
           interval: 6h
           client:
@@ -94,7 +94,7 @@ spec:
             hide-hostname: true
 
         - name: "Rigel"
-          group: 1. Gemini
+          group: 1. Simple API
           url: "https://api.simplelumine.dev/v1beta/models/rigel/gemini-3.8-flash:generateContent"
           interval: 6h
           client:
@@ -111,7 +111,7 @@ spec:
             hide-hostname: true
 
         - name: "Sirius"
-          group: 1. Gemini
+          group: 1. Simple API
           url: "https://api.simplelumine.dev/v1beta/models/sirius/gemini-flash-lite-latest:generateContent"
           interval: 6h
           client:
@@ -128,7 +128,7 @@ spec:
             hide-hostname: true
 
         - name: "Deneb"
-          group: 1. Gemini
+          group: 1. Simple API
           url: "https://api.simplelumine.dev/v1beta/models/deneb/gemini-3.1-flash-lite-image:generateContent"
           interval: 6h
           client:
@@ -173,7 +173,7 @@ spec:
 
         - name: ZITADEL
           group: 2. SimpleLumine
-          url: "https://auth.simplelumine.dev"
+          url: "https://auth.simplelumine.dev/debug/ready"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
@@ -194,7 +194,7 @@ spec:
 
         - name: Simple Gemini
           group: 2. SimpleLumine
-          url: "https://gemini.simplelumine.dev"
+          url: "http://simple-gemini-controller.simple-gemini.svc.cluster.local:8080/healthz"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
@@ -244,17 +244,17 @@ spec:
 
         - name: Headlamp
           group: 2. SimpleLumine
-          url: "https://k8s.simplelumine.dev"
+          url: "http://headlamp.headlamp.svc.cluster.local/"
           interval: 60s
           conditions:
-            - "[STATUS] < 500"
+            - "[STATUS] == 200"
           ui:
             hide-url: true
             hide-hostname: true
 
         - name: Qdrant
           group: 2. SimpleLumine
-          url: "https://vector.simplelumine.dev"
+          url: "http://qdrant.qdrant.svc.cluster.local:6333/readyz"
           interval: 60s
           conditions:
             - "[STATUS] == 200"

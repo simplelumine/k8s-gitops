@@ -13,7 +13,8 @@ spec:
     staticConfig:
       targets:
         # Cluster
-        - "https://auth.simplelumine.dev"
+        - "https://auth.simplelumine.dev/debug/ready"
+        - "https://auth-proxy.simplelumine.dev/ping"
         - "https://monitor.simplelumine.dev"
         - "https://k8s.simplelumine.dev"
         - "https://status.simplelumine.dev"
