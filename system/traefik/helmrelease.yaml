@@ -30,3 +30,6 @@ spec:
       websecure:
         http3:
           enabled: true
+        transport:
+          respondingTimeouts:
+            readTimeout: "0s"
