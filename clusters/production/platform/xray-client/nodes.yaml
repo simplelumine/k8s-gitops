@@ -59,7 +59,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://connectivitycheck.gstatic.com/generate_204
             initialDelaySeconds: 5
             periodSeconds: 30
             timeoutSeconds: 5
@@ -147,7 +147,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://connectivitycheck.gstatic.com/generate_204
             initialDelaySeconds: 5
             periodSeconds: 30
             timeoutSeconds: 5
@@ -235,7 +235,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://connectivitycheck.gstatic.com/generate_204
             initialDelaySeconds: 5
             periodSeconds: 30
             timeoutSeconds: 5
@@ -323,7 +323,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://connectivitycheck.gstatic.com/generate_204
             initialDelaySeconds: 5
             periodSeconds: 30
             timeoutSeconds: 5
@@ -411,7 +411,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://connectivitycheck.gstatic.com/generate_204
             initialDelaySeconds: 5
             periodSeconds: 30
             timeoutSeconds: 5
@@ -500,7 +500,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://cp.cloudflare.com/generate_204
+                - http_proxy=http://127.0.0.1:1081 wget -qO /dev/null http://connectivitycheck.gstatic.com/generate_204
             initialDelaySeconds: 5
             periodSeconds: 30
             timeoutSeconds: 5
