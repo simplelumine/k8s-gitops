@@ -171,6 +171,13 @@ spec:
             hide-url: true
             hide-hostname: true
 
+        - name: Simple CLI
+          group: 2. SimpleLumine
+          url: "https://cli.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
         - name: ZITADEL
           group: 2. SimpleLumine
           url: "https://auth.simplelumine.dev/debug/ready"
