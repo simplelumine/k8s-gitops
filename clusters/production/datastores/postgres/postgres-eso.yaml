@@ -67,28 +67,6 @@ spec:
 apiVersion: external-secrets.io/v1
 kind: ExternalSecret
 metadata:
-  name: ghostfolio-db-secret-sync
-  namespace: postgres
-spec:
-  refreshInterval: 1h
-  secretStoreRef:
-    name: gcp-store
-    kind: ClusterSecretStore
-  target:
-    name: ghostfolio-db-secret
-    creationPolicy: Owner
-    template:
-      engineVersion: v2
-      data:
-        username: "ghostfolio"
-        password: '{{ index . "ghostfolio-password" }}'
-  dataFrom:
-    - extract:
-        key: postgres-secrets
----
-apiVersion: external-secrets.io/v1
-kind: ExternalSecret
-metadata:
   name: zitadel-db-secret-sync
   namespace: postgres
 spec:
@@ -148,28 +126,6 @@ spec:
       data:
         username: "simple-core"
         password: '{{ index . "simple-core-password" }}'
-  dataFrom:
-    - extract:
-        key: postgres-secrets
----
-apiVersion: external-secrets.io/v1
-kind: ExternalSecret
-metadata:
-  name: outline-db-secret-sync
-  namespace: postgres
-spec:
-  refreshInterval: 1h
-  secretStoreRef:
-    name: gcp-store
-    kind: ClusterSecretStore
-  target:
-    name: outline-db-secret
-    creationPolicy: Owner
-    template:
-      engineVersion: v2
-      data:
-        username: "outline"
-        password: '{{ index . "outline-password" }}'
   dataFrom:
     - extract:
         key: postgres-secrets

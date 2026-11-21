@@ -8,5 +8,4 @@ resources:
   - gatus
   - zitadel
   - oauth2-proxy
-  - outline
   - xray-client

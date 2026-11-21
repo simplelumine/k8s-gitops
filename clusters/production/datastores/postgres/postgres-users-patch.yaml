@@ -16,11 +16,6 @@ spec:
         login: true
         passwordSecret:
           name: vaultwarden-db-secret
-      - name: ghostfolio
-        ensure: present
-        login: true
-        passwordSecret:
-          name: ghostfolio-db-secret
       - name: zitadel
         ensure: present
         login: true
@@ -36,9 +31,4 @@ spec:
         login: true
         passwordSecret:
           name: simple-core-db-secret
-      - name: outline
-        ensure: present
-        login: true
-        passwordSecret:
-          name: outline-db-secret
 

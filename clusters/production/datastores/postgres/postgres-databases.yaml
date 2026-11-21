@@ -25,18 +25,6 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: ghostfolio-db
-  namespace: postgres
-spec:
-  cluster:
-    name: postgres
-  name: ghostfolio
-  owner: ghostfolio
-
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
   name: zitadel-db
   namespace: postgres
 spec:
@@ -68,16 +56,4 @@ spec:
     name: postgres
   name: simple-core
   owner: simple-core
-
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
-  name: outline-db
-  namespace: postgres
-spec:
-  cluster:
-    name: postgres
-  name: outline
-  owner: outline
 

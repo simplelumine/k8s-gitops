@@ -192,13 +192,6 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
-        - name: Outline
-          group: 2. SimpleLumine
-          url: "https://docs.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
         - name: Simple Gemini
           group: 2. SimpleLumine
           url: "http://simple-gemini-controller.simple-gemini.svc.cluster.local:8080/healthz"
@@ -222,16 +215,6 @@ spec:
         - name: Vaultwarden
           group: 2. SimpleLumine
           url: "https://vault.simplelumine.dev"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-          ui:
-            hide-url: true
-            hide-hostname: true
-
-        - name: Ghostfolio
-          group: 2. SimpleLumine
-          url: "https://invest.simplelumine.dev"
           interval: 60s
           conditions:
             - "[STATUS] == 200"
