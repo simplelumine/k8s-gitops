@@ -145,6 +145,20 @@ spec:
             hide-hostname: true
 
         # --- 2. SimpleLumine ---
+        - name: Simple Home
+          group: 2. SimpleLumine
+          url: "https://simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
+        - name: Simple Docs
+          group: 2. SimpleLumine
+          url: "https://docs.simplelumine.dev"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
         - name: Open WebUI
           group: 2. SimpleLumine
           url: "https://chat.simplelumine.dev"

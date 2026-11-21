@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-cli-server
+  namespace: simple-cli
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: simple-cli-server
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: simple-cli-server
+    spec:
+      serviceAccountName: simple-cli-server
+      imagePullSecrets:
+        - name: image-pull-secret
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: server
+          image: ghcr.io/simplelumine/simple-cli:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: PUBLIC_BASE_URL
+              value: "https://cli.simplelumine.dev"
+            - name: JOB_NAMESPACE
+              value: "simple-cli"
+            - name: JOB_IMAGE
+              value: "ghcr.io/simplelumine/simple-cli:latest"
+            - name: JOB_IMAGE_PULL_POLICY
+              value: "Always"
+            - name: JOB_IMAGE_PULL_SECRET
+              value: "image-pull-secret"
+            - name: SIMPLE_API_BASE_URL
+              value: "https://api.simplelumine.dev"
+            - name: SIMPLE_CLI_MODEL
+              value: "gemini-4-neon"
+            - name: SIMPLE_CLI_PRO_MODEL
+              value: "gemini-4-neon"
+            - name: SIMPLE_CLI_FLASH_MODEL
+              value: "gemini-4-hydrogen"
+            - name: SIMPLE_CLI_LITE_MODEL
+              value: "gemini-4-hydrogen"
+            - name: JOB_MEMORY_LIMIT
+              value: "3Gi"
+            - name: AUTO_REVIEW_PR
+              value: "false"
+            - name: AUTO_TRIAGE_ISSUE
+              value: "true"
+            - name: SIMPLE_CLI_LUMINE_PERSONA
+              value: "true"
+            - name: SIMPLE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: simple-cli-app-secret
+                  key: SIMPLE_API_KEY
+                  optional: true
+            - name: GITHUB_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: simple-cli-app-secret
+                  key: GITHUB_APP_ID
+                  optional: true
+            - name: GITHUB_APP_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: simple-cli-app-secret
+                  key: GITHUB_APP_PRIVATE_KEY
+                  optional: true
+            - name: GITHUB_WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: simple-cli-app-secret
+                  key: GITHUB_WEBHOOK_SECRET
+                  optional: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 15
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-cli-server
+  namespace: simple-cli
+spec:
+  selector:
+    app.kubernetes.io/name: simple-cli-server
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

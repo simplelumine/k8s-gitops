@@ -4,3 +4,6 @@ resources:
   - open-webui
   - simple-gemini
   - simple-core
+  - simple-cli
+  - simple-home
+  - simple-docs
