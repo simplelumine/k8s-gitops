@@ -21,7 +21,7 @@ spec:
     - extract:
         key: victoria-metrics-secrets
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Provider
 metadata:
   name: discord
