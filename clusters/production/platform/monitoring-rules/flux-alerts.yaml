@@ -79,9 +79,6 @@ spec:
       namespace: open-webui
     - kind: HelmRelease
       name: "*"
-      namespace: qdrant
-    - kind: HelmRelease
-      name: "*"
       namespace: simple-core
     - kind: HelmRelease
       name: "*"

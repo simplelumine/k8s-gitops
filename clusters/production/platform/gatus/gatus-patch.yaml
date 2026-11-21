@@ -256,16 +256,6 @@ spec:
             hide-url: true
             hide-hostname: true
 
-        - name: Qdrant
-          group: 2. SimpleLumine
-          url: "http://qdrant.qdrant.svc.cluster.local:6333/readyz"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-          ui:
-            hide-url: true
-            hide-hostname: true
-
         # --- 3. TextVerse ---
         - name: SillyTavern
           group: 3. TextVerse
