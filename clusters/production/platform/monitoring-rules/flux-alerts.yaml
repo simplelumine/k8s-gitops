@@ -73,9 +73,6 @@ spec:
       namespace: monitoring
     - kind: HelmRelease
       name: "*"
-      namespace: oauth2-proxy
-    - kind: HelmRelease
-      name: "*"
       namespace: open-webui
     - kind: HelmRelease
       name: "*"
