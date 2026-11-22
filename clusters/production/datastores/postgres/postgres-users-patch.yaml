@@ -31,4 +31,9 @@ spec:
         login: true
         passwordSecret:
           name: simple-core-db-secret
+      - name: simple-id
+        ensure: present
+        login: true
+        passwordSecret:
+          name: simple-id-db-secret
 

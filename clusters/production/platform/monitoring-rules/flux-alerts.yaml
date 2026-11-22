@@ -85,6 +85,9 @@ spec:
       namespace: simple-gemini
     - kind: HelmRelease
       name: "*"
+      namespace: simple-id
+    - kind: HelmRelease
+      name: "*"
       namespace: tailscale
     - kind: HelmRelease
       name: "*"

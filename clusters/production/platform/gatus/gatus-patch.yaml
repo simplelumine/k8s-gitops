@@ -192,6 +192,13 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
+        - name: Simple ID
+          group: 2. SimpleLumine
+          url: "https://id.simplelumine.dev/readyz"
+          interval: 60s
+          conditions:
+            - "[STATUS] == 200"
+
         - name: ZITADEL
           group: 2. SimpleLumine
           url: "https://auth.simplelumine.dev/debug/ready"

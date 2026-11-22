@@ -7,5 +7,6 @@ resources:
   - vaultwarden
   - gatus
   - zitadel
+  - simple-id
   - oauth2-proxy
   - xray-client

@@ -1,0 +1,35 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: simple-id-db-secret-sync
+  namespace: simple-id
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: postgres-store
+    kind: ClusterSecretStore
+  target:
+    name: simple-id-db-credentials
+    creationPolicy: Owner
+  data:
+    - secretKey: password
+      remoteRef:
+        key: simple-id-db-secret
+        property: password
+---
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: simple-id-app-secret-sync
+  namespace: simple-id
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: simple-id-secrets
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: simple-id-secrets
