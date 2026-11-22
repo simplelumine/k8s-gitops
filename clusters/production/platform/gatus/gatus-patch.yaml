@@ -47,12 +47,12 @@ spec:
           url: "https://api.simplelumine.dev/v1beta/models/vega/gemini-3.5-flash-lite:generateContent"
           interval: 6h
           client:
-            timeout: 30s
+            timeout: 90s
           method: POST
           headers:
             Content-Type: "application/json"
             x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          body: '{"contents":[{"role":"user","parts":[{"text":"Reply with the single word pong only."}]}]}'
           conditions:
             - "[STATUS] == 200"
           ui:
@@ -64,12 +64,12 @@ spec:
           url: "https://api.simplelumine.dev/v1beta/models/spica/gemini-3.5-flash-lite:generateContent"
           interval: 6h
           client:
-            timeout: 30s
+            timeout: 90s
           method: POST
           headers:
             Content-Type: "application/json"
             x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          body: '{"contents":[{"role":"user","parts":[{"text":"Reply with the single word pong only."}]}]}'
           conditions:
             - "[STATUS] == 200"
           ui:
@@ -81,12 +81,12 @@ spec:
           url: "https://api.simplelumine.dev/v1beta/models/altair/gemini-3.5-flash-lite:generateContent"
           interval: 6h
           client:
-            timeout: 30s
+            timeout: 90s
           method: POST
           headers:
             Content-Type: "application/json"
             x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          body: '{"contents":[{"role":"user","parts":[{"text":"Reply with the single word pong only."}]}]}'
           conditions:
             - "[STATUS] == 200"
           ui:
@@ -98,12 +98,12 @@ spec:
           url: "https://api.simplelumine.dev/v1beta/models/rigel/gemini-3.8-flash:generateContent"
           interval: 6h
           client:
-            timeout: 30s
+            timeout: 90s
           method: POST
           headers:
             Content-Type: "application/json"
             x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          body: '{"contents":[{"role":"user","parts":[{"text":"Reply with the single word pong only."}]}]}'
           conditions:
             - "[STATUS] == 200"
           ui:
@@ -115,12 +115,12 @@ spec:
           url: "https://api.simplelumine.dev/v1beta/models/sirius/gemini-4-hydrogen:generateContent"
           interval: 6h
           client:
-            timeout: 30s
+            timeout: 90s
           method: POST
           headers:
             Content-Type: "application/json"
             x-goog-api-key: "${GEMINI_API_KEY}"
-          body: '{"contents":[{"role":"user","parts":[{"text":"ping"}]}]}'
+          body: '{"contents":[{"role":"user","parts":[{"text":"Reply with the single word pong only."}]}]}'
           conditions:
             - "[STATUS] == 200"
           ui:
@@ -132,7 +132,7 @@ spec:
           url: "https://api.simplelumine.dev/v1beta/models/deneb/gemini-3.1-flash-lite-image:generateContent"
           interval: 6h
           client:
-            timeout: 60s
+            timeout: 90s
           method: POST
           headers:
             Content-Type: "application/json"
