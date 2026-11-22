@@ -138,17 +138,17 @@ spec:
 
         auth.generic_oauth:
           enabled: true
-          name: "SimpleLumine"
+          name: "Simple ID"
           allow_sign_up: true
           auto_login: false
-          client_id: "387493081940821083"
+          client_id: "grafana"
           client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
-          scopes: "openid profile email urn:zitadel:iam:org:project:roles"
-          auth_url: "https://auth.simplelumine.dev/oauth/v2/authorize"
-          token_url: "https://auth.simplelumine.dev/oauth/v2/token"
-          api_url: "https://auth.simplelumine.dev/oidc/v1/userinfo"
+          scopes: "openid profile email"
+          auth_url: "https://id.simplelumine.dev/oauth/authorize"
+          token_url: "https://id.simplelumine.dev/oauth/token"
+          api_url: "https://id.simplelumine.dev/oauth/userinfo"
           use_pkce: true
-          role_attribute_path: "contains(keys(\"urn:zitadel:iam:org:project:roles\"), 'admin') && 'Admin' || 'Viewer'"
+          role_attribute_path: "contains(roles[*], 'admin') && 'GrafanaAdmin' || 'Viewer'"
           role_attribute_strict: false
           allow_assign_grafana_admin: true
 
