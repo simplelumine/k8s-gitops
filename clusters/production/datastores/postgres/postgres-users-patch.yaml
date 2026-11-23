@@ -16,11 +16,6 @@ spec:
         login: true
         passwordSecret:
           name: vaultwarden-db-secret
-      - name: zitadel
-        ensure: present
-        login: true
-        passwordSecret:
-          name: zitadel-db-secret
       - name: gatus
         ensure: present
         login: true

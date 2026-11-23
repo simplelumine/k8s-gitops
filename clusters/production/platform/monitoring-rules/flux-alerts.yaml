@@ -89,6 +89,3 @@ spec:
     - kind: HelmRelease
       name: "*"
       namespace: traefik
-    - kind: HelmRelease
-      name: "*"
-      namespace: zitadel

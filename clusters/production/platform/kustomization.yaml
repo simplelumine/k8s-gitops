@@ -6,6 +6,5 @@ resources:
   - monitoring-rules
   - vaultwarden
   - gatus
-  - zitadel
   - simple-id
   - xray-client

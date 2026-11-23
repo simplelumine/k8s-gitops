@@ -14,7 +14,6 @@ spec:
       targets:
         # Cluster
         - "https://id.simplelumine.dev/readyz"
-        - "https://auth.simplelumine.dev/debug/ready"
         - "https://monitor.simplelumine.dev"
         - "https://k8s.simplelumine.dev"
         - "https://status.simplelumine.dev"

@@ -199,13 +199,6 @@ spec:
           conditions:
             - "[STATUS] == 200"
 
-        - name: ZITADEL
-          group: 2. SimpleLumine
-          url: "https://auth.simplelumine.dev/debug/ready"
-          interval: 60s
-          conditions:
-            - "[STATUS] == 200"
-
         - name: Gatus
           group: 2. SimpleLumine
           url: "https://status.simplelumine.dev"
