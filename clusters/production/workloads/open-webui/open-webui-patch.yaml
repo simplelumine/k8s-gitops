@@ -89,39 +89,15 @@ spec:
           secretKeyRef:
             name: open-webui-db-secret
             key: DATABASE_URL
-      # --- OIDC Single Sign-On (-> ZITADEL) ---
-      - name: OPENID_PROVIDER_URL
-        value: "https://auth.simplelumine.dev/.well-known/openid-configuration"
-      - name: OAUTH_CLIENT_ID
-        value: "397221845062911167"
-      - name: OAUTH_CLIENT_SECRET
-        valueFrom:
-          secretKeyRef:
-            name: open-webui-secret
-            key: oauth-client-secret
-      - name: OAUTH_PROVIDER_NAME
-        value: "SimpleLumine"
-      - name: OAUTH_SCOPES
-        value: "openid email profile"
-      - name: OAUTH_CODE_CHALLENGE_METHOD
-        value: "S256"
-      - name: ENABLE_OAUTH_SIGNUP
-        value: "true"
-      - name: OAUTH_MERGE_ACCOUNTS_BY_EMAIL
-        value: "true"
-      - name: OAUTH_UPDATE_EMAIL_ON_LOGIN
-        value: "true"
-      - name: OAUTH_UPDATE_NAME_ON_LOGIN
-        value: "true"
-      # --- Disable Native Login & Enable Pure SSO ---
+      # --- Native Login Only (OIDC / ZITADEL removed) ---
       - name: ENABLE_LOGIN_FORM
-        value: "false"
+        value: "true"
       - name: ENABLE_SIGNUP
         value: "false"
       - name: ENABLE_PASSWORD_AUTH
-        value: "false"
+        value: "true"
       - name: ENABLE_PASSWORD_CHANGE_FORM
-        value: "false"
+        value: "true"
 
     priorityClassName: high
 
