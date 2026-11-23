@@ -18,11 +18,10 @@ spec:
 
     console:
       oidc:
-        issuerUrl: "https://auth.simplelumine.dev"
-        clientId: "388733766928958555"
+        issuerUrl: "https://id.simplelumine.dev"
+        clientId: "simple-core"
         existingSecret: "simple-core-secrets"
         secretKey: "OIDC_CLIENT_SECRET"
-        adminRole: "admin"
       recaptcha:
         enabled: true
         siteKey: "6Ldczp8tAAAAAI3v636iG49I2Aahdi4PMjgMeN4H"
