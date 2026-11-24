@@ -8,9 +8,9 @@ spec:
     imagePullSecrets:
       - name: image-pull-secret
     worker:
-      replicaCount: 2
+      replicaCount: 1
     browser:
-      replicaCount: 10
+      replicaCount: 7
       resources:
         requests:
           cpu: 50m
