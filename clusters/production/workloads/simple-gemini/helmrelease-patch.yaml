@@ -16,6 +16,14 @@ spec:
                   operator: NotIn
                   values:
                     - slc-wk-01
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+                - key: kubernetes.io/hostname
+                  operator: NotIn
+                  values:
+                    - lax-wk-01
     worker:
       replicaCount: 1
     browser:

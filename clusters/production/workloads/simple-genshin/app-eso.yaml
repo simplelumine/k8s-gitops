@@ -1,0 +1,16 @@
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: simple-genshin-app-secret-sync
+  namespace: simple-genshin
+spec:
+  refreshInterval: 1h
+  secretStoreRef:
+    name: gcp-store
+    kind: ClusterSecretStore
+  target:
+    name: simple-genshin-secrets
+    creationPolicy: Owner
+  dataFrom:
+    - extract:
+        key: simple-genshin-secrets

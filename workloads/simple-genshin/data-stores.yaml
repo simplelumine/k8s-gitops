@@ -1,0 +1,146 @@
+# Dedicated Realm MariaDB & Redis (multi-arch: runs natively on arm64/amd64 nodes)
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: simple-genshin
+spec:
+  selector:
+    app.kubernetes.io/name: genshin-mysql
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: 3306
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: genshin-mysql
+  namespace: simple-genshin
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  serviceName: mysql
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: genshin-mysql
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: genshin-mysql
+    spec:
+      containers:
+        - name: mysql
+          image: mariadb:10.11
+          args:
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+            - --innodb_buffer_pool_size=128M
+            - --innodb-flush-log-at-trx-commit=2
+            - --innodb-log-file-size=64M
+            - --max-allowed-packet=64M
+            - --performance-schema=OFF
+            - --max-connections=32
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: simple-genshin-secrets
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_ROOT_HOST
+              value: "%"
+          ports:
+            - name: mysql
+              containerPort: 3306
+          resources:
+            requests:
+              cpu: 50m
+              memory: 192Mi
+            limits:
+              memory: 512Mi
+          volumeMounts:
+            - name: mysql-data
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: simple-genshin
+spec:
+  selector:
+    app.kubernetes.io/name: genshin-redis
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: 6379
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: genshin-redis
+  namespace: simple-genshin
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  serviceName: redis
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: genshin-redis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: genshin-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          args:
+            - --save
+            - ""
+            - --appendonly
+            - "yes"
+            - --appendfsync
+            - everysec
+            - --loglevel
+            - warning
+            - --requirepass
+            - $(REDIS_PASSWORD)
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: simple-genshin-secrets
+                  key: REDIS_PASSWORD
+          ports:
+            - name: redis
+              containerPort: 6379
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 128Mi
+          volumeMounts:
+            - name: redis-data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 2Gi
