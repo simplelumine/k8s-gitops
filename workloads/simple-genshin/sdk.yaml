@@ -34,7 +34,7 @@ spec:
         - name: image-pull-secret
       containers:
         - name: sdk
-          image: ghcr.io/simplelumine/simple-genshin-sdk:1.0.0
+          image: ghcr.io/simplelumine/simple-genshin-sdk:1.0.1
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -53,12 +53,14 @@ spec:
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 20
+            timeoutSeconds: 5
           readinessProbe:
             httpGet:
               path: /healthz
               port: 80
             initialDelaySeconds: 3
             periodSeconds: 10
+            timeoutSeconds: 5
           resources:
             requests:
               cpu: 20m
