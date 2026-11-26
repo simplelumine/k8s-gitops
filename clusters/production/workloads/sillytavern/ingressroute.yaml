@@ -1,0 +1,15 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: sillytavern-edge
+  namespace: sillytavern
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`st.textverse.space`)
+      kind: Rule
+      services:
+        - name: sillytavern
+          port: 8000
+  tls: {}

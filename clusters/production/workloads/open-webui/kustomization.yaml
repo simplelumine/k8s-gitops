@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - ../../../../workloads/open-webui
   - open-webui-eso.yaml
+  - ingressroute.yaml
 
 patches:
   - path: open-webui-patch.yaml
