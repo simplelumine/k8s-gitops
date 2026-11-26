@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`chat-lax.simplelumine.dev`) || Host(`chat-tyo.simplelumine.dev`)
+    - match: Host(`chat-lax.simplelumine.dev`)
       kind: Rule
       services:
         - name: open-webui
